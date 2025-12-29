@@ -30,7 +30,9 @@ export function GameOverScreen() {
         <h1 className={styles.title}>💀 GAME OVER 💀</h1>
         <p className={styles.message}>{getMessage()}</p>
         <div className={styles.stats}>
-          <span>Survived for: <strong>{tick}</strong> ticks</span>
+          <span>
+            Survived for: <strong>{tick}</strong> ticks
+          </span>
         </div>
         <button type="button" className={styles.restartButton} onClick={resetGame}>
           🔄 Try Again

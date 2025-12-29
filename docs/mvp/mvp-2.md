@@ -42,9 +42,9 @@ Adicionar gestão de população e controle do ciclo de tempo do jogo.
 
 ### 4. Nova Construção: Mina
 
-- [ ] Implementar Mina
-- [ ] Produz pedra ou ouro (baseado no tile)
-- [ ] Tile válido: Mountain
+- [x] Implementar Mina
+- [x] Produz pedra ou ouro (baseado no tile)
+- [x] Tile válido: Mountain
 
 ### 5. UI de População
 
@@ -102,7 +102,7 @@ Crescimento = +1 população a cada 20 ticks (se comida > 0)
 - [x] Comida é consumida pela população
 - [x] Posso pausar o jogo
 - [x] Posso acelerar o jogo
-- [ ] Mina funciona em montanhas
+- [x] Mina funciona em montanhas
 - [x] Alerta aparece quando comida está baixa
 - [x] Game over se ficar sem comida por muito tempo
 

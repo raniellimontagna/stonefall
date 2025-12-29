@@ -3,11 +3,7 @@
  * Shows warning when food is negative and critical alert near game over
  */
 
-import {
-  FOOD_DEBT_THRESHOLD,
-  FOOD_GAME_OVER_THRESHOLD,
-  ResourceType,
-} from '@stonefall/shared';
+import { FOOD_DEBT_THRESHOLD, FOOD_GAME_OVER_THRESHOLD, ResourceType } from '@stonefall/shared';
 import { selectResources, useGameStore } from '@/store';
 import styles from './StarvationAlert.module.css';
 

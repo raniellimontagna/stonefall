@@ -175,8 +175,7 @@ export const useGameStore = create<GameStore>()(
       const consumption = state.population.current * POPULATION_CONSUMPTION_RATE;
 
       // Apply production and consumption
-      const newFood =
-        state.resources[ResourceType.Food] + state.production.food - consumption;
+      const newFood = state.resources[ResourceType.Food] + state.production.food - consumption;
       const newResources: Resources = {
         [ResourceType.Food]: newFood,
         [ResourceType.Wood]: state.resources[ResourceType.Wood] + state.production.wood,
