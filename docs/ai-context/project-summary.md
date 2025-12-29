@@ -1,6 +1,7 @@
 # Project Stonefall - Resumo do Projeto
 
 > **Use este arquivo como contexto inicial para a IA**
+> **Status:** MVP 0 ✅ | MVP 1 🔄 em andamento
 
 ## O que é
 

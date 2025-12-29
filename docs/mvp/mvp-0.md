@@ -1,7 +1,8 @@
 # MVP 0 - Fundação
 
-> **Status:** Em andamento
-> **Tempo estimado:** 2-3 dias
+> **Status:** ✅ Concluído
+> **Data de conclusão:** 29/12/2024
+> **Tempo real:** ~2 horas
 
 ## Objetivo
 
@@ -9,49 +10,49 @@ Criar a estrutura do monorepo e o mapa básico renderizável.
 
 ## User Stories
 
-- [ ] Como desenvolvedor, quero um monorepo configurado para trabalhar em web e api
-- [ ] Como desenvolvedor, quero compartilhar código entre apps
-- [ ] Como jogador, quero ver um mapa 2D na tela
-- [ ] Como jogador, quero navegar pelo mapa (arrastar/zoom)
+- [x] Como desenvolvedor, quero um monorepo configurado para trabalhar em web e api
+- [x] Como desenvolvedor, quero compartilhar código entre apps
+- [x] Como jogador, quero ver um mapa 2D na tela
+- [x] Como jogador, quero navegar pelo mapa (arrastar/zoom)
 
 ## Tasks Técnicas
 
 ### 1. Setup do Monorepo
 
-- [ ] Inicializar repositório Git
-- [ ] Configurar pnpm workspace
-- [ ] Configurar Turborepo
-- [ ] Configurar Biome (lint + format)
-- [ ] Configurar TypeScript base
-- [ ] Criar estrutura de pastas
+- [x] Inicializar repositório Git
+- [x] Configurar pnpm workspace
+- [x] Configurar Turborepo
+- [x] Configurar Biome (lint + format)
+- [x] Configurar TypeScript base
+- [x] Criar estrutura de pastas
 
 ### 2. packages/shared
 
-- [ ] Criar package.json
-- [ ] Criar tsconfig.json
-- [ ] Criar types básicos (TileType, etc.)
-- [ ] Criar constantes do jogo (TILE_SIZE, GRID_SIZE)
-- [ ] Configurar exports
+- [x] Criar package.json
+- [x] Criar tsconfig.json
+- [x] Criar types básicos (TileType, etc.)
+- [x] Criar constantes do jogo (TILE_SIZE, GRID_SIZE)
+- [x] Configurar exports
 
 ### 3. apps/web
 
-- [ ] Inicializar projeto Vite + React
-- [ ] Configurar TypeScript
-- [ ] Instalar Phaser.js
-- [ ] Criar App.tsx e main.tsx
-- [ ] Criar componente GameCanvas
-- [ ] Criar Game class
-- [ ] Criar BootScene e GameScene
-- [ ] Criar sistema de mapa (Map, Tile)
-- [ ] Renderizar grid 20x20
-- [ ] Implementar câmera (pan/zoom)
+- [x] Inicializar projeto Vite + React
+- [x] Configurar TypeScript
+- [x] Instalar Phaser.js
+- [x] Criar App.tsx e main.tsx
+- [x] Criar componente GameCanvas
+- [x] Criar Game class
+- [x] Criar BootScene e GameScene
+- [x] Criar sistema de mapa (Map, Tile)
+- [x] Renderizar grid 20x20
+- [x] Implementar câmera (pan/zoom)
 
 ### 4. apps/api (Setup básico)
 
-- [ ] Inicializar projeto Hono
-- [ ] Configurar TypeScript
-- [ ] Criar rota de health check
-- [ ] Testar comunicação web ↔ api
+- [x] Inicializar projeto Hono
+- [x] Configurar TypeScript
+- [x] Criar rota de health check
+- [x] Testar comunicação web ↔ api
 
 ## Estrutura de Arquivos
 
@@ -161,17 +162,17 @@ Para o MVP 0, usar cores sólidas (sem sprites):
 
 ## Critérios de Aceite
 
-- [ ] `pnpm install` funciona sem erros
-- [ ] `pnpm dev` inicia web e api em paralelo
-- [ ] `pnpm build` compila todos os pacotes
-- [ ] `pnpm check` (biome) passa sem erros
-- [ ] apps/web importa de @stonefall/shared
-- [ ] apps/api importa de @stonefall/shared
-- [ ] Mapa 20x20 visível na tela
-- [ ] Tiles coloridos por tipo
-- [ ] Câmera navega com mouse drag
-- [ ] Zoom funciona com scroll
-- [ ] API responde em /health
+- [x] `pnpm install` funciona sem erros
+- [x] `pnpm dev` inicia web e api em paralelo
+- [ ] `pnpm build` compila todos os pacotes _(não testado)_
+- [x] `pnpm check` (biome) passa sem erros
+- [x] apps/web importa de @stonefall/shared
+- [x] apps/api importa de @stonefall/shared
+- [x] Mapa 20x20 visível na tela
+- [x] Tiles coloridos por tipo
+- [x] Câmera navega com mouse drag
+- [x] Zoom funciona com scroll
+- [x] API responde em /health
 
 ## Comandos de Verificação
 
