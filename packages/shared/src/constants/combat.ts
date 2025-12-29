@@ -52,9 +52,6 @@ export const ERA_MILITARY_BASE: Record<Era, { strength: number; defense: number 
 // RIVAL
 // =============================================================================
 
-/** Rival HP */
-export const RIVAL_MAX_HP = 100;
-
 /** Rival strength per era */
 export const RIVAL_STRENGTH: Record<Era, number> = {
   [Era.Stone]: 15,

@@ -26,6 +26,7 @@ export function RivalPanel() {
   const attack = useGameStore((s) => s.attack);
   const defend = useGameStore((s) => s.defend);
   const canAfford = useGameStore((s) => s.canAfford);
+  const lastRivalAttack = useGameStore((s) => s.lastRivalAttack);
 
   // Calculate military from buildings (memoized to avoid infinite loop)
   const military = useMemo(() => {
@@ -162,6 +163,13 @@ export function RivalPanel() {
 
       {/* Last Result */}
       {lastResult && <div className={styles.result}>{lastResult}</div>}
+
+      {/* Rival Attack Notification */}
+      {lastRivalAttack && tick - lastRivalAttack.tick < 10 && (
+        <div className={styles.rivalAttack}>
+          ⚠️ O rival atacou! -{lastRivalAttack.killed} população
+        </div>
+      )}
 
       {/* Victory */}
       {rival.isDefeated && <div className={styles.victory}>🏆 Rival derrotado! Você venceu!</div>}

@@ -193,3 +193,25 @@
   font-weight: 600;
   color: #ffd700;
 }
+
+.rivalAttack {
+  text-align: center;
+  padding: 10px;
+  background: linear-gradient(135deg, rgba(255, 50, 50, 0.3), rgba(200, 30, 30, 0.2));
+  border: 1px solid rgba(255, 80, 80, 0.5);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ff6666;
+  animation: flashRed 0.5s ease-in-out;
+}
+
+@keyframes flashRed {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

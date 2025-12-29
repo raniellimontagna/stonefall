@@ -152,7 +152,7 @@ const createInitialState = (): GameState => ({
     era: Era.Stone,
     strength: RIVAL_STRENGTH[Era.Stone],
     defense: RIVAL_DEFENSE[Era.Stone],
-    population: 10, // Initial rival population
+    population: 25, // Initial rival population (balanced)
     isDefeated: false,
   },
   military: {
@@ -164,6 +164,7 @@ const createInitialState = (): GameState => ({
     isDefending: false,
     defenseEndTick: 0,
   },
+  lastRivalAttack: null as { tick: number; killed: number } | null,
 });
 
 // =============================================================================
@@ -296,14 +297,24 @@ export const useGameStore = create<GameStore>()(
           }
         }
 
-        // Rival attacks player every 50 ticks if player is in Bronze Age+
-        if (newTick % 50 === 0 && !state.combat.isDefending) {
+        // Rival attacks player every 30 ticks if player is in Bronze Age+
+        if (newTick % 30 === 0) {
           const military = get().calculateMilitary();
           const rivalPower = state.rival.strength * (0.8 + Math.random() * 0.4);
           const playerDefense = military.defense * (0.8 + Math.random() * 0.4);
+
+          // Defense reduces damage by 50% instead of blocking completely
+          const defenseReduction = state.combat.isDefending ? 0.5 : 1;
+
           // Kill 1-3 population based on power difference
-          const populationKilled = Math.max(1, Math.floor((rivalPower - playerDefense) / 20));
-          newPopulation = Math.max(0, newPopulation - populationKilled);
+          const baseDamage = Math.max(1, Math.floor((rivalPower - playerDefense) / 20));
+          const populationKilled = Math.max(0, Math.floor(baseDamage * defenseReduction));
+
+          if (populationKilled > 0) {
+            newPopulation = Math.max(0, newPopulation - populationKilled);
+            // Store attack result for feedback
+            set({ lastRivalAttack: { tick: newTick, killed: populationKilled } });
+          }
 
           if (newPopulation <= 0) {
             gameOver = 'defeat';

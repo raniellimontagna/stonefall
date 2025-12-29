@@ -145,6 +145,7 @@ export interface GameState {
   rival: import('./rival').RivalState;
   military: import('./rival').MilitaryStatus;
   combat: import('./combat').CombatState;
+  lastRivalAttack: { tick: number; killed: number } | null;
 }
 
 // =============================================================================
