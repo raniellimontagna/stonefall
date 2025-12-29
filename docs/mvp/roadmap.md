@@ -10,9 +10,9 @@ Cada MVP deve ser:
 
 ---
 
-## MVP 0 - Fundação ⏳
+## MVP 0 - Fundação ✅
 
-**Tempo estimado:** 1-2 dias
+**Status:** Concluído (29/12/2024)
 
 ### Objetivo
 
@@ -31,9 +31,9 @@ Setup técnico e mapa básico renderizável.
 
 ---
 
-## MVP 1 - Recursos e Construções
+## MVP 1 - Recursos e Construções ✅
 
-**Tempo estimado:** 3-4 dias
+**Status:** Concluído (29/12/2024)
 
 ### Objetivo
 
@@ -43,7 +43,7 @@ Loop básico de gameplay: coletar e construir.
 
 - Sistema de recursos (4 tipos)
 - UI de recursos
-- 3 construções (Centro, Casa, Fazenda)
+- 5 construções (Centro, Casa, Fazenda, Serraria, Mina)
 - Produção automática por tick
 - Colocação de construções no mapa
 
@@ -53,9 +53,9 @@ Loop básico de gameplay: coletar e construir.
 
 ---
 
-## MVP 2 - População e Tempo
+## MVP 2 - População e Tempo ✅
 
-**Tempo estimado:** 2-3 dias
+**Status:** Concluído (29/12/2024)
 
 ### Objetivo
 
@@ -66,8 +66,8 @@ Adicionar gestão de população e ciclo de tempo.
 - Sistema de população
 - Consumo de comida
 - Limite populacional (casas)
-- Controle de velocidade do jogo
-- Mina (nova construção)
+- Controle de velocidade do jogo (1x, 2x, 4x)
+- Alertas de fome e Game Over
 
 ### Resultado
 
@@ -75,8 +75,9 @@ Adicionar gestão de população e ciclo de tempo.
 
 ---
 
-## MVP 3 - Eventos (IA)
+## MVP 3 - Eventos (IA) ⏳
 
+**Status:** Próximo
 **Tempo estimado:** 3-4 dias
 
 ### Objetivo
@@ -95,6 +96,8 @@ Integrar IA para gerar eventos dinâmicos.
 
 > Eventos aleatórios gerados por IA
 
+**Detalhes:** Ver `mvp-3.md`
+
 ---
 
 ## MVP 4 - Eras e Progressão
@@ -110,12 +113,14 @@ Sistema de evolução através das eras.
 - 3 eras (Pedra, Bronze, Ferro)
 - Requisitos para avançar
 - Desbloqueio de construções por era
-- Quartel e Torre (novas construções)
+- Quartel, Torre, Mina de Ouro (novas construções)
 - UI de progresso
 
 ### Resultado
 
 > Progressão de era funcional
+
+**Detalhes:** Ver `mvp-4.md`
 
 ---
 
@@ -131,13 +136,15 @@ Adicionar oponente e sistema de conflito.
 
 - 1 civilização rival (IA)
 - Sistema de combate estratégico
-- Força militar
-- Ações: Atacar, Defender
+- Força militar e defesa
+- Ações: Atacar, Defender, Cerco, Negociar
 - Condições de vitória/derrota
 
 ### Resultado
 
 > Jogo completo com início, meio e fim
+
+**Detalhes:** Ver `mvp-5.md`
 
 ---
 
@@ -148,6 +155,20 @@ Adicionar oponente e sistema de conflito.
 ### Objetivo
 
 Crônica da civilização e refinamentos.
+
+### Entregáveis
+
+- Sistema de crônica (linha do tempo)
+- Tela de vitória/derrota
+- Resumo da partida gerado por IA
+- Ajustes de balanceamento
+- Melhorias visuais e UX
+
+### Resultado
+
+> Versão 1.0 jogável e apresentável
+
+**Detalhes:** Ver `mvp-6.md`
 
 ### Entregáveis
 
