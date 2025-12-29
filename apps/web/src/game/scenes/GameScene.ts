@@ -139,19 +139,21 @@ export class GameScene extends Phaser.Scene {
   }
 
   private setupCameraControls() {
-    // Mouse drag for panning
+    // Mouse drag for panning with right button (button 2) or middle button (button 1)
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-      if (pointer.rightButtonDown()) {
+      // Button 2 is right click, button 1 is middle click
+      if (pointer.button === 2 || pointer.button === 1) {
         this.isDragging = true;
         this.dragStartX = pointer.x;
         this.dragStartY = pointer.y;
         this.cameraStartX = this.cameras.main.scrollX;
         this.cameraStartY = this.cameras.main.scrollY;
+        console.log('Camera drag started, button:', pointer.button);
       }
     });
 
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
-      if (this.isDragging) {
+      if (this.isDragging && pointer.isDown) {
         const zoom = this.cameras.main.zoom;
         const deltaX = (this.dragStartX - pointer.x) / zoom;
         const deltaY = (this.dragStartY - pointer.y) / zoom;
@@ -164,7 +166,16 @@ export class GameScene extends Phaser.Scene {
       this.updatePlacementPreview(pointer);
     });
 
-    this.input.on('pointerup', () => {
+    this.input.on('pointerup', (pointer: Phaser.Input.Pointer) => {
+      // Stop dragging when right or middle button is released
+      if (pointer.button === 2 || pointer.button === 1) {
+        this.isDragging = false;
+        console.log('Camera drag stopped');
+      }
+    });
+
+    // Also stop dragging if pointer leaves the game
+    this.input.on('pointerout', () => {
       this.isDragging = false;
     });
 

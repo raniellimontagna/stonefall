@@ -9,16 +9,22 @@
   flex-direction: column;
   background: #1a1a1a;
   overflow: hidden;
+  position: relative;
 }
 
 .loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
   background: linear-gradient(180deg, #2d1810 0%, #1a0f0a 100%);
   color: #deb887;
+  z-index: 1000;
 }
 
 .loading h1 {

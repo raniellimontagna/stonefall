@@ -22,10 +22,21 @@ export class Game {
         mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
+      input: {
+        mouse: {
+          target: container,
+        },
+      },
+      disableContextMenu: true,
       scene: [BootScene, GameScene],
       callbacks: {
         postBoot: () => {
           this.isReady = true;
+          // Additional context menu prevention on canvas
+          const canvas = this.game.canvas;
+          if (canvas) {
+            canvas.addEventListener('contextmenu', (e) => e.preventDefault());
+          }
         },
       },
     };

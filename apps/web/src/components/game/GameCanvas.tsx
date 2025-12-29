@@ -32,6 +32,7 @@ export function GameCanvas() {
 
   return (
     <div className={styles.gameWrapper}>
+      {/* Loading overlay */}
       {isLoading && (
         <div className={styles.loading}>
           <h1>⛏️ Stonefall</h1>
@@ -39,32 +40,21 @@ export function GameCanvas() {
         </div>
       )}
 
+      {/* Top bar with resources and tick - only show when loaded */}
       {!isLoading && (
-        <>
-          {/* Top bar with resources and tick */}
-          <div className={styles.topBar}>
-            <ResourceBar />
-            <TickDisplay />
-          </div>
-
-          {/* Main game area */}
-          <div className={styles.gameArea}>
-            <div id="game-container" ref={containerRef} className={styles.gameContainer} />
-
-            {/* Right panel with build options */}
-            <BuildPanel />
-          </div>
-        </>
+        <div className={styles.topBar}>
+          <ResourceBar />
+          <TickDisplay />
+        </div>
       )}
 
-      {/* Hidden container while loading */}
-      {isLoading && (
-        <div
-          id="game-container"
-          ref={containerRef}
-          style={{ visibility: 'hidden', position: 'absolute' }}
-        />
-      )}
+      {/* Main game area - always rendered but hidden while loading */}
+      <div className={styles.gameArea} style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
+        <div id="game-container" ref={containerRef} className={styles.gameContainer} />
+
+        {/* Right panel with build options */}
+        {!isLoading && <BuildPanel />}
+      </div>
     </div>
   );
 }
