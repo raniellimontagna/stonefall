@@ -1,6 +1,7 @@
 # MVP 1 - Recursos e Construções
 
-> **Status:** Não iniciado  
+> **Status:** ✅ Concluído  
+> **Data de conclusão:** 29/12/2024
 > **Tempo estimado:** 3-4 dias  
 > **Pré-requisito:** MVP 0
 >
@@ -12,53 +13,53 @@ Implementar o loop básico: coletar recursos e construir edificações.
 
 ## User Stories
 
-- [ ] Como jogador, quero ver meus recursos na tela
-- [ ] Como jogador, quero que recursos sejam coletados automaticamente
-- [ ] Como jogador, quero construir edificações no mapa
-- [ ] Como jogador, quero ver minhas construções no mapa
+- [x] Como jogador, quero ver meus recursos na tela
+- [x] Como jogador, quero que recursos sejam coletados automaticamente
+- [x] Como jogador, quero construir edificações no mapa
+- [x] Como jogador, quero ver minhas construções no mapa
 
 ## Tasks Técnicas
 
 ### 1. Sistema de Recursos
 
-- [ ] Criar ResourceManager
-- [ ] Criar store de recursos (Zustand)
-- [ ] Implementar 4 tipos de recurso
-- [ ] Sistema de tick (produção por tempo)
+- [x] Criar ResourceManager
+- [x] Criar store de recursos (Zustand)
+- [x] Implementar 4 tipos de recurso
+- [x] Sistema de tick (produção por tempo)
 
 ### 2. UI de Recursos
 
-- [ ] Barra de recursos no topo
-- [ ] Ícones para cada recurso
-- [ ] Valores numéricos
+- [x] Barra de recursos no topo
+- [x] Ícones para cada recurso
+- [x] Valores numéricos
 - [ ] Animação de mudança
 
 ### 3. Sistema de Construções
 
-- [ ] Criar BuildingManager
-- [ ] Criar classe Building
-- [ ] Implementar 4 construções:
+- [x] Criar BuildingManager
+- [x] Criar classe Building
+- [x] Implementar 4 construções:
   - Centro da Vila
   - Casa
   - Fazenda
   - Serraria (produz madeira em Forest)
-- [ ] Sistema de custo
-- [ ] Validação de recursos
+- [x] Sistema de custo
+- [x] Validação de recursos
 
 ### 4. Colocação no Mapa
 
-- [ ] Modo construção (toggle)
-- [ ] Preview da construção
-- [ ] Validação de tile (pode construir?)
-- [ ] Colocar construção com click
-- [ ] Renderizar construção no tile
+- [x] Modo construção (toggle)
+- [x] Preview da construção
+- [x] Validação de tile (pode construir?)
+- [x] Colocar construção com click
+- [x] Renderizar construção no tile
 
 ### 5. Produção
 
-- [ ] Fazenda produz comida (tile: Plains)
-- [ ] Serraria produz madeira (tile: Forest)
-- [ ] Centro da Vila produz um pouco de tudo
-- [ ] Exibir produção por segundo
+- [x] Fazenda produz comida (tile: Plains)
+- [x] Serraria produz madeira (tile: Forest)
+- [x] Centro da Vila produz um pouco de tudo
+- [x] Exibir produção por segundo
 
 ## Recursos
 
@@ -120,13 +121,13 @@ interface GameState {
 
 ## Critérios de Aceite
 
-- [ ] Barra de recursos visível
-- [ ] Recursos aumentam com o tempo
-- [ ] Posso abrir menu de construção
-- [ ] Posso construir Casa gastando madeira
-- [ ] Posso construir Fazenda em tile de planície
-- [ ] Fazenda aumenta produção de comida
-- [ ] Não posso construir sem recursos
+- [x] Barra de recursos visível
+- [x] Recursos aumentam com o tempo
+- [x] Posso abrir menu de construção
+- [x] Posso construir Casa gastando madeira
+- [x] Posso construir Fazenda em tile de planície
+- [x] Fazenda aumenta produção de comida
+- [x] Não posso construir sem recursos
 
 ## Próximo MVP
 

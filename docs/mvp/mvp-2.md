@@ -1,6 +1,6 @@
 # MVP 2 - População e Tempo
 
-> **Status:** Não iniciado  
+> **Status:** ✅ Concluído  
 > **Tempo estimado:** 2-3 dias  
 > **Pré-requisito:** MVP 1
 >
@@ -12,33 +12,33 @@ Adicionar gestão de população e controle do ciclo de tempo do jogo.
 
 ## User Stories
 
-- [ ] Como jogador, quero ver minha população atual
-- [ ] Como jogador, quero que a população consuma comida
-- [ ] Como jogador, quero construir casas para aumentar o limite
-- [ ] Como jogador, quero controlar a velocidade do jogo
-- [ ] Como jogador, quero pausar o jogo
+- [x] Como jogador, quero ver minha população atual
+- [x] Como jogador, quero que a população consuma comida
+- [x] Como jogador, quero construir casas para aumentar o limite
+- [x] Como jogador, quero controlar a velocidade do jogo
+- [x] Como jogador, quero pausar o jogo
 
 ## Tasks Técnicas
 
 ### 1. Sistema de População
 
-- [ ] Criar PopulationManager
-- [ ] Adicionar população ao store
-- [ ] População máxima baseada em casas
-- [ ] Crescimento populacional
+- [x] Criar PopulationManager (integrado no gameStore)
+- [x] Adicionar população ao store
+- [x] População máxima baseada em casas
+- [x] Crescimento populacional
 
 ### 2. Consumo de Recursos
 
-- [ ] População consome comida por tick
-- [ ] Penalidade se comida < 0
-- [ ] Morte por fome
+- [x] População consome comida por tick
+- [x] Penalidade se comida < 0
+- [x] Morte por fome
 
 ### 3. Controle de Tempo
 
-- [ ] Criar TimeManager
-- [ ] Botões de velocidade (1x, 2x, 3x)
-- [ ] Botão de pausa
-- [ ] Indicador de tempo/tick
+- [x] Criar TimeManager (integrado no GameScene)
+- [x] Botões de velocidade (1x, 2x, 4x)
+- [x] Botão de pausa
+- [x] Indicador de tempo/tick
 
 ### 4. Nova Construção: Mina
 
@@ -48,9 +48,9 @@ Adicionar gestão de população e controle do ciclo de tempo do jogo.
 
 ### 5. UI de População
 
-- [ ] Indicador de população (atual/max)
-- [ ] Indicador de consumo
-- [ ] Alertas de fome
+- [x] Indicador de população (atual/max)
+- [x] Indicador de consumo
+- [x] Alertas de fome
 
 ## Mecânicas de População
 
@@ -97,14 +97,14 @@ Crescimento = +1 população a cada 20 ticks (se comida > 0)
 
 ## Critérios de Aceite
 
-- [ ] População aparece na UI
-- [ ] Casas aumentam limite de população
-- [ ] Comida é consumida pela população
-- [ ] Posso pausar o jogo
-- [ ] Posso acelerar o jogo
+- [x] População aparece na UI
+- [x] Casas aumentam limite de população
+- [x] Comida é consumida pela população
+- [x] Posso pausar o jogo
+- [x] Posso acelerar o jogo
 - [ ] Mina funciona em montanhas
-- [ ] Alerta aparece quando comida está baixa
-- [ ] Game over se ficar sem comida por muito tempo
+- [x] Alerta aparece quando comida está baixa
+- [x] Game over se ficar sem comida por muito tempo
 
 ## Próximo MVP
 
