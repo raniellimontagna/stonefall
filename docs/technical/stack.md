@@ -69,6 +69,36 @@ Por que Turborepo:
 pnpm add -Dw turbo
 ```
 
+### Knip
+
+**Detector de Código e Dependências Não Utilizadas**
+
+Por que Knip:
+
+- 🔍 Encontra exports não utilizados
+- 📦 Detecta dependências não usadas
+- 🗑️ Identifica arquivos órfãos
+- 🧹 Mantém o codebase limpo
+- 📊 Suporte a monorepos/workspaces
+
+```bash
+# Instalado como devDependency no root
+pnpm add -Dw knip
+
+# Rodar análise
+pnpm knip
+
+# Modo watch (development)
+pnpm knip --watch
+```
+
+**Benefícios:**
+
+1. **Reduz bundle size** - Remove código morto
+2. **Melhora manutenção** - Menos código = menos bugs
+3. **Acelera builds** - Menos arquivos para processar
+4. **CI/CD** - Pode falhar build se houver código não usado
+
 ---
 
 ## 📁 Configuração do Workspace
@@ -122,17 +152,43 @@ packages:
     "check": "biome check --write .",
     "format": "biome format --write .",
     "test": "turbo test",
+    "knip": "knip",
     "clean": "turbo clean && rm -rf node_modules"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "turbo": "^2.3.3",
-    "typescript": "^5.7.2"
+    "@biomejs/biome": "^2.3.10",
+    "knip": "^5.78.0",
+    "turbo": "^2.7.2",
+    "typescript": "^5.9.3"
   },
-  "packageManager": "pnpm@9.15.1",
+  "packageManager": "pnpm@10.26.2",
   "engines": {
     "node": ">=20"
   }
+}
+```
+
+### knip.json
+
+```json
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "workspaces": {
+    "apps/web": {
+      "entry": ["src/main.tsx"],
+      "project": ["src/**/*.{ts,tsx}"],
+      "ignore": ["src/vite-env.d.ts"]
+    },
+    "apps/api": {
+      "entry": ["src/index.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "packages/shared": {
+      "entry": ["src/index.ts"],
+      "project": ["src/**/*.ts"]
+    }
+  },
+  "ignoreDependencies": ["@types/*"]
 }
 ```
 
@@ -162,7 +218,7 @@ packages:
 
 ```json
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.10/schema.json",
   "organizeImports": {
     "enabled": true
   },
@@ -191,11 +247,11 @@ packages:
 
 | Tecnologia | Versão  | Uso              |
 | ---------- | ------- | ---------------- |
-| Vite       | ^6.0.6  | Build tool       |
-| React      | ^19.0.0 | UI Framework     |
-| Phaser     | ^3.87.0 | Game engine      |
-| TypeScript | ^5.7.2  | Linguagem        |
-| Zustand    | ^5.0.2  | State management |
+| Vite       | ^7.3.0  | Build tool       |
+| React      | ^19.2.3 | UI Framework     |
+| Phaser     | ^3.90.0 | Game engine      |
+| TypeScript | ^5.9.3  | Linguagem        |
+| Zustand    | ^5.0.9  | State management |
 
 ### Arquitetura Frontend
 
@@ -257,19 +313,19 @@ useGameStore.getState().triggerEvent(eventData);
     "check": "biome check --write src"
   },
   "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "phaser": "^3.87.0",
-    "zustand": "^5.0.2",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "phaser": "^3.90.0",
+    "zustand": "^5.0.9",
     "@stonefall/shared": "workspace:*"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
-    "@types/react": "^19.0.2",
-    "@types/react-dom": "^19.0.2",
-    "@types/node": "^22.10.2",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.6"
+    "@vitejs/plugin-react": "^5.1.2",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@types/node": "^25.0.3",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
   }
 }
 ```
@@ -344,11 +400,11 @@ apps/web/src/
 
 | Tecnologia            | Versão  | Uso           |
 | --------------------- | ------- | ------------- |
-| Hono                  | ^4.6.14 | Web framework |
+| Hono                  | ^4.11.3 | Web framework |
 | Node.js               | >=20    | Runtime       |
-| TypeScript            | ^5.7.2  | Linguagem     |
-| Zod                   | ^3.24.1 | Validação     |
-| @google/generative-ai | ^0.21.0 | Gemini API    |
+| TypeScript            | ^5.9.3  | Linguagem     |
+| Zod                   | ^4.2.1  | Validação     |
+| @google/generative-ai | ^0.24.1 | Gemini API    |
 
 ### Por que Hono?
 
@@ -374,17 +430,17 @@ apps/web/src/
     "check": "biome check --write src"
   },
   "dependencies": {
-    "hono": "^4.6.14",
-    "@hono/node-server": "^1.13.7",
-    "@hono/zod-validator": "^0.4.2",
-    "@google/generative-ai": "^0.21.0",
-    "zod": "^3.24.1",
+    "hono": "^4.11.3",
+    "@hono/node-server": "^1.19.7",
+    "@hono/zod-validator": "^0.7.6",
+    "@google/generative-ai": "^0.24.1",
+    "zod": "^4.2.1",
     "@stonefall/shared": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5.7.2",
-    "tsx": "^4.19.2",
-    "@types/node": "^22.10.2"
+    "typescript": "^5.9.3",
+    "tsx": "^4.21.0",
+    "@types/node": "^25.0.3"
   }
 }
 ```
@@ -424,10 +480,10 @@ serve({ fetch: app.fetch, port });
 
 ### Stack
 
-| Tecnologia | Versão  | Uso                  |
-| ---------- | ------- | -------------------- |
-| TypeScript | ^5.7.2  | Linguagem            |
-| Zod        | ^3.24.1 | Schemas de validação |
+| Tecnologia | Versão | Uso                  |
+| ---------- | ------ | -------------------- |
+| TypeScript | ^5.9.3 | Linguagem            |
+| Zod        | ^4.2.1 | Schemas de validação |
 
 ### package.json
 
@@ -452,10 +508,10 @@ serve({ fetch: app.fetch, port });
     "check": "biome check --write src"
   },
   "dependencies": {
-    "zod": "^3.24.1"
+    "zod": "^4.2.1"
   },
   "devDependencies": {
-    "typescript": "^5.7.2"
+    "typescript": "^5.9.3"
   }
 }
 ```
@@ -493,6 +549,8 @@ export default defineConfig({
   },
 });
 ```
+
+> **Nota:** Vitest 4.x requer configuração atualizada. Verificar changelog para breaking changes.
 
 ---
 
@@ -536,21 +594,199 @@ export default defineConfig({
 ## 📊 Resumo de Versões
 
 > ⚠️ Verificar versões mais recentes antes de iniciar!
+> 📅 Última verificação: 29/12/2025
 
 | Pacote                | Versão   | Local           |
 | --------------------- | -------- | --------------- |
 | Node.js               | >=20 LTS | Runtime         |
-| pnpm                  | 9.15.1   | Package manager |
-| Turborepo             | ^2.3.3   | Root            |
-| TypeScript            | ^5.7.2   | Todos           |
-| Biome                 | 1.9.4    | Root            |
-| Vite                  | ^6.0.6   | web             |
-| Phaser                | ^3.87.0  | web             |
-| Zustand               | ^5.0.2   | web             |
-| Hono                  | ^4.6.14  | api             |
-| Zod                   | ^3.24.1  | api, shared     |
-| @google/generative-ai | ^0.21.0  | api             |
-| Vitest                | ^2.1.8   | Testes          |
+| pnpm                  | 10.26.2  | Package manager |
+| Turborepo             | ^2.7.2   | Root            |
+| TypeScript            | ^5.9.3   | Todos           |
+| Biome                 | ^2.3.10  | Root            |
+| Knip                  | ^5.78.0  | Root            |
+| Vite                  | ^7.3.0   | web             |
+| React                 | ^19.2.3  | web             |
+| Phaser                | ^3.90.0  | web             |
+| Zustand               | ^5.0.9   | web             |
+| Hono                  | ^4.11.3  | api             |
+| Zod                   | ^4.2.1   | api, shared     |
+| @google/generative-ai | ^0.24.1  | api             |
+| Vitest                | ^4.0.16  | Testes          |
+
+---
+
+## ⚠️ Breaking Changes e Riscos
+
+### 🔴 Zod 4.x (MAJOR)
+
+**O que mudou:**
+
+- Nova API de schemas
+- Mudanças em `.parse()`, `.safeParse()`
+- Novos métodos de validação
+
+**Mitigação:**
+
+```typescript
+// Verificar sintaxe no momento da implementação
+// Consultar: https://zod.dev/v4
+```
+
+### 🔴 Vite 7.x (MAJOR)
+
+**O que mudou:**
+
+- Possíveis mudanças na config
+- Plugins podem precisar atualização
+
+**Mitigação:**
+
+- Verificar changelog do Vite 7
+- `@vitejs/plugin-react` 5.x já é compatível
+
+### 🔴 Biome 2.x (MAJOR)
+
+**O que mudou:**
+
+- Schema do `biome.json` atualizado
+- Possíveis novas regras padrão
+
+**Mitigação:**
+
+- Usar schema 2.3.10 no biome.json
+- Verificar: https://biomejs.dev/blog/
+
+### 🔴 Vitest 4.x (MAJOR)
+
+**O que mudou:**
+
+- API de configuração pode ter mudado
+- Coverage config diferente
+
+**Mitigação:**
+
+- Consultar docs atualizados na implementação
+
+---
+
+## 🛡️ Potenciais Problemas e Soluções
+
+### 1. Integração React + Phaser
+
+**Problema:** Phaser manipula o DOM diretamente, React usa Virtual DOM.
+
+**Solução:**
+
+```typescript
+// GameCanvas.tsx - usar useRef e cleanup
+useEffect(() => {
+  if (!containerRef.current || gameRef.current) return;
+
+  gameRef.current = new Phaser.Game({
+    ...config,
+    parent: containerRef.current,
+  });
+
+  return () => {
+    gameRef.current?.destroy(true);
+    gameRef.current = null;
+  };
+}, []);
+```
+
+### 2. Estado Compartilhado (Zustand)
+
+**Problema:** Sincronizar estado entre React e Phaser game loop.
+
+**Solução:**
+
+```typescript
+// Phaser lê estado diretamente (não via hook)
+const resources = useGameStore.getState().resources;
+
+// Subscrição para atualizações no Phaser
+useGameStore.subscribe((state) => {
+  // Atualizar sprites/UI do Phaser
+});
+```
+
+### 3. Zod v4 + @hono/zod-validator
+
+**Status:** ✅ Compatível! `@hono/zod-validator` suporta `zod ^3.25.0 || ^4.0.0`
+
+**Nota:** Verificar sintaxe de schemas Zod 4 na implementação.
+
+### 4. Hot Module Replacement (HMR)
+
+**Problema:** HMR pode causar múltiplas instâncias do Phaser.
+
+**Solução:**
+
+```typescript
+// vite.config.ts - desabilitar HMR para game
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    hmr: {
+      // Ou configurar overlay: false para game
+    },
+  },
+});
+```
+
+### 5. TypeScript Strict Mode
+
+**Problema:** Phaser types podem não ser 100% compatíveis com strict.
+
+**Solução:**
+
+```json
+// tsconfig.json do apps/web
+{
+  "compilerOptions": {
+    "strict": true,
+    "skipLibCheck": true // Ignora erros em .d.ts
+  }
+}
+```
+
+### 6. Bundle Size
+
+**Problema:** Phaser é grande (~1MB minified).
+
+**Mitigação:**
+
+```typescript
+// Importar apenas o necessário (se possível)
+import Phaser from "phaser";
+// Considerar code splitting para scenes
+```
+
+### 7. CORS na API
+
+**Problema:** Frontend em :3000, API em :3001.
+
+**Solução:** Já configurado no vite.config.ts com proxy:
+
+```typescript
+proxy: {
+  "/api": {
+    target: "http://localhost:3001",
+    changeOrigin: true,
+    rewrite: (path) => path.replace(/^\/api/, ""),
+  },
+}
+```
+
+### 8. Rate Limiting Gemini API
+
+**Problema:** Gemini tem limites de requisições.
+
+**Mitigação:**
+
+- Implementar cache na API
+- Debounce em chamadas frequentes
+- Fallback para eventos pré-definidos
 
 ---
 
@@ -571,6 +807,9 @@ pnpm check
 
 # Rodar testes
 pnpm test
+
+# Detectar código/deps não utilizados
+pnpm knip
 
 # Adicionar dependência em um app específico
 pnpm add <pkg> --filter @stonefall/web

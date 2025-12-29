@@ -1,5 +1,7 @@
 # Sistema de Recursos
 
+> ⚠️ **Valores numéricos:** Consulte [`balance.md`](./balance.md) para valores atualizados.
+
 ## Visão Geral
 
 Recursos são a base da economia do jogo. São coletados automaticamente e gastos em construções e progressão.

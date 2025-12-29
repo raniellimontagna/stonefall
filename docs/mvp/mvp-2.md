@@ -3,6 +3,8 @@
 > **Status:** Não iniciado  
 > **Tempo estimado:** 2-3 dias  
 > **Pré-requisito:** MVP 1
+>
+> ⚠️ **Valores:** Consulte [`../game/balance.md`](../game/balance.md) para valores atualizados.
 
 ## Objetivo
 
@@ -52,27 +54,31 @@ Adicionar gestão de população e controle do ciclo de tempo do jogo.
 
 ## Mecânicas de População
 
+> Valores de referência - ver `balance.md` para valores finais
+
 ```
-População máxima = 5 + (casas × 5)
-Consumo de comida = população × 0.5 / tick
-Crescimento = +1 população a cada 10 ticks (se comida > 0)
+População inicial = 5
+População máxima = 10 + (casas × 5)
+Consumo de comida = população × 0.3 / tick
+Crescimento = +1 população a cada 20 ticks (se comida > 0)
 ```
 
 ## Penalidades por Fome
 
-| Comida | Efeito            |
-| ------ | ----------------- |
-| > 0    | Normal            |
-| = 0    | Sem crescimento   |
-| < -10  | -1 população/tick |
-| < -50  | Derrota           |
+| Comida | Efeito              |
+| ------ | ------------------- |
+| > 0    | Normal              |
+| = 0    | Sem crescimento     |
+| < -20  | -1 população/5 tick |
+| < -50  | Derrota             |
 
 ## Construção: Mina
 
-- **Custo:** 40 madeira, 20 pedra
+- **Custo:** 30 madeira, 15 pedra
 - **Produção em Mountain:** +2 pedra/tick
-- **Produção em Mountain (ouro):** +0.5 ouro/tick
 - **Tile válido:** Mountain apenas
+
+> **Nota:** Mina de Ouro é construção separada, disponível na Era do Bronze
 
 ## Velocidades de Jogo
 

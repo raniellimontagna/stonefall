@@ -29,7 +29,8 @@ docs/
 │   ├── eras.md                  # Sistema de eras
 │   ├── combat.md                # Sistema de combate
 │   ├── events.md                # Sistema de eventos (IA)
-│   └── rivals.md                # Sistema de rivais (IA)
+│   ├── rivals.md                # Sistema de rivais (IA)
+│   └── balance.md               # ⚖️ BALANCEAMENTO (fonte de verdade)
 ├── technical/                   # Documentação técnica
 │   ├── architecture.md          # Arquitetura do monorepo
 │   ├── stack.md                 # Stack tecnológica

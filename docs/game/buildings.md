@@ -1,5 +1,7 @@
 # Sistema de Construções
 
+> ⚠️ **Valores numéricos:** Consulte [`balance.md`](./balance.md) para custos e stats atualizados.
+
 ## Visão Geral
 
 Construções são colocadas no mapa e fornecem benefícios ao jogador. Cada construção tem custo, efeito e restrições.

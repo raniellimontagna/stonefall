@@ -1,5 +1,7 @@
 # Sistema de Eras
 
+> ⚠️ **Valores numéricos:** Consulte [`balance.md`](./balance.md) para requisitos de progressão atualizados.
+
 ## Visão Geral
 
 O jogo progride através de eras históricas. Cada era desbloqueia novas construções, aumenta a produção e introduz novos desafios.

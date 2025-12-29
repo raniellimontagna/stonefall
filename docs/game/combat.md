@@ -1,5 +1,7 @@
 # Sistema de Combate
 
+> ⚠️ **Valores numéricos:** Consulte [`balance.md`](./balance.md) para força, defesa e custos atualizados.
+
 ## Filosofia
 
 O combate é **estratégico**, não tático. O jogador não controla unidades individuais, mas toma decisões de alto nível.

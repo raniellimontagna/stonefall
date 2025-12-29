@@ -314,6 +314,7 @@ pnpm build --filter web
 pnpm check            # Biome check
 pnpm lint             # Biome lint
 pnpm format           # Biome format
+pnpm knip             # Detecta código/deps não usados
 
 # Deps
 pnpm add <pkg> --filter @stonefall/web
