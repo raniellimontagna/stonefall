@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { BuildPanel, ResourceBar, TickDisplay } from '@/components/ui';
+import {
+  BuildPanel,
+  GameOverScreen,
+  ResourceBar,
+  StarvationAlert,
+  TickDisplay,
+} from '@/components/ui';
 import { Game } from '@/game/Game';
 import styles from './GameCanvas.module.css';
 
@@ -48,6 +54,13 @@ export function GameCanvas() {
         </div>
       )}
 
+      {/* Starvation alert - shows when food is negative */}
+      {!isLoading && (
+        <div className={styles.alertArea}>
+          <StarvationAlert />
+        </div>
+      )}
+
       {/* Main game area - always rendered but hidden while loading */}
       <div className={styles.gameArea} style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
         <div id="game-container" ref={containerRef} className={styles.gameContainer} />
@@ -55,6 +68,9 @@ export function GameCanvas() {
         {/* Right panel with build options */}
         {!isLoading && <BuildPanel />}
       </div>
+
+      {/* Game Over screen - shows when game is over */}
+      <GameOverScreen />
     </div>
   );
 }

@@ -6,6 +6,8 @@
 import type {
   Building,
   BuildingType,
+  GameOverReason,
+  GameSpeed,
   GameState,
   MapData,
   ProductionRates,
@@ -15,11 +17,15 @@ import {
   BASE_MAX_POPULATION,
   BUILDINGS,
   Era,
+  FOOD_DEBT_THRESHOLD,
+  FOOD_GAME_OVER_THRESHOLD,
   GRID_HEIGHT,
   GRID_WIDTH,
   INITIAL_POPULATION,
   INITIAL_RESOURCES,
   POPULATION_CONSUMPTION_RATE,
+  POPULATION_DEATH_INTERVAL,
+  POPULATION_GROWTH_INTERVAL,
   ResourceType,
   TileType,
 } from '@stonefall/shared';
@@ -35,6 +41,7 @@ interface GameActions {
   processTick: () => void;
   togglePause: () => void;
   setPaused: (paused: boolean) => void;
+  setGameSpeed: (speed: GameSpeed) => void;
 
   // Map
   setMap: (map: MapData) => void;
@@ -55,6 +62,9 @@ interface GameActions {
   // Production
   recalculateProduction: () => void;
 
+  // Game over
+  setGameOver: (reason: GameOverReason) => void;
+
   // Reset
   resetGame: () => void;
 }
@@ -69,6 +79,8 @@ const createInitialState = (): GameState => ({
   tick: 0,
   era: Era.Stone,
   isPaused: true,
+  gameSpeed: 1,
+  gameOver: null,
 
   resources: { ...INITIAL_RESOURCES },
   production: {
@@ -155,27 +167,59 @@ export const useGameStore = create<GameStore>()(
 
     processTick: () => {
       const state = get();
-      if (state.isPaused) return;
+      if (state.isPaused || state.gameOver) return;
+
+      const newTick = state.tick + 1;
 
       // Calculate consumption
       const consumption = state.population.current * POPULATION_CONSUMPTION_RATE;
 
       // Apply production and consumption
+      const newFood =
+        state.resources[ResourceType.Food] + state.production.food - consumption;
       const newResources: Resources = {
-        [ResourceType.Food]:
-          state.resources[ResourceType.Food] + state.production.food - consumption,
+        [ResourceType.Food]: newFood,
         [ResourceType.Wood]: state.resources[ResourceType.Wood] + state.production.wood,
         [ResourceType.Stone]: state.resources[ResourceType.Stone] + state.production.stone,
         [ResourceType.Gold]: state.resources[ResourceType.Gold] + state.production.gold,
       };
 
+      // Population changes
+      let newPopulation = state.population.current;
+
+      // Growth: +1 every POPULATION_GROWTH_INTERVAL ticks if food > 0
+      if (
+        newFood > 0 &&
+        newTick % POPULATION_GROWTH_INTERVAL === 0 &&
+        newPopulation < state.population.max
+      ) {
+        newPopulation += 1;
+      }
+
+      // Death: -1 every POPULATION_DEATH_INTERVAL ticks if food < threshold
+      if (
+        newFood < FOOD_DEBT_THRESHOLD &&
+        newTick % POPULATION_DEATH_INTERVAL === 0 &&
+        newPopulation > 1
+      ) {
+        newPopulation -= 1;
+      }
+
+      // Check for game over
+      let gameOver: GameOverReason = null;
+      if (newFood < FOOD_GAME_OVER_THRESHOLD) {
+        gameOver = 'starvation';
+      }
+
       set({
-        tick: state.tick + 1,
+        tick: newTick,
         resources: newResources,
         population: {
           ...state.population,
-          consumptionPerTick: consumption,
+          current: newPopulation,
+          consumptionPerTick: newPopulation * POPULATION_CONSUMPTION_RATE,
         },
+        gameOver,
       });
     },
 
@@ -185,6 +229,10 @@ export const useGameStore = create<GameStore>()(
 
     setPaused: (paused: boolean) => {
       set({ isPaused: paused });
+    },
+
+    setGameSpeed: (speed: GameSpeed) => {
+      set({ gameSpeed: speed });
     },
 
     // =========================================================================
@@ -384,6 +432,14 @@ export const useGameStore = create<GameStore>()(
     },
 
     // =========================================================================
+    // GAME OVER
+    // =========================================================================
+
+    setGameOver: (reason: GameOverReason) => {
+      set({ gameOver: reason, isPaused: true });
+    },
+
+    // =========================================================================
     // RESET
     // =========================================================================
 
@@ -405,3 +461,5 @@ export const selectTick = (state: GameStore) => state.tick;
 export const selectEra = (state: GameStore) => state.era;
 export const selectIsPaused = (state: GameStore) => state.isPaused;
 export const selectPlacementMode = (state: GameStore) => state.placementMode;
+export const selectGameSpeed = (state: GameStore) => state.gameSpeed;
+export const selectGameOver = (state: GameStore) => state.gameOver;

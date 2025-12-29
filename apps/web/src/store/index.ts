@@ -1,6 +1,8 @@
 export {
   selectBuildings,
   selectEra,
+  selectGameOver,
+  selectGameSpeed,
   selectIsPaused,
   selectPlacementMode,
   selectPopulation,

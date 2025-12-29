@@ -44,6 +44,15 @@
   flex-shrink: 0;
 }
 
+.alertArea {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  min-width: 400px;
+}
+
 .gameArea {
   display: flex;
   flex: 1;

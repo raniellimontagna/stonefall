@@ -286,14 +286,34 @@ export class GameScene extends Phaser.Scene {
   }
 
   private setupTickSystem() {
+    const store = useGameStore.getState();
+    const gameSpeed = store.gameSpeed;
+
     this.tickTimer = this.time.addEvent({
-      delay: TICK_RATE,
+      delay: TICK_RATE / gameSpeed,
       callback: () => {
-        const store = useGameStore.getState();
-        store.processTick();
+        const currentStore = useGameStore.getState();
+        currentStore.processTick();
       },
       loop: true,
     });
+
+    // Subscribe to game speed changes
+    useGameStore.subscribe(
+      (state) => state.gameSpeed,
+      (newSpeed) => {
+        // Recreate timer with new speed
+        this.tickTimer?.destroy();
+        this.tickTimer = this.time.addEvent({
+          delay: TICK_RATE / newSpeed,
+          callback: () => {
+            const currentStore = useGameStore.getState();
+            currentStore.processTick();
+          },
+          loop: true,
+        });
+      }
+    );
   }
 
   private subscribeToStore() {

@@ -96,6 +96,20 @@ export const POPULATION_DEATH_INTERVAL = 5;
 /** Food debt threshold for population death */
 export const FOOD_DEBT_THRESHOLD = -20;
 
+/** Food debt threshold for game over */
+export const FOOD_GAME_OVER_THRESHOLD = -50;
+
+/** Available game speeds */
+export const GAME_SPEEDS = [1, 2, 4] as const;
+
+/** Game speed tick rates (ticks per second) */
+export const GAME_SPEED_RATES: Record<number, number> = {
+  0: 0, // Paused
+  1: 1, // Normal
+  2: 2, // Fast
+  4: 4, // Very fast
+};
+
 // =============================================================================
 // BUILDINGS
 // =============================================================================

@@ -104,12 +104,20 @@ export interface PopulationState {
   consumptionPerTick: number;
 }
 
+/** Game speed multiplier (1x, 2x, 4x) */
+export type GameSpeed = 1 | 2 | 4;
+
+/** Game over state */
+export type GameOverReason = 'starvation' | null;
+
 /** Game state */
 export interface GameState {
   // Core
   tick: number;
   era: Era;
   isPaused: boolean;
+  gameSpeed: GameSpeed;
+  gameOver: GameOverReason;
 
   // Resources
   resources: Resources;

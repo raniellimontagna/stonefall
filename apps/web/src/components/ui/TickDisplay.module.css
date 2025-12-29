@@ -48,6 +48,34 @@
   color: white;
 }
 
+.speedControls {
+  display: flex;
+  gap: 4px;
+}
+
+.speedButton {
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  color: #ccc;
+  transition: all 0.15s ease;
+}
+
+.speedButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.speedButton.active {
+  background: rgba(76, 175, 80, 0.6);
+  border-color: #4caf50;
+  color: white;
+}
+
 .pausedBadge {
   padding: 2px 8px;
   background: rgba(244, 67, 54, 0.5);
