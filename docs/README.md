@@ -35,7 +35,12 @@ docs/
 ├── technical/                   # Documentação técnica
 │   ├── architecture.md          # Arquitetura do monorepo
 │   ├── stack.md                 # Stack tecnológica
-│   └── api.md                   # Integrações de IA
+│   ├── api.md                   # Integrações de IA
+│   ├── testing.md               # 🧪 Estratégia de testes
+│   ├── error-handling.md        # 🛡️ Tratamento de erros
+│   ├── cicd.md                  # 🚀 Pipeline CI/CD
+│   ├── feature-flags.md         # 🚩 Feature flags e config
+│   └── longevity.md             # 📈 Análise de longevidade
 ├── mvp/                         # Roadmap de MVPs
 │   ├── roadmap.md               # Visão geral dos MVPs
 │   ├── mvp-0.md                 # MVP 0 - Fundação
@@ -70,6 +75,16 @@ Para começar a trabalhar no projeto, leia:
 2. `technical/architecture.md` - Entender a estrutura
 3. `mvp/roadmap.md` - Ver o plano de desenvolvimento
 4. `ai-context/current-sprint.md` - Ver o que está sendo feito agora
+
+## 📊 Para Desenvolvedores Sênior/PO
+
+Documentos estratégicos:
+
+- `technical/longevity.md` - Análise de gaps e roadmap estendido
+- `technical/testing.md` - Estratégia completa de testes
+- `technical/error-handling.md` - Padrões de erro e recovery
+- `technical/cicd.md` - Pipeline de CI/CD
+- `game/balance.md` - Fonte de verdade para valores numéricos
 
 ## 📝 Convenções
 
