@@ -1,0 +1,54 @@
+/**
+ * GameCanvas styles
+ */
+
+.gameWrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #1a1a1a;
+  overflow: hidden;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(180deg, #2d1810 0%, #1a0f0a 100%);
+  color: #deb887;
+}
+
+.loading h1 {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.loading p {
+  font-size: 18px;
+  color: #888;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.gameArea {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.gameContainer {
+  flex: 1;
+  overflow: hidden;
+}
+
+.gameContainer canvas {
+  display: block;
+}

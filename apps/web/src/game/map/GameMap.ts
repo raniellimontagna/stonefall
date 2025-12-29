@@ -56,16 +56,10 @@ export class GameMap {
     const random = Math.random() * 100;
     let cumulative = 0;
 
-    const weights: [TileType, number][] = [
-      [TileType.Plains, TILE_WEIGHTS.plains],
-      [TileType.Forest, TILE_WEIGHTS.forest],
-      [TileType.Mountain, TILE_WEIGHTS.mountain],
-      [TileType.Water, TILE_WEIGHTS.water],
-      [TileType.Gold, TILE_WEIGHTS.gold],
-    ];
+    const tileTypes = Object.values(TileType);
 
-    for (const [type, weight] of weights) {
-      cumulative += weight;
+    for (const type of tileTypes) {
+      cumulative += TILE_WEIGHTS[type];
       if (random < cumulative) {
         return type;
       }

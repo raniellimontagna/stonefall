@@ -2,6 +2,7 @@
 
 > **Última atualização:** 29/12/2025
 > **MVP 0:** ✅ Concluído
+> **MVP 1:** ✅ Concluído
 
 ## Objetivo do MVP 1
 
@@ -9,33 +10,33 @@ Implementar sistema de recursos e construções básicas.
 
 ## Escopo do MVP 1
 
-### Sistema de Recursos
+### Sistema de Recursos ✅
 
-- [ ] Store Zustand para game state
-- [ ] UI de recursos (barra superior)
-- [ ] Tick system (1 tick/segundo)
-- [ ] Cálculo de produção/consumo
+- [x] Store Zustand para game state
+- [x] UI de recursos (barra superior)
+- [x] Tick system (1 tick/segundo)
+- [x] Cálculo de produção/consumo
 
-### Construções Básicas
+### Construções Básicas ✅
 
-- [ ] Town Center (único, inicial)
-- [ ] House (aumenta população)
-- [ ] Farm (produz comida)
-- [ ] Sawmill (produz madeira)
-- [ ] Quarry (produz pedra)
+- [x] Town Center (único, inicial)
+- [x] House (aumenta população)
+- [x] Farm (produz comida)
+- [x] Sawmill (produz madeira)
+- [x] Mine (produz pedra)
 
-### UI de Construção
+### UI de Construção ✅
 
-- [ ] Painel lateral com buildings disponíveis
-- [ ] Preview de construção no mapa
-- [ ] Validação de tile/recursos
-- [ ] Feedback visual de construção
+- [x] Painel lateral com buildings disponíveis
+- [x] Preview de construção no mapa
+- [x] Validação de tile/recursos
+- [x] Feedback visual de construção
 
-### Integração
+### Integração ✅
 
-- [ ] Consumo de recursos ao construir
-- [ ] Produção baseada em buildings
-- [ ] Limite de população por casas
+- [x] Consumo de recursos ao construir
+- [x] Produção baseada em buildings
+- [x] Limite de população por casas
 
 ## Concluído no MVP 0
 

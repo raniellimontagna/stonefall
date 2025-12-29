@@ -43,38 +43,87 @@ export enum ResourceType {
   Wood = 'wood',
   Stone = 'stone',
   Gold = 'gold',
-  Faith = 'faith',
 }
 
-/** Resources object */
-export type Resources = Partial<Record<ResourceType, number>>;
+/** Resources object - all resources are required with number values */
+export type Resources = Record<ResourceType, number>;
 
-/** Building types (for future MVPs) */
+/** Building types */
 export enum BuildingType {
   TownCenter = 'town_center',
   House = 'house',
   Farm = 'farm',
   Sawmill = 'sawmill',
-  Quarry = 'quarry',
   Mine = 'mine',
-  Temple = 'temple',
+  GoldMine = 'gold_mine',
   Barracks = 'barracks',
-  Tower = 'tower',
+  DefenseTower = 'defense_tower',
 }
 
 /** Era types */
 export enum Era {
-  StoneAge = 'stone_age',
-  BronzeAge = 'bronze_age',
-  IronAge = 'iron_age',
+  Stone = 'stone',
+  Bronze = 'bronze',
+  Iron = 'iron',
 }
 
-/** Game state (for future MVPs) */
+/** Building instance placed on the map */
+export interface Building {
+  id: string;
+  type: BuildingType;
+  position: GridPosition;
+  hp: number;
+  maxHp: number;
+}
+
+/** Building definition from constants */
+export interface BuildingDefinition {
+  type: BuildingType;
+  name: string;
+  cost: Partial<Resources>;
+  production: Partial<Resources>;
+  populationBonus: number;
+  hp: number;
+  era: Era;
+  validTiles: TileType[];
+  limit: number | null; // null = unlimited
+}
+
+/** Production rates per tick */
+export interface ProductionRates {
+  food: number;
+  wood: number;
+  stone: number;
+  gold: number;
+}
+
+/** Population state */
+export interface PopulationState {
+  current: number;
+  max: number;
+  consumptionPerTick: number;
+}
+
+/** Game state */
 export interface GameState {
+  // Core
   tick: number;
   era: Era;
+  isPaused: boolean;
+
+  // Resources
   resources: Resources;
-  population: number;
-  maxPopulation: number;
+  production: ProductionRates;
+
+  // Population
+  population: PopulationState;
+
+  // Buildings
+  buildings: Building[];
+
+  // Map
   map: MapData;
+
+  // Building placement mode
+  placementMode: BuildingType | null;
 }

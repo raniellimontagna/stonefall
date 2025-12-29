@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { BuildPanel, ResourceBar, TickDisplay } from '@/components/ui';
 import { Game } from '@/game/Game';
+import styles from './GameCanvas.module.css';
 
 export function GameCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -29,18 +31,40 @@ export function GameCanvas() {
   }, []);
 
   return (
-    <>
+    <div className={styles.gameWrapper}>
       {isLoading && (
-        <div className="loading">
+        <div className={styles.loading}>
           <h1>⛏️ Stonefall</h1>
           <p>Loading...</p>
         </div>
       )}
-      <div
-        id="game-container"
-        ref={containerRef}
-        style={{ visibility: isLoading ? 'hidden' : 'visible' }}
-      />
-    </>
+
+      {!isLoading && (
+        <>
+          {/* Top bar with resources and tick */}
+          <div className={styles.topBar}>
+            <ResourceBar />
+            <TickDisplay />
+          </div>
+
+          {/* Main game area */}
+          <div className={styles.gameArea}>
+            <div id="game-container" ref={containerRef} className={styles.gameContainer} />
+
+            {/* Right panel with build options */}
+            <BuildPanel />
+          </div>
+        </>
+      )}
+
+      {/* Hidden container while loading */}
+      {isLoading && (
+        <div
+          id="game-container"
+          ref={containerRef}
+          style={{ visibility: 'hidden', position: 'absolute' }}
+        />
+      )}
+    </div>
   );
 }
