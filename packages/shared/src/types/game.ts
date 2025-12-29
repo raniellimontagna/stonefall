@@ -141,3 +141,20 @@ export interface GameState {
   lastEventTick: number;
   isGeneratingEvent: boolean;
 }
+
+// =============================================================================
+// ERA PROGRESSION (MVP 4)
+// =============================================================================
+
+/** Era progression requirements */
+export interface EraRequirements {
+  resources: Partial<Resources>;
+  population: number;
+  buildings: BuildingType[];
+}
+
+/** Era production/consumption modifiers */
+export interface EraModifier {
+  production: number;
+  consumption: number;
+}

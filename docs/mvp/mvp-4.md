@@ -1,7 +1,7 @@
 # MVP 4 - Eras e Progressão
 
-> **Status:** Não iniciado  
-> **Tempo estimado:** 2-3 dias  
+> **Status:** ✅ Concluído (29/12/2024)  
+> **Tempo real:** 1 dia  
 > **Pré-requisito:** MVP 3
 >
 > ⚠️ **Valores:** Consulte [`../game/balance.md`](../game/balance.md) e [`../game/eras.md`](../game/eras.md)

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   BuildPanel,
+  EraProgress,
   EventCard,
   GameOverScreen,
   ResourceBar,
@@ -66,8 +67,13 @@ export function GameCanvas() {
       <div className={styles.gameArea} style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
         <div id="game-container" ref={containerRef} className={styles.gameContainer} />
 
-        {/* Right panel with build options */}
-        {!isLoading && <BuildPanel />}
+        {/* Right panel with build options and era progress */}
+        {!isLoading && (
+          <div className={styles.rightPanel}>
+            <EraProgress />
+            <BuildPanel />
+          </div>
+        )}
       </div>
 
       {/* Game Over screen - shows when game is over */}

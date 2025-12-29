@@ -4,25 +4,20 @@
  */
 
 import type { BuildingType, Resources } from '@stonefall/shared';
-import { BUILDINGS, STONE_AGE_BUILDINGS } from '@stonefall/shared';
+import { BUILDINGS } from '@stonefall/shared';
 import { formatResource } from '@/game/managers';
-import { selectEra, selectPlacementMode, selectResources, useGameStore } from '@/store';
+import { selectPlacementMode, selectResources, useGameStore } from '@/store';
 import styles from './BuildPanel.module.css';
 
 export function BuildPanel() {
   const resources = useGameStore(selectResources);
-  const era = useGameStore(selectEra);
   const placementMode = useGameStore(selectPlacementMode);
   const setPlacementMode = useGameStore((s) => s.setPlacementMode);
   const canAfford = useGameStore((s) => s.canAfford);
+  const getAvailableBuildings = useGameStore((s) => s.getAvailableBuildings);
 
-  // Get available buildings for current era
-  const availableBuildings = STONE_AGE_BUILDINGS.filter((type) => {
-    const def = BUILDINGS[type];
-    // Town Center is auto-placed, don't show in panel
-    if (type === 'town_center') return false;
-    return def.era === era || def.era === 'stone';
-  });
+  // Get available buildings for current era (dynamically)
+  const availableBuildings = getAvailableBuildings();
 
   const handleBuildClick = (type: BuildingType) => {
     if (placementMode === type) {

@@ -88,7 +88,7 @@ export const BASE_MAX_POPULATION = 10;
 export const POPULATION_CONSUMPTION_RATE = 0.3;
 
 /** Population growth: +1 every N ticks when food > 0 */
-export const POPULATION_GROWTH_INTERVAL = 20;
+export const POPULATION_GROWTH_INTERVAL = 10;
 
 /** Population death: -1 every N ticks when food debt > threshold */
 export const POPULATION_DEATH_INTERVAL = 5;
@@ -121,9 +121,9 @@ export const BUILDINGS: Record<BuildingType, BuildingDefinition> = {
     name: 'Town Center',
     cost: {},
     production: {
-      [ResourceType.Food]: 1.5,
-      [ResourceType.Wood]: 1,
-      [ResourceType.Stone]: 0.5,
+      [ResourceType.Food]: 0.8,
+      [ResourceType.Wood]: 0.5,
+      [ResourceType.Stone]: 0.2,
     },
     populationBonus: 10,
     hp: 500,
@@ -146,7 +146,7 @@ export const BUILDINGS: Record<BuildingType, BuildingDefinition> = {
     type: BuildingType.Farm,
     name: 'Farm',
     cost: { [ResourceType.Wood]: 15, [ResourceType.Stone]: 5 },
-    production: { [ResourceType.Food]: 3 },
+    production: { [ResourceType.Food]: 1.5 },
     populationBonus: 0,
     hp: 50,
     era: Era.Stone,
@@ -157,7 +157,7 @@ export const BUILDINGS: Record<BuildingType, BuildingDefinition> = {
     type: BuildingType.Sawmill,
     name: 'Sawmill',
     cost: { [ResourceType.Stone]: 20 },
-    production: { [ResourceType.Wood]: 2 },
+    production: { [ResourceType.Wood]: 1 },
     populationBonus: 0,
     hp: 75,
     era: Era.Stone,
@@ -168,7 +168,7 @@ export const BUILDINGS: Record<BuildingType, BuildingDefinition> = {
     type: BuildingType.Mine,
     name: 'Mine',
     cost: { [ResourceType.Wood]: 30, [ResourceType.Stone]: 15 },
-    production: { [ResourceType.Stone]: 2 },
+    production: { [ResourceType.Stone]: 1 },
     populationBonus: 0,
     hp: 100,
     era: Era.Stone,
@@ -179,7 +179,7 @@ export const BUILDINGS: Record<BuildingType, BuildingDefinition> = {
     type: BuildingType.GoldMine,
     name: 'Gold Mine',
     cost: { [ResourceType.Wood]: 40, [ResourceType.Stone]: 30 },
-    production: { [ResourceType.Gold]: 1 },
+    production: { [ResourceType.Gold]: 0.2 },
     populationBonus: 0,
     hp: 100,
     era: Era.Bronze,
@@ -230,3 +230,45 @@ export const STONE_AGE_BUILDINGS: BuildingType[] = [
 /** Total map size in pixels */
 export const MAP_WIDTH_PX = GRID_WIDTH * TILE_SIZE;
 export const MAP_HEIGHT_PX = GRID_HEIGHT * TILE_SIZE;
+
+// =============================================================================
+// ERA PROGRESSION (MVP 4)
+// =============================================================================
+
+import type { EraModifier, EraRequirements } from '../types/game';
+
+/** Requirements to advance to each era (null = starting era) */
+export const ERA_REQUIREMENTS: Record<Era, EraRequirements | null> = {
+  [Era.Stone]: null,
+  [Era.Bronze]: {
+    resources: { [ResourceType.Stone]: 150 },
+    population: 12,
+    buildings: [BuildingType.Mine],
+  },
+  [Era.Iron]: {
+    resources: { [ResourceType.Stone]: 150, [ResourceType.Gold]: 100 },
+    population: 30,
+    buildings: [BuildingType.Barracks],
+  },
+};
+
+/** Production and consumption modifiers per era */
+export const ERA_MODIFIERS: Record<Era, EraModifier> = {
+  [Era.Stone]: { production: 1.0, consumption: 1.0 },
+  [Era.Bronze]: { production: 1.5, consumption: 1.2 },
+  [Era.Iron]: { production: 2.0, consumption: 1.5 },
+};
+
+/** Get next era (or null if at final era) */
+export const NEXT_ERA: Record<Era, Era | null> = {
+  [Era.Stone]: Era.Bronze,
+  [Era.Bronze]: Era.Iron,
+  [Era.Iron]: null,
+};
+
+/** Era display names */
+export const ERA_NAMES: Record<Era, string> = {
+  [Era.Stone]: 'Idade da Pedra',
+  [Era.Bronze]: 'Idade do Bronze',
+  [Era.Iron]: 'Idade do Ferro',
+};
