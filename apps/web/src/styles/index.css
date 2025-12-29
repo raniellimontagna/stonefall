@@ -1,41 +1,63 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import "tailwindcss";
+
+@theme {
+  --color-stone-900: #1c1917;
+  --color-stone-800: #292524;
+  --color-stone-700: #44403c;
+  --color-stone-600: #57534e;
+  --color-stone-500: #78716c;
+  --color-stone-400: #a8a29e;
+  --color-stone-300: #d6d3d1;
+  --color-stone-200: #e7e5e4;
+  --color-stone-100: #f5f5f4;
+  --color-stone-50: #fafaf9;
+
+  --color-wood-dark: #3e2723;
+  --color-wood-main: #5d4037;
+  --color-wood-light: #795548;
+  --color-wood-accent: #8d6e63;
+
+  --color-grass-dark: #33691e;
+  --color-grass-main: #558b2f;
+  --color-grass-light: #7cb342;
+  --color-grass-accent: #aed581;
+  
+  --color-gold-dark: #ff8f00;
+  --color-gold-main: #ffc107;
+  --color-gold-light: #ffecb3;
+
+  --font-game: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  
+  --animate-bounce-short: bounce-short 0.5s infinite;
 }
 
-html,
-body,
-#root {
-  width: 100%;
+@keyframes bounce-short {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Base Styles */
+html, body, #root {
   height: 100%;
+  width: 100%;
   overflow: hidden;
-  background-color: #1a1a2e;
+  background-color: var(--color-stone-900);
+  color: var(--color-stone-100);
+  font-family: var(--font-game);
 }
 
-#game-container {
-  width: 100%;
-  height: 100%;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
-
-/* Loading screen */
-.loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: #ffffff;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+::-webkit-scrollbar-track {
+  background: var(--color-stone-800); 
 }
-
-.loading h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  color: #ffd700;
+::-webkit-scrollbar-thumb {
+  background: var(--color-stone-600); 
+  border-radius: 4px;
 }
-
-.loading p {
-  font-size: 1rem;
-  opacity: 0.7;
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-stone-500); 
 }

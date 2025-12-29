@@ -4,6 +4,7 @@ export {
   selectGameOver,
   selectGameSpeed,
   selectIsPaused,
+  selectPendingEvent,
   selectPlacementMode,
   selectPopulation,
   selectProduction,

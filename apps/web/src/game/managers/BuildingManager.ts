@@ -22,18 +22,6 @@ import {
 } from '@stonefall/shared';
 import type Phaser from 'phaser';
 
-/** Building colors for placeholder rendering */
-const BUILDING_COLORS: Record<string, number> = {
-  town_center: 0x8b4513, // SaddleBrown
-  house: 0xdeb887, // BurlyWood
-  farm: 0xf4a460, // SandyBrown
-  sawmill: 0x654321, // DarkBrown
-  mine: 0x2f4f4f, // DarkSlateGray
-  gold_mine: 0xffd700, // Gold
-  barracks: 0x8b0000, // DarkRed
-  defense_tower: 0x696969, // DimGray
-};
-
 export interface PlacementValidation {
   valid: boolean;
   reason?: string;
@@ -46,7 +34,7 @@ export class BuildingManager {
   private scene: Phaser.Scene;
   private buildingsContainer: Phaser.GameObjects.Container | null = null;
   private previewGraphics: Phaser.GameObjects.Graphics | null = null;
-  private buildings: Map<string, Phaser.GameObjects.Rectangle> = new Map();
+  private buildings: Map<string, Phaser.GameObjects.Image> = new Map();
 
   constructor(scene: Phaser.Scene) {
     this.scene = scene;
@@ -70,35 +58,34 @@ export class BuildingManager {
     const { col, row } = building.position;
     const x = col * TILE_SIZE + TILE_SIZE / 2;
     const y = row * TILE_SIZE + TILE_SIZE / 2;
-    const color = BUILDING_COLORS[building.type] ?? 0x888888;
+    const textureKey = `building_${building.type}`;
 
-    // Create building rectangle
-    const rect = this.scene.add.rectangle(x, y, TILE_SIZE - 4, TILE_SIZE - 4, color);
-    rect.setStrokeStyle(2, 0x000000);
-    rect.setData('buildingId', building.id);
+    // Create building sprite
+    const sprite = this.scene.add.image(x, y, textureKey);
 
-    this.buildingsContainer.add(rect);
-    this.buildings.set(building.id, rect);
+    // Set origin to center for consistent positioning
+    sprite.setOrigin(0.5, 0.5);
 
-    // Add building type initial as text
-    const def = BUILDINGS[building.type];
-    const initial = def.name.charAt(0).toUpperCase();
-    const text = this.scene.add.text(x, y, initial, {
-      fontSize: '20px',
-      color: '#ffffff',
-      fontStyle: 'bold',
-    });
-    text.setOrigin(0.5);
-    this.buildingsContainer.add(text);
+    // Enforce size to fit the tile (assets might be high-res)
+    sprite.setDisplaySize(TILE_SIZE, TILE_SIZE);
+
+    // Store ID for reference
+    sprite.setData('buildingId', building.id);
+
+    // Adjust scale/depth if needed (Town Center is larger)
+    // Town Center (128px) will naturally overhang the 64px tile, which is desired for visual impact
+
+    this.buildingsContainer.add(sprite);
+    this.buildings.set(building.id, sprite);
   }
 
   /**
    * Remove a building from the display
    */
   removeBuilding(id: string): void {
-    const rect = this.buildings.get(id);
-    if (rect) {
-      rect.destroy();
+    const sprite = this.buildings.get(id);
+    if (sprite) {
+      sprite.destroy();
       this.buildings.delete(id);
     }
   }
@@ -138,8 +125,8 @@ export class BuildingManager {
    * Clear all buildings from display
    */
   clear(): void {
-    for (const rect of this.buildings.values()) {
-      rect.destroy();
+    for (const sprite of this.buildings.values()) {
+      sprite.destroy();
     }
     this.buildings.clear();
     this.buildingsContainer?.removeAll(true);

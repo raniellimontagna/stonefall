@@ -1,278 +1,80 @@
-# MVP 6 - Narrativa e Polish
+# MVP 6 - UI/UX Overhaul & Asset Polish
 
-> **Status:** Não iniciado  
-> **Tempo estimado:** 3-4 dias  
-> **Pré-requisito:** MVP 5
->
-> Este é o MVP final - prepara o jogo para versão 1.0 jogável.
+> **Status:** Planning
+> **Estimated Time:** 3-5 days
+> **Prerequisites:** MVP 5 (Core Mechanics)
 
-## Objetivo
+This MVP shifts focus from narrative/polish (moved to MVP 7) to a complete UI/UX overhaul, establishing the game's visual identity, responsiveness, and "juice" (animations/sounds).
 
-Criar sistema de crônica da civilização, telas de vitória/derrota e refinamentos gerais.
+## Objectives
 
-## User Stories
+1.  **Visual Redesign:** Recreate the design from scratch using a focused art direction ("Nanobanana").
+2.  **Mobile-First:** Ensure fully responsive and touch-friendly interface for both Mobile and Web.
+3.  **Asset Generation:** Create high-quality assets using the defined AI workflow.
+4.  **Juice:** Polish the experience with animations, visual effects, and sound.
 
-- [ ] Como jogador, quero ver uma linha do tempo da minha civilização
-- [ ] Como jogador, quero receber um resumo narrativo ao final do jogo
-- [ ] Como jogador, quero uma tela de vitória épica
-- [ ] Como jogador, quero poder reiniciar facilmente
-- [ ] Como jogador, quero uma experiência visual polida
+## Features & User Stories
 
-## Tasks Técnicas
+### 1. Visual Identity
+*   [ ] Define color palette (Stone Age themes: Earthy tones + Vibrant accents).
+*   [ ] Establish typography (Readable + Thematic).
+*   [ ] Create UI Component System (Buttons, Panels, Modals, Inputs).
 
-### 1. Sistema de Crônica
+### 2. Assets (Nanobanana Workflow)
+*   [ ] Generate specific assets for resources (Food, Wood, Stone, Gold).
+*   [ ] Generate building sprites (Houses, Storage, Barracks).
+*   [ ] Generate unit icons/sprites.
+*   [ ] Generate UI elements (Frames, Icons, Backgrounds).
 
-- [ ] Criar tipo `ChronicleEntry`
-- [ ] Registrar eventos importantes (construções, eras, batalhas, eventos)
-- [ ] Armazenar no store
-- [ ] Criar componente `ChronicleTimeline`
-- [ ] Permitir visualizar crônica durante o jogo
+### 3. Responsive UI (Mobile First)
+*   [ ] **Main Dashboard:** Stacked layout on mobile, grid on desktop.
+*   [ ] **Game Board:** Pinch/zoom or optimized touch controls for map.
+*   [ ] **Combat/Rival Screen:** Clear visualization of stats on small screens.
+*   [ ] **Navigation:** Bottom tab bar for mobile, sidebar/top bar for desktop.
 
-### 2. Resumo Final (IA)
+### 4. Audio & Visual FX
+*   [ ] **Sound Effects (SFX):** Click, Build, Collect, Battle, Error/Success.
+*   [ ] **Background Music:** Ambient loop.
+*   [ ] **Animations:**
+    *   Button hover/press states.
+    *   Panel slide-ins/modals.
+    *   Resource number counting (ticking up).
+    *   Combat impact effects (shakes, flashes).
 
-- [ ] Criar endpoint `/api/chronicle/summarize`
-- [ ] Enviar histórico completo para IA
-- [ ] Receber narrativa épica da civilização
-- [ ] Exibir na tela de fim de jogo
+## Tech Stack & Tools
 
-### 3. Telas de Fim de Jogo
+*   **Styling:** Tailwind CSS (for rapid, responsive styling).
+*   **Animations:** Framer Motion (for React UI animations).
+*   **Icons:** Lucide React (for functional icons), AI-generated for game icons.
+*   **Audio:** Howler.js.
+*   **Assets:** "Nanobanana" (AI Generation workflow).
 
-- [ ] Criar componente `VictoryScreen`
-- [ ] Criar componente `DefeatScreen`
-- [ ] Mostrar estatísticas (duração, população máx, construções, etc)
-- [ ] Exibir resumo narrativo
-- [ ] Botões: "Jogar Novamente", "Ver Crônica"
+## Tasks
 
-### 4. Polish Visual
+### Phase 1: Setup & Assets
+1.  Install Tailwind CSS, Framer Motion, Howler.js.
+2.  Configure Tailwind theme (colors, fonts).
+3.  **Asset Generation:** (Run `generate_image` based on prompts).
 
-- [ ] Melhorar animações de UI
-- [ ] Adicionar feedback visual para ações
-- [ ] Refinar cores e tipografia
-- [ ] Adicionar ícones para construções
-- [ ] Melhorar responsividade
+### Phase 2: Design System & Components
+4.  Create `GameButton`, `GamePanel`, `ResourceBadge` components.
+5.  Create `Layout` components (MobileMainLayout).
 
-### 5. Polish de UX
+### Phase 3: Screen Redesign
+6.  **Login/Register:** Simple, thematic entry.
+7.  **Dashboard/Home:** Show Civ overview + Start Game.
+8.  **Match/Game Loop:** The main active gameplay screen.
+    *   Map View.
+    *   Build Menu (Bottom sheet on mobile?).
+    *   Resources Bar.
+9.  **Rival/Combat View.**
 
-- [ ] Tutorial básico (primeiro jogo)
-- [ ] Tooltips informativos
-- [ ] Atalhos de teclado
-- [ ] Confirmações para ações importantes
-- [ ] Mensagens de erro amigáveis
+### Phase 4: Juice
+10. Add SFX to interactions.
+11. Add transitions between screens.
+12. Add "crunch" to combat (visual feedback).
 
-### 6. Balanceamento Final
-
-- [ ] Playtest completo
-- [ ] Ajustar valores de balance.md conforme necessário
-- [ ] Garantir que jogo é completável em ~15min
-
-## Sistema de Crônica
-
-### Estrutura
-
-```typescript
-interface ChronicleEntry {
-  id: string;
-  tick: number;
-  era: Era;
-  type: 'building' | 'era' | 'event' | 'combat' | 'milestone';
-  title: string;
-  description: string;
-  icon?: string;
-}
-
-interface Chronicle {
-  civilizationName: string;
-  startedAt: Date;
-  entries: ChronicleEntry[];
-  finalSummary?: string; // Gerado pela IA no fim
-}
-```
-
-### Eventos Registrados
-
-| Tipo      | Quando Registrar                    |
-| --------- | ----------------------------------- |
-| building  | Primeira construção de cada tipo    |
-| era       | Mudança de era                      |
-| event     | Evento importante (escolha do jogo) |
-| combat    | Batalhas significativas             |
-| milestone | População 20, 50, etc               |
-
-## Prompt para Resumo Final
-
-```
-Você é um historiador narrando a saga de uma civilização.
-
-Nome da civilização: {civName}
-Duração: {duration} ciclos (ticks)
-Era final: {finalEra}
-Resultado: {victory/defeat}
-
-Eventos importantes:
-{chronileEntries}
-
-Escreva um resumo épico de 3-4 parágrafos sobre a ascensão 
-(e possível queda) desta civilização. Use um tom grandioso 
-e poético, como um livro de história antiga.
-```
-
-## UI - Tela de Vitória
-
-```
-┌─────────────────────────────────────────────────────┐
-│                                                     │
-│               🏆 VITÓRIA! 🏆                        │
-│                                                     │
-│    Sua civilização triunfou sobre os rivais        │
-│    e ergueu-se como o maior império da era!        │
-│                                                     │
-├─────────────────────────────────────────────────────┤
-│                                                     │
-│    [Resumo narrativo gerado pela IA aqui]          │
-│    ...                                              │
-│    ...                                              │
-│                                                     │
-├─────────────────────────────────────────────────────┤
-│  📊 ESTATÍSTICAS                                   │
-│  ─────────────────────────────                     │
-│  Duração: 847 ticks (~14 minutos)                  │
-│  Era final: Idade do Ferro                         │
-│  População máxima: 42                              │
-│  Construções: 23                                   │
-│  Batalhas vencidas: 5                              │
-│  Eventos enfrentados: 12                           │
-│                                                     │
-├─────────────────────────────────────────────────────┤
-│  [🔄 Jogar Novamente]  [📜 Ver Crônica Completa]   │
-└─────────────────────────────────────────────────────┘
-```
-
-## UI - Linha do Tempo
-
-```
-┌─────────────────────────────────────────────────────┐
-│  📜 CRÔNICA DA CIVILIZAÇÃO                         │
-├─────────────────────────────────────────────────────┤
-│                                                     │
-│  IDADE DA PEDRA                                    │
-│  ○───────────────────────────────────○              │
-│  │                                                  │
-│  ├─ Tick 1: Fundação do Centro da Vila             │
-│  ├─ Tick 45: Primeira Fazenda construída           │
-│  ├─ Tick 82: Evento: "Migração de Animais"         │
-│  │                                                  │
-│  IDADE DO BRONZE                                   │
-│  ○───────────────────────────────────○              │
-│  │                                                  │
-│  ├─ Tick 180: Avanço para Idade do Bronze          │
-│  ├─ Tick 195: Primeiro contato com [Rival]         │
-│  ├─ Tick 250: Quartel construído                   │
-│  │                                                  │
-│  IDADE DO FERRO                                    │
-│  ○───────────────────────────────────○              │
-│  │                                                  │
-│  └─ Tick 420: Vitória sobre [Rival]                │
-│                                                     │
-└─────────────────────────────────────────────────────┘
-```
-
-## Polish - Atalhos de Teclado
-
-| Tecla    | Ação                     |
-| -------- | ------------------------ |
-| Space    | Pausar/Continuar         |
-| 1, 2, 3  | Velocidade 1x, 2x, 4x    |
-| B        | Abrir painel de build    |
-| C        | Abrir crônica            |
-| Escape   | Cancelar modo construção |
-| M        | Ver status militar       |
-| R        | Ver rival                |
-
-## Polish - Feedback Visual
-
-- [ ] Flash nos recursos quando mudam
-- [ ] Animação de construção (fade in)
-- [ ] Shake na câmera em eventos dramáticos
-- [ ] Partículas de celebração na vitória
-- [ ] Overlay vermelho em game over
-
-## Estatísticas do Jogo
-
-```typescript
-interface GameStatistics {
-  duration: number; // ticks
-  realTimePlayed: number; // segundos
-  finalEra: Era;
-  maxPopulation: number;
-  totalBuildings: number;
-  totalBattles: number;
-  battlesWon: number;
-  eventsEncountered: number;
-  resourcesGathered: Resources;
-}
-```
-
-## Critérios de Aceite
-
-- [ ] Crônica registra eventos automaticamente
-- [ ] Posso ver crônica durante o jogo
-- [ ] Tela de vitória aparece ao derrotar rival
-- [ ] Tela de derrota aparece ao perder
-- [ ] Resumo narrativo é gerado pela IA
-- [ ] Estatísticas são calculadas corretamente
-- [ ] Posso reiniciar o jogo facilmente
-- [ ] Atalhos de teclado funcionam
-- [ ] UI está polida e responsiva
-
-## Arquivos a Criar/Modificar
-
-```
-packages/shared/src/
-└── types/
-    └── chronicle.ts       # Tipos da crônica
-
-apps/api/src/
-├── services/
-│   └── chronicleSummarizer.ts  # Gerador de resumo
-└── routes/
-    └── chronicle.ts       # Endpoint de resumo
-
-apps/web/src/
-├── components/ui/
-│   ├── ChronicleTimeline.tsx   # Linha do tempo
-│   ├── VictoryScreen.tsx       # Tela de vitória
-│   ├── DefeatScreen.tsx        # Tela de derrota
-│   └── GameStats.tsx           # Estatísticas
-├── store/
-│   └── gameStore.ts       # Adicionar crônica + stats
-└── styles/
-    └── polish.css         # Animações e refinamentos
-```
-
-## Pós-MVP 6 (Futuro)
-
-Após MVP 6, o jogo está completo para versão 1.0. Melhorias futuras:
-
-- [ ] Salvar/carregar partidas
-- [ ] Mais eras (Medieval, Renascimento)
-- [ ] Múltiplos rivais
-- [ ] Árvore tecnológica
-- [ ] Customização de mapas
-- [ ] Modo mobile responsivo
-- [ ] Leaderboard online
-- [ ] Multiplayer assíncrono
-
----
-
-## 🎉 Parabéns!
-
-Se você chegou até aqui, Stonefall está pronto para jogar!
-
-**Versão 1.0 completa:**
-- ✅ Mapa e câmera
-- ✅ Recursos e construções
-- ✅ População e economia
-- ✅ Eventos gerados por IA
-- ✅ Progressão de eras
-- ✅ Rival e combate
-- ✅ Crônica e narrativa
+## Verification
+*   **Mobile Test:** Verify playability on phone viewport (Chrome DevTools).
+*   **Desktop Test:** Verify layout scaling.
+*   **Asset Consistency:** Ensure all generated assets match style guide.

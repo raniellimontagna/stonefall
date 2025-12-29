@@ -37,6 +37,7 @@ export const TILE_WEIGHTS: Record<TileType, number> = {
   [TileType.Forest]: 25,
   [TileType.Mountain]: 15,
   [TileType.Water]: 8,
+  [TileType.Sand]: 0, // Generated procedurally, not weighted
   [TileType.Gold]: 2,
 };
 
@@ -46,6 +47,7 @@ export const TILE_COLORS: Record<TileType, number> = {
   [TileType.Forest]: 0x228b22, // Forest green
   [TileType.Mountain]: 0x808080, // Gray
   [TileType.Water]: 0x4169e1, // Royal blue
+  [TileType.Sand]: 0xf4a460, // Sandy brown
   [TileType.Gold]: 0xffd700, // Gold
 };
 
@@ -128,7 +130,7 @@ export const BUILDINGS: Record<BuildingType, BuildingDefinition> = {
     populationBonus: 10,
     hp: 500,
     era: Era.Stone,
-    validTiles: [TileType.Plains, TileType.Forest],
+    validTiles: [TileType.Plains],
     limit: 1,
   },
   [BuildingType.House]: {
@@ -139,7 +141,7 @@ export const BUILDINGS: Record<BuildingType, BuildingDefinition> = {
     populationBonus: 5,
     hp: 100,
     era: Era.Stone,
-    validTiles: [TileType.Plains, TileType.Forest],
+    validTiles: [TileType.Plains],
     limit: null,
   },
   [BuildingType.Farm]: {

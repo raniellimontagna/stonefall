@@ -1,22 +1,16 @@
-/**
- * StarvationAlert Component
- * Shows warning when food is negative and critical alert near game over
- */
-
+import { DangerTriangle } from '@solar-icons/react';
 import { FOOD_DEBT_THRESHOLD, FOOD_GAME_OVER_THRESHOLD, ResourceType } from '@stonefall/shared';
+import { cn } from '@/lib/utils';
 import { selectResources, useGameStore } from '@/store';
-import styles from './StarvationAlert.module.css';
 
 export function StarvationAlert() {
   const resources = useGameStore(selectResources);
   const food = resources[ResourceType.Food];
 
-  // No alert if food is positive
   if (food >= 0) {
     return null;
   }
 
-  // Calculate severity (0 = just negative, 1 = critical/near game over)
   const severity =
     food <= FOOD_DEBT_THRESHOLD
       ? food <= FOOD_GAME_OVER_THRESHOLD * 0.7
@@ -24,21 +18,26 @@ export function StarvationAlert() {
         : 'warning'
       : 'caution';
 
-  const getMessage = () => {
-    switch (severity) {
-      case 'critical':
-        return '⚠️ CRITICAL: Famine! Population dying rapidly!';
-      case 'warning':
-        return '⚠️ WARNING: Starvation! Build farms immediately!';
-      default:
-        return '⚠️ CAUTION: Food shortage! Increase production!';
-    }
-  };
-
   return (
-    <div className={`${styles.alert} ${styles[severity]}`}>
-      <span className={styles.message}>{getMessage()}</span>
-      <span className={styles.foodAmount}>Food: {food}</span>
+    <div
+      className={cn(
+        'flex items-center gap-2 px-3 py-1.5 rounded-lg border shadow-lg animate-pulse',
+        severity === 'critical'
+          ? 'bg-red-900/90 text-red-100 border-red-500'
+          : severity === 'warning'
+            ? 'bg-orange-900/90 text-orange-100 border-orange-500'
+            : 'bg-yellow-900/80 text-yellow-100 border-yellow-600'
+      )}
+    >
+      {severity === 'critical' ? (
+        <DangerTriangle size={18} weight="Bold" />
+      ) : (
+        <DangerTriangle size={18} weight="Linear" />
+      )}
+      <div className="flex flex-col leading-none">
+        <span className="text-xs font-bold uppercase tracking-wider">{severity}</span>
+        <span className="font-mono font-bold">Food: {Math.floor(food)}</span>
+      </div>
     </div>
   );
 }

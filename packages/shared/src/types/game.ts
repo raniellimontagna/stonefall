@@ -9,6 +9,7 @@ export enum TileType {
   Forest = 'forest',
   Mountain = 'mountain',
   Water = 'water',
+  Sand = 'sand',
   Gold = 'gold',
 }
 

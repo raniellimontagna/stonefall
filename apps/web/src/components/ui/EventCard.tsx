@@ -1,21 +1,13 @@
-/**
- * EventCard Component
- * Modal display for game events with player choices
- */
-
 import type { EventChoice, EventEffect, GameEvent } from '@stonefall/shared';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useMemo } from 'react';
-import { selectPendingEvent, selectResources, useGameStore } from '../../store/gameStore';
-import styles from './EventCard.module.css';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { cn } from '@/lib/utils';
+import { selectPendingEvent, selectResources, useGameStore } from '@/store';
 
-// =============================================================================
-// HELPERS
-// =============================================================================
-
-/** Get icon for event type */
 const getEventIcon = (event: GameEvent): string => {
   if (event.icon) return event.icon;
-
   const icons: Record<string, string> = {
     economic: '🌾',
     social: '👥',
@@ -23,21 +15,19 @@ const getEventIcon = (event: GameEvent): string => {
     military: '⚔️',
     political: '🏛️',
   };
-
   return icons[event.type] || '📜';
 };
 
-/** Format effect for display */
 const formatEffect = (effect: EventEffect): string => {
   const targetLabels: Record<string, string> = {
-    food: '🍖 Comida',
-    wood: '🪵 Madeira',
-    stone: '🪨 Pedra',
-    gold: '🪙 Ouro',
-    current: '👤 População',
-    max: '👥 Pop. Máx',
-    strength: '⚔️ Força',
-    defense: '🛡️ Defesa',
+    food: 'Food',
+    wood: 'Wood',
+    stone: 'Stone',
+    gold: 'Gold',
+    current: 'Pop',
+    max: 'Max Pop',
+    strength: 'Strength',
+    defense: 'Defense',
   };
 
   const label = targetLabels[effect.target] || effect.target;
@@ -47,23 +37,16 @@ const formatEffect = (effect: EventEffect): string => {
   return `${label}: ${sign}${effect.value}${suffix}`;
 };
 
-/** Check if player can afford choice requirements */
 const canAffordChoice = (choice: EventChoice, resources: Record<string, number>): boolean => {
   if (!choice.requirements) return true;
-
   for (const [key, value] of Object.entries(choice.requirements)) {
     const resourceValue = resources[key];
     if (value !== undefined && resourceValue !== undefined && resourceValue < value) {
       return false;
     }
   }
-
   return true;
 };
-
-// =============================================================================
-// COMPONENT
-// =============================================================================
 
 export const EventCard = () => {
   const pendingEvent = useGameStore(selectPendingEvent);
@@ -90,56 +73,79 @@ export const EventCard = () => {
   if (!pendingEvent) return null;
 
   return (
-    <div className={styles.overlay}>
-      <div className={styles.card}>
-        {/* Header */}
-        <div className={styles.header}>
-          <span className={styles.icon}>{getEventIcon(pendingEvent)}</span>
-          <h2 className={styles.title}>{pendingEvent.title}</h2>
-        </div>
+    <AnimatePresence>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.9, opacity: 0 }}
+        >
+          <Card
+            variant="wood"
+            className="w-full max-w-lg shadow-2xl border-4 border-gold-dark relative"
+          >
+            {/* Header */}
+            <div className="flex flex-col items-center mb-4 text-center">
+              <div className="text-5xl mb-2 filter drop-shadow-md">
+                {getEventIcon(pendingEvent)}
+              </div>
+              <h2 className="text-2xl font-bold text-gold-light uppercase tracking-wide drop-shadow-md">
+                {pendingEvent.title}
+              </h2>
+              <span className="text-xs uppercase bg-stone-900/50 px-2 py-0.5 rounded text-stone-400 mt-1">
+                {pendingEvent.type} Event
+              </span>
+            </div>
 
-        {/* Description */}
-        <p className={styles.description}>{pendingEvent.description}</p>
+            {/* Description */}
+            <p className="text-stone-200 mb-6 text-center italic bg-stone-900/30 p-3 rounded-lg border border-stone-800">
+              "{pendingEvent.description}"
+            </p>
 
-        {/* Choices */}
-        <div className={styles.choices}>
-          {pendingEvent.choices.map((choice) => {
-            const canAfford = canAffordChoice(choice, resourcesRecord);
+            {/* Choices */}
+            <div className="flex flex-col gap-3">
+              {pendingEvent.choices.map((choice: EventChoice) => {
+                const canAfford = canAffordChoice(choice, resourcesRecord);
 
-            return (
-              <button
-                type="button"
-                key={choice.id}
-                className={`${styles.choice} ${!canAfford ? styles.choiceDisabled : ''}`}
-                onClick={() => canAfford && handleChoice(choice.id)}
-                disabled={!canAfford}
-              >
-                <div className={styles.choiceText}>{choice.text}</div>
-                <div className={styles.choiceEffects}>
-                  {choice.effects.map((effect, index) => (
-                    <span
-                      key={`${effect.type}-${effect.target}-${index}`}
-                      className={`${styles.effect} ${
-                        effect.value > 0
-                          ? styles.effectPositive
-                          : effect.value < 0
-                            ? styles.effectNegative
-                            : styles.effectNeutral
-                      }`}
-                    >
-                      {formatEffect(effect)}
-                    </span>
-                  ))}
-                </div>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Event type label */}
-        <div className={styles.eventType}>{pendingEvent.type}</div>
+                return (
+                  <Button
+                    key={choice.id}
+                    variant={canAfford ? 'secondary' : 'ghost'}
+                    className={cn(
+                      'flex flex-col items-center p-4 h-auto border-2',
+                      canAfford
+                        ? 'border-wood-accent hover:border-gold-main'
+                        : 'opacity-50 grayscale border-transparent'
+                    )}
+                    onClick={() => canAfford && handleChoice(choice.id)}
+                    disabled={!canAfford}
+                  >
+                    <span className="font-bold text-lg">{choice.text}</span>
+                    <div className="flex flex-wrap gap-2 justify-center mt-1">
+                      {choice.effects.map((effect: EventEffect, index: number) => (
+                        <span
+                          key={`${effect.type}-${effect.target}-${index}`}
+                          className={cn(
+                            'text-xs px-1.5 py-0.5 rounded font-mono font-bold',
+                            effect.value > 0
+                              ? 'bg-green-900/50 text-green-300'
+                              : effect.value < 0
+                                ? 'bg-red-900/50 text-red-300'
+                                : 'bg-stone-700 text-stone-300'
+                          )}
+                        >
+                          {formatEffect(effect)}
+                        </span>
+                      ))}
+                    </div>
+                  </Button>
+                );
+              })}
+            </div>
+          </Card>
+        </motion.div>
       </div>
-    </div>
+    </AnimatePresence>
   );
 };
 
