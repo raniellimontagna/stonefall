@@ -100,10 +100,10 @@ Integrar IA para gerar eventos dinâmicos.
 
 ---
 
-## MVP 4 - Eras e Progressão ⏳
+## MVP 4 - Eras e Progressão ✅
 
-**Status:** Próximo
-**Tempo estimado:** 2-3 dias
+**Status:** Concluído (29/12/2024)
+**Tempo real:** 1 dia
 
 ### Objetivo
 
@@ -125,25 +125,25 @@ Sistema de evolução através das eras.
 
 ---
 
-## MVP 5 - Rival e Combate
+## MVP 5 - Rival e Combate ✅
 
-**Tempo estimado:** 4-5 dias
+**Status:** Concluído (29/12/2024)
+**Tempo real:** 1 dia
 
 ### Objetivo
 
-Adicionar oponente e sistema de conflito.
+Adicionar uma civilização rival e sistema de combate.
 
 ### Entregáveis
 
-- 1 civilização rival (IA)
-- Sistema de combate estratégico
-- Força militar e defesa
-- Ações: Atacar, Defender, Cerco, Negociar
-- Condições de vitória/derrota
+- Rival com nome, era, força, defesa, HP
+- Ações: Atacar (custo: 15 food, 5 gold) e Defender (10 food)
+- Força militar baseada em Quartéis, defesa em Torres
+- Condição de vitória: derrotar rival
 
 ### Resultado
 
-> Jogo completo com início, meio e fim
+> Sistema de combate funcional
 
 **Detalhes:** Ver `mvp-5.md`
 

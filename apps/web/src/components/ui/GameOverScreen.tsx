@@ -15,27 +15,33 @@ export function GameOverScreen() {
     return null;
   }
 
+  const isVictory = gameOver === 'victory';
+
   const getMessage = () => {
     switch (gameOver) {
       case 'starvation':
-        return 'Your civilization has perished from famine. The people could not survive without food.';
+        return 'Sua civilização pereceu de fome. O povo não conseguiu sobreviver sem comida.';
+      case 'defeat':
+        return 'Sua civilização foi derrotada pelo rival. Suas defesas não foram suficientes.';
+      case 'victory':
+        return 'Você derrotou a civilização rival e dominou a região! Glória eterna!';
       default:
-        return 'Your civilization has fallen.';
+        return 'A jornada da sua civilização chegou ao fim.';
     }
   };
 
   return (
     <div className={styles.overlay}>
-      <div className={styles.modal}>
-        <h1 className={styles.title}>💀 GAME OVER 💀</h1>
+      <div className={`${styles.modal} ${isVictory ? styles.victory : ''}`}>
+        <h1 className={styles.title}>{isVictory ? '🏆 VITÓRIA! 🏆' : '💀 GAME OVER 💀'}</h1>
         <p className={styles.message}>{getMessage()}</p>
         <div className={styles.stats}>
           <span>
-            Survived for: <strong>{tick}</strong> ticks
+            {isVictory ? 'Tempo de vitória' : 'Sobreviveu por'}: <strong>{tick}</strong> ticks
           </span>
         </div>
         <button type="button" className={styles.restartButton} onClick={resetGame}>
-          🔄 Try Again
+          🔄 {isVictory ? 'Jogar Novamente' : 'Tentar de Novo'}
         </button>
       </div>
     </div>

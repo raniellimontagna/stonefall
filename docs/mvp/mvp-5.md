@@ -1,7 +1,7 @@
 # MVP 5 - Rival e Combate
 
-> **Status:** Não iniciado  
-> **Tempo estimado:** 4-5 dias  
+> **Status:** ✅ Concluído (29/12/2024)  
+> **Tempo real:** 1 dia  
 > **Pré-requisito:** MVP 4
 >
 > ⚠️ **Valores:** Consulte [`../game/balance.md`](../game/balance.md), [`../game/rivals.md`](../game/rivals.md) e [`../game/combat.md`](../game/combat.md)

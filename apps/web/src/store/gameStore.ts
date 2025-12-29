@@ -6,18 +6,25 @@
 import type {
   Building,
   BuildingType,
+  CombatResult,
   GameEvent,
   GameOverReason,
   GameSpeed,
   GameState,
   MapData,
+  MilitaryStatus,
   ProductionRates,
   ResolvedEvent,
   Resources,
 } from '@stonefall/shared';
 import {
+  ATTACK_COST,
+  BARRACKS_STRENGTH,
   BASE_MAX_POPULATION,
   BUILDINGS,
+  COMBAT_COOLDOWN,
+  DEFEND_COST,
+  DEFEND_DURATION,
   ERA_MODIFIERS,
   ERA_REQUIREMENTS,
   Era,
@@ -34,7 +41,12 @@ import {
   POPULATION_DEATH_INTERVAL,
   POPULATION_GROWTH_INTERVAL,
   ResourceType,
+  RIVAL_DEFENSE,
+  RIVAL_ERA_ADVANCE_TICKS,
+  RIVAL_NAMES,
+  RIVAL_STRENGTH,
   TileType,
+  TOWER_DEFENSE,
 } from '@stonefall/shared';
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
@@ -82,6 +94,11 @@ interface GameActions {
   advanceEra: () => boolean;
   getAvailableBuildings: () => BuildingType[];
 
+  // Combat (MVP 5)
+  attack: () => CombatResult | null;
+  defend: () => boolean;
+  calculateMilitary: () => MilitaryStatus;
+
   // Reset
   resetGame: () => void;
 }
@@ -128,6 +145,25 @@ const createInitialState = (): GameState => ({
   eventHistory: [],
   lastEventTick: 0,
   isGeneratingEvent: false,
+
+  // Rival and Combat (MVP 5)
+  rival: {
+    name: RIVAL_NAMES[Math.floor(Math.random() * RIVAL_NAMES.length)] ?? 'Os Ferringos',
+    era: Era.Stone,
+    strength: RIVAL_STRENGTH[Era.Stone],
+    defense: RIVAL_DEFENSE[Era.Stone],
+    population: 10, // Initial rival population
+    isDefeated: false,
+  },
+  military: {
+    strength: 0,
+    defense: 0,
+  },
+  combat: {
+    lastActionTick: 0,
+    isDefending: false,
+    defenseEndTick: 0,
+  },
 });
 
 // =============================================================================
@@ -233,6 +269,48 @@ export const useGameStore = create<GameStore>()(
         gameOver = 'starvation';
       }
 
+      // =====================================================================
+      // RIVAL PROGRESSION AND ATTACK (MVP 5)
+      // =====================================================================
+      let newRival = state.rival;
+
+      if (!state.rival.isDefeated && state.era !== Era.Stone) {
+        // Rival population growth: +1 every 30 ticks
+        if (newTick % 30 === 0 && state.rival.population < 50) {
+          newRival = {
+            ...newRival,
+            population: newRival.population + 1,
+          };
+        }
+
+        // Rival era progression: advances every RIVAL_ERA_ADVANCE_TICKS
+        if (newTick % RIVAL_ERA_ADVANCE_TICKS === 0) {
+          const nextRivalEra = NEXT_ERA[state.rival.era];
+          if (nextRivalEra) {
+            newRival = {
+              ...newRival,
+              era: nextRivalEra,
+              strength: RIVAL_STRENGTH[nextRivalEra],
+              defense: RIVAL_DEFENSE[nextRivalEra],
+            };
+          }
+        }
+
+        // Rival attacks player every 50 ticks if player is in Bronze Age+
+        if (newTick % 50 === 0 && !state.combat.isDefending) {
+          const military = get().calculateMilitary();
+          const rivalPower = state.rival.strength * (0.8 + Math.random() * 0.4);
+          const playerDefense = military.defense * (0.8 + Math.random() * 0.4);
+          // Kill 1-3 population based on power difference
+          const populationKilled = Math.max(1, Math.floor((rivalPower - playerDefense) / 20));
+          newPopulation = Math.max(0, newPopulation - populationKilled);
+
+          if (newPopulation <= 0) {
+            gameOver = 'defeat';
+          }
+        }
+      }
+
       set({
         tick: newTick,
         resources: newResources,
@@ -241,6 +319,7 @@ export const useGameStore = create<GameStore>()(
           current: newPopulation,
           consumptionPerTick: newPopulation * POPULATION_CONSUMPTION_RATE,
         },
+        rival: newRival,
         gameOver,
       });
 
@@ -679,6 +758,109 @@ export const useGameStore = create<GameStore>()(
       }
 
       return availableBuildings;
+    },
+
+    // =========================================================================
+    // COMBAT (MVP 5)
+    // =========================================================================
+
+    calculateMilitary: () => {
+      const state = get();
+      let strength = 0;
+      let defense = 0;
+
+      for (const building of state.buildings) {
+        if (building.type === 'barracks') {
+          strength += BARRACKS_STRENGTH;
+        }
+        if (building.type === 'defense_tower') {
+          defense += TOWER_DEFENSE;
+        }
+      }
+
+      return { strength, defense };
+    },
+
+    attack: () => {
+      const state = get();
+
+      // Check cooldown
+      if (state.tick - state.combat.lastActionTick < COMBAT_COOLDOWN) {
+        return null;
+      }
+
+      // Check cost
+      if (!get().canAfford(ATTACK_COST)) {
+        return null;
+      }
+
+      // Check if rival already defeated
+      if (state.rival.isDefeated) {
+        return null;
+      }
+
+      // Subtract cost
+      get().subtractResources(ATTACK_COST);
+
+      // Calculate population killed
+      const military = get().calculateMilitary();
+      const playerPower = military.strength * (0.8 + Math.random() * 0.4);
+      const rivalDefense = state.rival.defense * (0.8 + Math.random() * 0.4);
+
+      // Kill 1-5 population based on power difference
+      const populationKilled = Math.max(1, Math.floor((playerPower - rivalDefense / 2) / 10));
+      const newRivalPopulation = Math.max(0, state.rival.population - populationKilled);
+      const isDefeated = newRivalPopulation <= 0;
+
+      set({
+        combat: {
+          ...state.combat,
+          lastActionTick: state.tick,
+        },
+        rival: {
+          ...state.rival,
+          population: newRivalPopulation,
+          isDefeated,
+        },
+        gameOver: isDefeated ? 'victory' : null,
+      });
+
+      return {
+        action: 'attack' as const,
+        success: populationKilled > 0,
+        playerDamage: 0,
+        rivalDamage: populationKilled,
+        message: isDefeated
+          ? `Vitória! ${state.rival.name} foi derrotado!`
+          : `Você matou ${populationKilled} da população inimiga!`,
+      };
+    },
+
+    defend: () => {
+      const state = get();
+
+      // Check cooldown
+      if (state.tick - state.combat.lastActionTick < COMBAT_COOLDOWN) {
+        return false;
+      }
+
+      // Check cost
+      if (!get().canAfford(DEFEND_COST)) {
+        return false;
+      }
+
+      // Subtract cost
+      get().subtractResources(DEFEND_COST);
+
+      set({
+        combat: {
+          lastActionTick: state.tick,
+          isDefending: true,
+          defenseEndTick: state.tick + DEFEND_DURATION,
+        },
+      });
+
+      return true;
     },
 
     // =========================================================================

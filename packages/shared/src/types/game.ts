@@ -108,7 +108,7 @@ export interface PopulationState {
 export type GameSpeed = 1 | 2 | 4;
 
 /** Game over state */
-export type GameOverReason = 'starvation' | null;
+export type GameOverReason = 'starvation' | 'defeat' | 'victory' | null;
 
 /** Game state */
 export interface GameState {
@@ -140,6 +140,11 @@ export interface GameState {
   eventHistory: import('./events').ResolvedEvent[];
   lastEventTick: number;
   isGeneratingEvent: boolean;
+
+  // Rival and Combat (MVP 5)
+  rival: import('./rival').RivalState;
+  military: import('./rival').MilitaryStatus;
+  combat: import('./combat').CombatState;
 }
 
 // =============================================================================

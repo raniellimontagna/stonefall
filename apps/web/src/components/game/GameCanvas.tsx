@@ -5,6 +5,7 @@ import {
   EventCard,
   GameOverScreen,
   ResourceBar,
+  RivalPanel,
   StarvationAlert,
   TickDisplay,
 } from '@/components/ui';
@@ -67,10 +68,11 @@ export function GameCanvas() {
       <div className={styles.gameArea} style={{ visibility: isLoading ? 'hidden' : 'visible' }}>
         <div id="game-container" ref={containerRef} className={styles.gameContainer} />
 
-        {/* Right panel with build options and era progress */}
+        {/* Right panel with build options, era progress, and rival */}
         {!isLoading && (
           <div className={styles.rightPanel}>
             <EraProgress />
+            <RivalPanel />
             <BuildPanel />
           </div>
         )}

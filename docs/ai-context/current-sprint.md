@@ -1,35 +1,45 @@
-# Sprint Atual - MVP 4
+# Sprint Atual - MVP 6
 
 > **Última atualização:** 29/12/2024
 > **MVP 0:** ✅ Concluído
 > **MVP 1:** ✅ Concluído
 > **MVP 2:** ✅ Concluído
 > **MVP 3:** ✅ Concluído
+> **MVP 4:** ✅ Concluído
+> **MVP 5:** ✅ Concluído
 
-## Objetivo do MVP 4
+## Objetivo do MVP 6
 
-Implementar sistema de eras e progressão tecnológica.
+Narrativa e Polish.
 
-## Escopo do MVP 4
+## Escopo do MVP 6
 
-### Sistema de Eras 🔄
+### Narrativas por IA 🔄
 
-- [ ] Criar enum de eras (Stone, Bronze, Iron)
-- [ ] Adicionar requisitos de avanço por era
-- [ ] UI de progresso de era
-- [ ] Desbloqueio de construções por era
+- [ ] Gerar narrativa de batalhas
+- [ ] Personalidade do rival
+- [ ] Eventos de história
 
-### Novas Construções 🔄
+### Polish 🔄
 
-- [ ] Quartel (produz força militar)
-- [ ] Torre de Defesa (aumenta defesa)
-- [ ] Mina de Ouro (produz ouro)
+- [ ] Balanceamento final
+- [ ] Feedback visual melhorado
+- [ ] Tutorial/Onboarding
 
-### Progressão 🔄
+## Concluído no MVP 5
 
-- [ ] Sistema de requisitos (recursos + população)
-- [ ] Animação de transição de era
-- [ ] Notificação de desbloqueios
+### Sistema de Rival e Combate ✅
+
+- [x] RivalState com população
+- [x] Progressão do rival (era + população)
+- [x] Ações: Atacar, Defender
+- [x] Força militar (Quartéis) e Defesa (Torres)
+- [x] Ataque mata população rival
+- [x] Rival ataca e mata população do jogador
+- [x] Vitória: pop. rival = 0
+- [x] Derrota: sua pop. = 0
+- [x] RivalPanel com população
+- [x] GameOverScreen com vitória/derrota
 
 ## Concluído no MVP 3
 

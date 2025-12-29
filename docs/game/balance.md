@@ -69,7 +69,7 @@ Com 1 Fazenda (+3): +1.5/tick (crescimento sustentável)
 | Custo    | Gratuito (1 no início)         |
 | Limite   | 1                              |
 | Era      | stone                          |
-| Produção | +1.5 food, +1 wood, +0.5 stone |
+| Produção | +0.8 food, +0.5 wood, +0.2 stone |
 | HP       | 500                            |
 | Pop base | +10 população máxima           |
 
@@ -93,7 +93,7 @@ Com 1 Fazenda (+3): +1.5/tick (crescimento sustentável)
 | Limite   | Ilimitado        |
 | Era      | stone            |
 | Tile     | plains           |
-| Produção | +3 food/tick     |
+| Produção | +1.5 food/tick   |
 | HP       | 50               |
 
 ### Sawmill (Serraria)
@@ -105,7 +105,7 @@ Com 1 Fazenda (+3): +1.5/tick (crescimento sustentável)
 | Limite   | Ilimitado    |
 | Era      | stone        |
 | Tile     | forest       |
-| Produção | +2 wood/tick |
+| Produção | +1 wood/tick |
 | HP       | 75           |
 
 ### Mine (Mina)
@@ -117,7 +117,7 @@ Com 1 Fazenda (+3): +1.5/tick (crescimento sustentável)
 | Limite   | Ilimitado         |
 | Era      | stone             |
 | Tile     | mountain          |
-| Produção | +2 stone/tick     |
+| Produção | +1 stone/tick     |
 | HP       | 100               |
 
 ### Gold Mine (Mina de Ouro)
@@ -129,7 +129,7 @@ Com 1 Fazenda (+3): +1.5/tick (crescimento sustentável)
 | Limite   | 1 por tile gold   |
 | Era      | bronze            |
 | Tile     | gold              |
-| Produção | +1 gold/tick      |
+| Produção | +0.2 gold/tick    |
 | HP       | 100               |
 
 ### Barracks (Quartel)
@@ -158,35 +158,71 @@ Com 1 Fazenda (+3): +1.5/tick (crescimento sustentável)
 
 ## ⚔️ Combate
 
-### Força Base por Era
+### Força Militar do Jogador
 
-| Era    | Força Base | Defesa Base |
-| ------ | ---------- | ----------- |
-| Pedra  | 10         | 10          |
-| Bronze | 30         | 30          |
-| Ferro  | 60         | 60          |
-
-### Cálculo de Poder Militar
+| Construção     | Bônus     |
+| -------------- | --------- |
+| Quartel        | +25 força |
+| Torre de Defesa | +20 defesa |
 
 ```
-Força Total = Força Base (Era) + (Quartéis × 25)
-Defesa Total = Defesa Base (Era) + (Torres × 20)
+Força Total = Quartéis × 25
+Defesa Total = Torres × 20
 
-Máximo possível:
-- Força: 60 + (3 × 25) = 135
-- Defesa: 60 + (4 × 20) = 140
-
-Proporção Força/Defesa: ~1:1 (balanceado)
+Máximo possível (Bronze Age):
+- Força: 3 × 25 = 75
+- Defesa: 4 × 20 = 80
 ```
+
+### Rival
+
+| Era    | Força | Defesa | HP  |
+| ------ | ----- | ------ | --- |
+| Pedra  | 15    | 10     | 100 |
+| Bronze | 40    | 35     | 100 |
+| Ferro  | 80    | 70     | 100 |
+
+**Nomes possíveis:** Os Ferringos, Clã da Serpente, Tribo do Trovão, Povo das Sombras, Império Dourado
 
 ### Custos de Ações
 
-| Ação     | Código      | Custo            | Cooldown |
-| -------- | ----------- | ---------------- | -------- |
-| Atacar   | `attack`    | 15 food, 5 gold  | 10 ticks |
-| Defender | `defend`    | 10 food          | 5 ticks  |
-| Cerco    | `siege`     | 25 food, 15 gold | 20 ticks |
-| Negociar | `negotiate` | 20 gold          | 15 ticks |
+| Ação     | Código   | Custo           | Cooldown |
+| -------- | -------- | --------------- | -------- |
+| Atacar   | `attack` | 15 food, 5 gold | 10 ticks |
+| Defender | `defend` | 10 food         | 10 ticks |
+
+### Fórmula de Dano
+
+```
+Dano ao Rival = max(5, floor(força × random(0.8-1.2) - defesaRival/2))
+Dano ao Jogador = isDefending ? 0 : floor(defesaRival/4)
+```
+
+### Condições de Fim
+
+- **Vitória:** População do rival = 0
+- **Derrota:** Sua população = 0 (por fome ou ataque rival)
+
+### Ataque do Jogador
+
+```
+População morta = max(1, floor((força - defesaRival/2) / 10))
+Range: 1-5 população por ataque
+```
+
+### Ataque do Rival
+
+```
+População morta = max(1, floor((forçaRival - defesa) / 20))
+Range: 1-3 população por ataque
+Frequência: A cada 50 ticks (se não está defendendo)
+```
+
+### População do Rival
+
+- Inicial: 10
+- Cresce +1 a cada 30 ticks
+- Máximo: 50
 
 ---
 
@@ -196,12 +232,11 @@ Proporção Força/Defesa: ~1:1 (balanceado)
 
 | Requisito  | Valor  |
 | ---------- | ------ |
-| stone      | 80     |
-| gold       | 30     |
-| population | 15     |
+| stone      | 150    |
+| population | 12     |
 | buildings  | 1 mine |
 
-**Tempo estimado:** ~150-200 ticks
+**Tempo estimado:** ~200-300 ticks
 
 ### Bronze → Iron
 
