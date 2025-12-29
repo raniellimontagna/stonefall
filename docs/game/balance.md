@@ -2,6 +2,8 @@
 
 > **Este documento é a fonte única de verdade para todos os valores numéricos do jogo.**
 > Use-o para contexto de IA e implementação.
+>
+> 📖 **Nomenclatura:** Ver [`glossary.md`](./glossary.md) para termos PT→EN
 
 ## 📅 Última Revisão: 29/12/2025
 
@@ -21,12 +23,12 @@
 
 ## 🌾 Recursos Iniciais
 
-| Recurso | Quantidade | Justificativa                      |
-| ------- | ---------- | ---------------------------------- |
-| Comida  | 150        | Buffer para primeiros 50 ticks     |
-| Madeira | 60         | Suficiente para 1 Casa + 1 Fazenda |
-| Pedra   | 30         | Suficiente para 1 Fazenda          |
-| Ouro    | 0          | Recurso de mid-game                |
+| Recurso | Código  | Quantidade | Justificativa                    |
+| ------- | ------- | ---------- | -------------------------------- |
+| Comida  | `food`  | 150        | Buffer para primeiros 50 ticks   |
+| Madeira | `wood`  | 60         | Suficiente para 1 House + 1 Farm |
+| Pedra   | `stone` | 30         | Suficiente para 1 Farm           |
+| Ouro    | `gold`  | 0          | Recurso de mid-game              |
 
 ---
 
@@ -57,89 +59,99 @@ Com 1 Fazenda (+3): +1.5/tick (crescimento sustentável)
 
 ## 🏗️ Construções
 
-### Centro da Vila
+> Nomes de código em inglês - ver glossary.md
 
-| Atributo | Valor                               |
-| -------- | ----------------------------------- |
-| Custo    | Gratuito (1 no início)              |
-| Limite   | 1                                   |
-| Era      | Pedra                               |
-| Produção | +1.5 comida, +1 madeira, +0.5 pedra |
-| HP       | 500                                 |
-| Pop base | +10 população máxima                |
+### Town Center (Centro da Vila)
 
-### Casa
+| Atributo | Valor                          |
+| -------- | ------------------------------ |
+| Código   | `town_center`                  |
+| Custo    | Gratuito (1 no início)         |
+| Limite   | 1                              |
+| Era      | stone                          |
+| Produção | +1.5 food, +1 wood, +0.5 stone |
+| HP       | 500                            |
+| Pop base | +10 população máxima           |
+
+### House (Casa)
 
 | Atributo | Valor         |
 | -------- | ------------- |
-| Custo    | 25 madeira    |
+| Código   | `house`       |
+| Custo    | 25 wood       |
 | Limite   | Ilimitado     |
-| Era      | Pedra         |
+| Era      | stone         |
 | Efeito   | +5 pop máxima |
 | HP       | 100           |
 
-### Fazenda
+### Farm (Fazenda)
 
-| Atributo | Valor               |
-| -------- | ------------------- |
-| Custo    | 15 madeira, 5 pedra |
-| Limite   | Ilimitado           |
-| Era      | Pedra               |
-| Tile     | Plains              |
-| Produção | +3 comida/tick      |
-| HP       | 50                  |
+| Atributo | Valor            |
+| -------- | ---------------- |
+| Código   | `farm`           |
+| Custo    | 15 wood, 5 stone |
+| Limite   | Ilimitado        |
+| Era      | stone            |
+| Tile     | plains           |
+| Produção | +3 food/tick     |
+| HP       | 50               |
 
-### Serraria (NOVO - substituir produção de madeira)
+### Sawmill (Serraria)
 
-| Atributo | Valor           |
-| -------- | --------------- |
-| Custo    | 20 pedra        |
-| Limite   | Ilimitado       |
-| Era      | Pedra           |
-| Tile     | Forest          |
-| Produção | +2 madeira/tick |
-| HP       | 75              |
+| Atributo | Valor        |
+| -------- | ------------ |
+| Código   | `sawmill`    |
+| Custo    | 20 stone     |
+| Limite   | Ilimitado    |
+| Era      | stone        |
+| Tile     | forest       |
+| Produção | +2 wood/tick |
+| HP       | 75           |
 
-### Mina
-
-| Atributo | Valor                |
-| -------- | -------------------- |
-| Custo    | 30 madeira, 15 pedra |
-| Limite   | Ilimitado            |
-| Era      | Pedra                |
-| Tile     | Mountain             |
-| Produção | +2 pedra/tick        |
-| HP       | 100                  |
-
-### Mina de Ouro (tile especial)
-
-| Atributo | Valor                |
-| -------- | -------------------- |
-| Custo    | 40 madeira, 30 pedra |
-| Limite   | 1 por tile de ouro   |
-| Era      | Bronze               |
-| Tile     | Mountain (gold)      |
-| Produção | +1 ouro/tick         |
-| HP       | 100                  |
-
-### Quartel
-
-| Atributo | Valor                         |
-| -------- | ----------------------------- |
-| Custo    | 50 madeira, 30 pedra, 10 ouro |
-| Limite   | 3                             |
-| Era      | Bronze                        |
-| Efeito   | +25 força militar             |
-| HP       | 200                           |
-
-### Torre de Defesa
+### Mine (Mina)
 
 | Atributo | Valor             |
 | -------- | ----------------- |
-| Custo    | 40 pedra, 15 ouro |
+| Código   | `mine`            |
+| Custo    | 30 wood, 15 stone |
+| Limite   | Ilimitado         |
+| Era      | stone             |
+| Tile     | mountain          |
+| Produção | +2 stone/tick     |
+| HP       | 100               |
+
+### Gold Mine (Mina de Ouro)
+
+| Atributo | Valor             |
+| -------- | ----------------- |
+| Código   | `gold_mine`       |
+| Custo    | 40 wood, 30 stone |
+| Limite   | 1 por tile gold   |
+| Era      | bronze            |
+| Tile     | gold              |
+| Produção | +1 gold/tick      |
+| HP       | 100               |
+
+### Barracks (Quartel)
+
+| Atributo | Valor                      |
+| -------- | -------------------------- |
+| Código   | `barracks`                 |
+| Custo    | 50 wood, 30 stone, 10 gold |
+| Limite   | 3                          |
+| Era      | bronze                     |
+| Efeito   | +25 strength               |
+| HP       | 200                        |
+
+### Defense Tower (Torre de Defesa)
+
+| Atributo | Valor             |
+| -------- | ----------------- |
+| Código   | `defense_tower`   |
+| Custo    | 40 stone, 15 gold |
 | Limite   | 4                 |
-| Era      | Bronze            |
-| Efeito   | +20 defesa        |
+| Era      | bronze            |
+| Efeito   | +20 defense       |
 | HP       | 300               |
 
 ---
@@ -169,36 +181,36 @@ Proporção Força/Defesa: ~1:1 (balanceado)
 
 ### Custos de Ações
 
-| Ação     | Custo              | Cooldown |
-| -------- | ------------------ | -------- |
-| Atacar   | 15 comida, 5 ouro  | 10 ticks |
-| Defender | 10 comida          | 5 ticks  |
-| Cerco    | 25 comida, 15 ouro | 20 ticks |
-| Negociar | 20 ouro            | 15 ticks |
+| Ação     | Código      | Custo            | Cooldown |
+| -------- | ----------- | ---------------- | -------- |
+| Atacar   | `attack`    | 15 food, 5 gold  | 10 ticks |
+| Defender | `defend`    | 10 food          | 5 ticks  |
+| Cerco    | `siege`     | 25 food, 15 gold | 20 ticks |
+| Negociar | `negotiate` | 20 gold          | 15 ticks |
 
 ---
 
 ## 🏛️ Progressão de Eras
 
-### Idade da Pedra → Bronze
+### Stone → Bronze
 
-| Requisito   | Valor  |
-| ----------- | ------ |
-| Pedra       | 80     |
-| Ouro        | 30     |
-| População   | 15     |
-| Construções | 1 Mina |
+| Requisito  | Valor  |
+| ---------- | ------ |
+| stone      | 80     |
+| gold       | 30     |
+| population | 15     |
+| buildings  | 1 mine |
 
 **Tempo estimado:** ~150-200 ticks
 
-### Idade do Bronze → Ferro
+### Bronze → Iron
 
-| Requisito   | Valor     |
-| ----------- | --------- |
-| Pedra       | 150       |
-| Ouro        | 100       |
-| População   | 30        |
-| Construções | 1 Quartel |
+| Requisito  | Valor      |
+| ---------- | ---------- |
+| stone      | 150        |
+| gold       | 100        |
+| population | 30         |
+| buildings  | 1 barracks |
 
 **Tempo estimado:** ~300-400 ticks
 
@@ -208,26 +220,26 @@ Proporção Força/Defesa: ~1:1 (balanceado)
 
 ### Tipos de Tile
 
-| Tipo     | Código   | Cor Placeholder | Frequência |
-| -------- | -------- | --------------- | ---------- |
-| Plains   | plains   | #90EE90         | 50%        |
-| Forest   | forest   | #228B22         | 25%        |
-| Mountain | mountain | #808080         | 15%        |
-| Water    | water    | #4169E1         | 8%         |
-| Gold     | gold     | #FFD700         | 2%         |
+| Português | Código     | Cor Placeholder | Frequência |
+| --------- | ---------- | --------------- | ---------- |
+| Planície  | `plains`   | #90EE90         | 50%        |
+| Floresta  | `forest`   | #228B22         | 25%        |
+| Montanha  | `mountain` | #808080         | 15%        |
+| Água      | `water`    | #4169E1         | 8%         |
+| Ouro      | `gold`     | #FFD700         | 2%         |
 
 ### Restrições de Construção
 
-| Construção   | Tiles Válidos            |
-| ------------ | ------------------------ |
-| Centro       | plains, forest           |
-| Casa         | plains, forest           |
-| Fazenda      | plains                   |
-| Serraria     | forest                   |
-| Mina         | mountain                 |
-| Mina de Ouro | gold                     |
-| Quartel      | plains, forest           |
-| Torre        | plains, forest, mountain |
+| Building      | Tiles Válidos            |
+| ------------- | ------------------------ |
+| town_center   | plains, forest           |
+| house         | plains, forest           |
+| farm          | plains                   |
+| sawmill       | forest                   |
+| mine          | mountain                 |
+| gold_mine     | gold                     |
+| barracks      | plains, forest           |
+| defense_tower | plains, forest, mountain |
 
 ---
 

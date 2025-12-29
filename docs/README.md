@@ -24,13 +24,14 @@ docs/
 ├── README.md                    # Este arquivo - índice geral
 ├── game/                        # Documentação do jogo
 │   ├── overview.md              # Visão geral e conceito
+│   ├── glossary.md              # 📖 Glossário de termos (PT→EN)
+│   ├── balance.md               # ⚖️ BALANCEAMENTO (fonte de verdade)
 │   ├── resources.md             # Sistema de recursos
 │   ├── buildings.md             # Construções
 │   ├── eras.md                  # Sistema de eras
 │   ├── combat.md                # Sistema de combate
 │   ├── events.md                # Sistema de eventos (IA)
-│   ├── rivals.md                # Sistema de rivais (IA)
-│   └── balance.md               # ⚖️ BALANCEAMENTO (fonte de verdade)
+│   └── rivals.md                # Sistema de rivais (IA)
 ├── technical/                   # Documentação técnica
 │   ├── architecture.md          # Arquitetura do monorepo
 │   ├── stack.md                 # Stack tecnológica

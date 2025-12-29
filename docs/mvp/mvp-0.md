@@ -133,6 +133,7 @@ export enum TileType {
   Forest = "forest",
   Mountain = "mountain",
   Water = "water",
+  Gold = "gold", // Tile especial para mina de ouro (raro)
 }
 
 export interface Position {
@@ -150,12 +151,13 @@ export interface TileData {
 
 Para o MVP 0, usar cores sólidas (sem sprites):
 
-| Tile     | Cor       |
-| -------- | --------- |
-| Plains   | `#90EE90` |
-| Forest   | `#228B22` |
-| Mountain | `#808080` |
-| Water    | `#4169E1` |
+| Tile     | Cor       | Frequência |
+| -------- | --------- | ---------- |
+| Plains   | `#90EE90` | 50%        |
+| Forest   | `#228B22` | 25%        |
+| Mountain | `#808080` | 15%        |
+| Water    | `#4169E1` | 8%         |
+| Gold     | `#FFD700` | 2%         |
 
 ## Critérios de Aceite
 

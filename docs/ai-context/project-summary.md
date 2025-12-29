@@ -31,14 +31,14 @@ stonefall/
 | **web**    | React, Phaser.js, Vite, TypeScript, Zustand |
 | **api**    | Hono, Node.js, TypeScript, Gemini API       |
 | **shared** | TypeScript, Zod                             |
-| **infra**  | pnpm, Turborepo, Biome                      |
+| **infra**  | pnpm, Turborepo, Biome, Knip                |
 | **futuro** | Drizzle ORM, PostgreSQL                     |
 
 ## Mecânicas Core
 
 1. **Recursos:** Comida, Madeira, Pedra, Ouro
-2. **Mapa:** Grid 2D (20x20), tiles com biomas
-3. **Construções:** Centro da Vila, Casa, Fazenda, Mina, Quartel, Torre
+2. **Mapa:** Grid 2D (20x20), tiles com biomas (plains, forest, mountain, water, gold)
+3. **Construções:** Centro da Vila, Casa, Fazenda, Serraria, Mina, Mina de Ouro, Quartel, Torre
 4. **Eras:** Pedra → Bronze → Ferro
 5. **Combate:** Estratégico (sem controle de unidades)
 6. **Eventos:** Gerados por IA dinamicamente (via API)
