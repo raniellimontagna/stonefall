@@ -13,6 +13,7 @@
   "dependencies": {
     "@hono/node-server": "^1.19.7",
     "@stonefall/shared": "workspace:*",
+    "dotenv": "^17.2.3",
     "hono": "^4.7.0"
   },
   "devDependencies": {

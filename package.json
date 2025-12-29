@@ -12,6 +12,7 @@
     "build": "turbo build",
     "check": "biome check .",
     "check:fix": "biome check --write .",
+    "models:update": "bash scripts/update-models.sh",
     "typecheck": "turbo typecheck",
     "test": "turbo test",
     "test:run": "turbo test:run",

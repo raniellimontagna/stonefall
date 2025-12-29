@@ -1,14 +1,67 @@
-# Sprint Atual - MVP 1
+# Sprint Atual - MVP 4
 
-> **Última atualização:** 29/12/2025
+> **Última atualização:** 29/12/2024
 > **MVP 0:** ✅ Concluído
 > **MVP 1:** ✅ Concluído
+> **MVP 2:** ✅ Concluído
+> **MVP 3:** ✅ Concluído
 
-## Objetivo do MVP 1
+## Objetivo do MVP 4
 
-Implementar sistema de recursos e construções básicas.
+Implementar sistema de eras e progressão tecnológica.
 
-## Escopo do MVP 1
+## Escopo do MVP 4
+
+### Sistema de Eras 🔄
+
+- [ ] Criar enum de eras (Stone, Bronze, Iron)
+- [ ] Adicionar requisitos de avanço por era
+- [ ] UI de progresso de era
+- [ ] Desbloqueio de construções por era
+
+### Novas Construções 🔄
+
+- [ ] Quartel (produz força militar)
+- [ ] Torre de Defesa (aumenta defesa)
+- [ ] Mina de Ouro (produz ouro)
+
+### Progressão 🔄
+
+- [ ] Sistema de requisitos (recursos + população)
+- [ ] Animação de transição de era
+- [ ] Notificação de desbloqueios
+
+## Concluído no MVP 3
+
+### Sistema de Eventos ✅
+
+- [x] Integração com Gemini API
+- [x] Endpoint `/api/events/generate`
+- [x] Sistema de fallback events
+- [x] UI de eventos (EventCard)
+- [x] Aplicação de efeitos
+- [x] Fix de `maxOutputTokens` (500 → 2000)
+- [x] Fix de race condition (isGeneratingEvent)
+- [x] Script `update-models.sh`
+- [x] Postman collection
+
+## Concluído no MVP 2
+
+### Sistema de População ✅
+
+- [x] Consumo de comida por tick
+- [x] Crescimento populacional
+- [x] Morte por fome
+- [x] Limite populacional (casas)
+- [x] Game Over por fome
+
+### Controles de Tempo ✅
+
+- [x] Velocidade do jogo (1x, 2x, 4x)
+- [x] Pause/Resume
+- [x] UI de controles
+
+## Concluído no MVP 1
 
 ### Sistema de Recursos ✅
 

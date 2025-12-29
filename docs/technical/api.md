@@ -238,4 +238,15 @@ class AIService {
 
 **Estimativa por partida (15 min):** ~3.500 tokens
 
+
 **Com Gemini Free Tier:** Suficiente para desenvolvimento
+
+## Ferramentas
+
+### Postman
+
+Mantemos uma collection do Postman atualizada com todos os endpoints da API.
+O arquivo está localizado em `docs/stonefall.postman_collection.json`.
+
+> [!IMPORTANT]
+> Sempre atualize o arquivo `docs/stonefall.postman_collection.json` quando adicionar ou modificar endpoints da API.

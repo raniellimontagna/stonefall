@@ -75,9 +75,9 @@ Adicionar gestão de população e ciclo de tempo.
 
 ---
 
-## MVP 3 - Eventos (IA) ⏳
+## MVP 3 - Eventos (IA) ✅
 
-**Status:** Próximo
+**Status:** Concluído (29/12/2024)
 **Tempo estimado:** 3-4 dias
 
 ### Objetivo
@@ -88,20 +88,21 @@ Integrar IA para gerar eventos dinâmicos.
 
 - Integração com Gemini API
 - Sistema de eventos
-- 5 tipos de eventos básicos
+- 25+ tipos de eventos fallback
 - UI de eventos (cards)
-- Impacto nos recursos
+- Impacto nos recursos e população
 
 ### Resultado
 
-> Eventos aleatórios gerados por IA
+> Eventos aleatórios gerados por IA (ou fallback offline)
 
 **Detalhes:** Ver `mvp-3.md`
 
 ---
 
-## MVP 4 - Eras e Progressão
+## MVP 4 - Eras e Progressão ⏳
 
+**Status:** Próximo
 **Tempo estimado:** 2-3 dias
 
 ### Objetivo

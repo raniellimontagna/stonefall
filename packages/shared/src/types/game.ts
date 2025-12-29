@@ -134,4 +134,10 @@ export interface GameState {
 
   // Building placement mode
   placementMode: BuildingType | null;
+
+  // Events (MVP 3)
+  pendingEvent: import('./events').GameEvent | null;
+  eventHistory: import('./events').ResolvedEvent[];
+  lastEventTick: number;
+  isGeneratingEvent: boolean;
 }

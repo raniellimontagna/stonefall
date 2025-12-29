@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import {
   BuildPanel,
+  EventCard,
   GameOverScreen,
   ResourceBar,
   StarvationAlert,
@@ -71,6 +72,9 @@ export function GameCanvas() {
 
       {/* Game Over screen - shows when game is over */}
       <GameOverScreen />
+
+      {/* Event Card - shows when there's a pending event */}
+      <EventCard />
     </div>
   );
 }

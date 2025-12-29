@@ -1,0 +1,89 @@
+{
+  "info": {
+    "_postman_id": "84829302-3849-4929-4829-384920193849",
+    "name": "Stonefall API",
+    "description": "API collection for Stonefall game backend.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Check Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Check Readiness",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health/ready",
+              "host": ["{{baseUrl}}"],
+              "path": ["health", "ready"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "Generate Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"era\": \"stone\",\n  \"tick\": 100,\n  \"population\": 10,\n  \"resources\": {\n    \"food\": 100,\n    \"wood\": 50,\n    \"stone\": 20,\n    \"gold\": 0\n  },\n  \"recentEvents\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/events/generate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events", "generate"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/events/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "events", "status"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001",
+      "type": "string"
+    }
+  ]
+}

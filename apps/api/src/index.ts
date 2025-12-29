@@ -1,7 +1,9 @@
+import 'dotenv/config';
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { logger } from 'hono/logger';
+import { eventsRoutes } from './routes/events';
 import { healthRoutes } from './routes/health';
 
 const app = new Hono();
@@ -11,13 +13,14 @@ app.use('*', logger());
 app.use(
   '*',
   cors({
-    origin: ['http://localhost:3000', 'http://localhost:5173'],
+    origin: ['http://localhost:3000', 'http://localhost:3002', 'http://localhost:5173'],
     credentials: true,
   })
 );
 
 // Routes
 app.route('/health', healthRoutes);
+app.route('/api/events', eventsRoutes);
 
 // Root route
 app.get('/', (c) => {

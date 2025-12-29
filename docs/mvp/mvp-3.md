@@ -1,7 +1,7 @@
 # MVP 3 - Eventos com IA
 
-> **Status:** Não iniciado  
-> **Tempo estimado:** 3-4 dias  
+> **Status:** ✅ Concluído (29/12/2024)  
+> **Tempo real:** 1 dia  
 > **Pré-requisito:** MVP 2
 >
 > ⚠️ **Valores:** Consulte [`../game/balance.md`](../game/balance.md) e [`../game/events.md`](../game/events.md)
@@ -12,49 +12,49 @@ Integrar IA (Gemini) para gerar eventos dinâmicos que afetam o gameplay.
 
 ## User Stories
 
-- [ ] Como jogador, quero receber eventos aleatórios durante o jogo
-- [ ] Como jogador, quero ler descrições narrativas únicas
-- [ ] Como jogador, quero fazer escolhas com consequências
-- [ ] Como jogador, quero que eventos afetem meus recursos
+- [x] Como jogador, quero receber eventos aleatórios durante o jogo
+- [x] Como jogador, quero ler descrições narrativas únicas
+- [x] Como jogador, quero fazer escolhas com consequências
+- [x] Como jogador, quero que eventos afetem meus recursos
 
 ## Tasks Técnicas
 
 ### 1. Integração com Gemini API
 
-- [ ] Configurar variável de ambiente `GEMINI_API_KEY`
-- [ ] Criar cliente HTTP para Gemini no backend
-- [ ] Criar endpoint `/api/events/generate`
-- [ ] Implementar rate limiting (evitar spam de requests)
-- [ ] Criar fallback para eventos offline
+- [x] Configurar variável de ambiente `GEMINI_API_KEY`
+- [x] Criar cliente HTTP para Gemini no backend
+- [x] Criar endpoint `/api/events/generate`
+- [x] Implementar rate limiting (evitar spam de requests)
+- [x] Criar fallback para eventos offline
 
 ### 2. Sistema de Eventos (Backend)
 
-- [ ] Criar tipos `GameEvent`, `EventChoice`, `EventEffect`
-- [ ] Criar EventGenerator service
-- [ ] Implementar prompt template para geração
-- [ ] Validar/sanitizar resposta da IA
-- [ ] Criar pool de eventos fallback (JSON estático)
+- [x] Criar tipos `GameEvent`, `EventChoice`, `EventEffect`
+- [x] Criar EventGenerator service
+- [x] Implementar prompt template para geração
+- [x] Validar/sanitizar resposta da IA
+- [x] Criar pool de eventos fallback (JSON estático)
 
 ### 3. Sistema de Eventos (Frontend)
 
-- [ ] Criar EventManager no game
-- [ ] Adicionar eventos ao store (pendingEvent, eventHistory)
-- [ ] Implementar trigger de eventos por tick
-- [ ] Criar action `triggerEvent`, `resolveEvent`
+- [x] Criar EventManager no game
+- [x] Adicionar eventos ao store (pendingEvent, eventHistory)
+- [x] Implementar trigger de eventos por tick
+- [x] Criar action `triggerEvent`, `resolveEvent`
 
 ### 4. UI de Eventos
 
-- [ ] Criar componente `EventCard`
-- [ ] Mostrar título, descrição, escolhas
-- [ ] Exibir efeitos de cada escolha (preview)
-- [ ] Animação de entrada/saída
-- [ ] Pausar jogo enquanto evento está ativo
+- [x] Criar componente `EventCard`
+- [x] Mostrar título, descrição, escolhas
+- [x] Exibir efeitos de cada escolha (preview)
+- [x] Animação de entrada/saída
+- [x] Pausar jogo enquanto evento está ativo
 
 ### 5. Aplicar Efeitos
 
-- [ ] Processar efeitos de recursos
-- [ ] Processar efeitos de população
-- [ ] Adicionar ao histórico (para crônica futura)
+- [x] Processar efeitos de recursos
+- [x] Processar efeitos de população
+- [x] Adicionar ao histórico (para crônica futura)
 
 ## Tipos de Eventos (MVP)
 
@@ -183,37 +183,75 @@ Se a API falhar, usar eventos pré-definidos:
 
 ## Critérios de Aceite
 
-- [ ] Eventos aparecem a cada ~40 ticks
-- [ ] Descrições são únicas (geradas por IA)
-- [ ] Escolhas afetam recursos corretamente
-- [ ] UI pausa o jogo durante evento
-- [ ] Funciona offline com fallback
-- [ ] Eventos são registrados no histórico
+- [x] Eventos aparecem a cada ~40 ticks
+- [x] Descrições são únicas (geradas por IA)
+- [x] Escolhas afetam recursos corretamente
+- [x] UI pausa o jogo durante evento
+- [x] Funciona offline com fallback
+- [x] Eventos são registrados no histórico
 
-## Arquivos a Criar
+## Arquivos Criados
 
 ```
 apps/api/src/
 ├── services/
-│   ├── gemini.ts          # Cliente Gemini
-│   └── eventGenerator.ts  # Gerador de eventos
+│   ├── gemini.ts          # Cliente Gemini ✅
+│   └── eventGenerator.ts  # Gerador de eventos ✅
+│   └── index.ts           # Exports ✅
 ├── routes/
-│   └── events.ts          # Endpoints de eventos
-└── data/
-    └── fallbackEvents.json # Eventos offline
+│   └── events.ts          # Endpoints de eventos ✅
 
 apps/web/src/
 ├── components/ui/
-│   └── EventCard.tsx      # Card de evento
-├── game/managers/
-│   └── EventManager.ts    # Gerenciador de eventos
+│   └── EventCard.tsx      # Card de evento ✅
+│   └── EventCard.module.css # Estilos ✅
 └── store/
-    └── gameStore.ts       # (atualizar com eventos)
+    └── gameStore.ts       # (atualizado com eventos) ✅
 
 packages/shared/src/
-└── types/
-    └── events.ts          # Tipos de eventos
+├── types/
+│   └── events.ts          # Tipos de eventos ✅
+└── constants/
+    └── events.ts          # Fallback events + config ✅
+    └── events.ts          # Fallback events + config ✅
 ```
+
+## Melhorias Implementadas
+
+### 🔧 Fix de Truncamento do Gemini (29/12/2024)
+
+**Problema:** Respostas da API eram cortadas devido ao limite de tokens muito baixo.
+
+**Solução:**
+- Aumentado `maxOutputTokens` de 500 para 2000 em `apps/api/src/services/gemini.ts`
+- Adicionado log de aviso quando `finishReason === 'MAX_TOKENS'`
+
+**Impacto:** Eventos agora são gerados completamente sem erros de parsing.
+
+---
+
+### 🔧 Fix de Race Condition (29/12/2024)
+
+**Problema:** Múltiplas requisições simultâneas à API devido ao game loop rápido.
+
+**Solução:**
+- Adicionado flag `isGeneratingEvent` ao `GameState` (`packages/shared/src/types/game.ts`)
+- Implementado sistema de bloqueio em `apps/web/src/store/gameStore.ts`
+- Requisições agora são bloqueadas enquanto uma está em andamento
+
+**Impacto:** Apenas uma requisição por vez, eliminando erros 429 e duplicações.
+
+---
+
+### 🛠️ Ferramentas Adicionadas (29/12/2024)
+
+**Script de Atualização de Modelos:**
+- Criado `scripts/update-models.sh` para atualizar lista de modelos Gemini
+- Adicionado comando `pnpm models:update` ao `package.json`
+
+**Postman Collection:**
+- Criado `docs/stonefall.postman_collection.json` com todos os endpoints
+- Documentado regra de manutenção em `docs/technical/api.md`
 
 ## Próximo MVP
 
