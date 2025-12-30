@@ -96,8 +96,9 @@ stonefall/
 │   │   │   │   │   └── CombatManager.ts
 │   │   │   │   ├── events/
 │   │   │   │   │   └── EventManager.ts
-│   │   │   │   └── rival/
-│   │   │   │       └── RivalManager.ts
+│   │   │   │   ├── rival/
+│   │   │   │   │   └── RivalManager.ts
+│   │   │   │   └── SoundManager.ts  # Sistema de som e música
 │   │   │   ├── store/
 │   │   │   │   ├── gameStore.ts
 │   │   │   │   └── uiStore.ts
@@ -168,8 +169,10 @@ stonefall/
 - **React**: UI/HUD, modais, menus
 - **Phaser.js**: Renderização do jogo (canvas)
 - **Zustand**: Estado compartilhado entre React e Phaser
+- **Howler.js**: Sistema de som e música
 - Comunicação com API
 - Assets e sprites
+- Debug menu (dev only)
 
 ### apps/api (Backend)
 

@@ -124,6 +124,9 @@
 | Service   | Classe para comunicação externa (API)  |
 | Hook      | React hook customizado                 |
 | Component | Componente React                       |
+| Sound Manager | Sistema de áudio (Howler.js)          |
+| Debug Menu | Menu de desenvolvimento (F9)           |
+| Statistics | Dados de fim de jogo                  |
 
 ---
 

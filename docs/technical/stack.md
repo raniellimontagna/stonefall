@@ -608,6 +608,9 @@ export default defineConfig({
 | React                 | ^19.2.3  | web             |
 | Phaser                | ^3.90.0  | web             |
 | Zustand               | ^5.0.9   | web             |
+| Howler.js             | ^2.2.4   | web             |
+| Solar Icons           | ^1.0.8   | web             |
+| Framer Motion         | ^11.15.0 | web             |
 | Hono                  | ^4.11.3  | api             |
 | Zod                   | ^4.2.1   | api, shared     |
 | @google/generative-ai | ^0.24.1  | api             |

@@ -40,6 +40,8 @@ docs/
 │   ├── error-handling.md        # 🛡️ Tratamento de erros
 │   ├── cicd.md                  # 🚀 Pipeline CI/CD
 │   ├── feature-flags.md         # 🚩 Feature flags e config
+│   ├── sound-system.md          # 🔊 Sistema de som e música
+│   ├── debug-menu.md            # ⚙️ Manual do Debug Menu
 │   └── longevity.md             # 📈 Análise de longevidade
 ├── mvp/                         # Roadmap de MVPs
 │   ├── roadmap.md               # Visão geral dos MVPs

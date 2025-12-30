@@ -67,82 +67,31 @@ Moral = 50 + (Comida > 0 ? 25 : 0) + (Vitórias × 5) - (Derrotas × 10)
 - **Efeito:** Tenta acordo de paz
 - **Chance:** Baseada em relação prévia
 
-## Cálculo de Batalha
+## Cálculo de Batalha (MVP)
 
-### Fórmula Base
+No MVP atual, o combate foca no desgaste da população do rival.
 
+### Fórmula de Dano
 ```
-Poder de Ataque = Força × (Moral / 100) × Random(0.8, 1.2)
-Poder de Defesa = Defesa × (Moral / 100) × Random(0.8, 1.2)
+Militar (Jogador) = (Quartéis × 20) + (População × 0.1)
+Defesa (Rival) = Base da Era × Modificador de Defesa
 
-Se Ataque > Defesa:
-  Vitória do atacante
-  Dano = (Ataque - Defesa) × 0.5
-Senão:
-  Vitória do defensor
-  Dano = (Defesa - Ataque) × 0.3
+População Morta (Rival) = Max(1, Floor((Poder Ataque - Defesa Rival / 2) / 10))
 ```
 
 ### Consequências
+- **Ataque:** Diminui a população do rival. Vitória ocorre quando a população do rival chega a 0.
+- **Defesa:** O jogador fica protegido de ataques do rival por um período.
+- **Sons:** Reproduz o som `battle` em ataques e defesas.
 
-| Resultado        | Vencedor ganha        | Perdedor perde        |
-| ---------------- | --------------------- | --------------------- |
-| Vitória decisiva | 50% recursos inimigos | 30% força militar     |
-| Vitória marginal | 20% recursos inimigos | 10% força militar     |
-| Empate           | Nada                  | 5% força militar cada |
+## Registro e Crônicas
+Batalhas significativas (morte de 3+ civis ou derrota do rival) são registradas automaticamente na **Crônica da Civilização**.
 
-## Narrativa de Combate (IA)
-
-A IA gera uma descrição única do conflito:
-
-**Input para IA:**
-
-```json
-{
-  "attacker": "Jogador",
-  "defender": "Rival",
-  "strategy": "Ataque Direto",
-  "attackerForce": 80,
-  "defenderForce": 60,
-  "result": "Vitória do atacante",
-  "era": "Bronze"
-}
-```
-
-**Output esperado:**
-
-> "As forças do seu reino marcharam ao amanhecer contra as muralhas de [Rival]. Após uma batalha feroz que durou até o meio-dia, suas tropas romperam as defesas orientais. O inimigo recuou, deixando para trás suprimentos valiosos. Uma vitória que será lembrada nas canções de sua civilização."
-
-## Condições de Guerra
-
-### Início de conflito
-
-- Rival declara guerra (evento)
-- Jogador ataca primeiro
-- Disputa por território
-
-### Fim de conflito
-
-- Um lado é derrotado
-- Acordo de paz
-- Pagamento de tributo
+### Sons de Combate
+- `battle`: Toca ao realizar uma ação de combate (Ataque/Defesa).
+- `success`: Toca na vitória final sobre o rival.
+- `error`: Toca em caso de derrota em combate.
 
 ## UI de Combate
+O jogador gerencia o combate através do **Painel do Rival**, onde pode ver a população de ambos os lados e enviar ataques/defesas conforme o cooldown permitir.
 
-```
-┌─────────────────────────────────────┐
-│         CONFLITO COM [RIVAL]        │
-├─────────────────────────────────────┤
-│  Sua Força: ████████░░ 80           │
-│  Sua Defesa: ██████░░░░ 60          │
-│  Moral: ████████░░ 80%              │
-├─────────────────────────────────────┤
-│  Rival Força: ██████░░░░ 60         │
-│  Rival Defesa: ████░░░░░░ 40        │
-├─────────────────────────────────────┤
-│  Escolha sua estratégia:            │
-│                                     │
-│  [⚔️ Atacar]  [🛡️ Defender]        │
-│  [🏰 Cerco]   [🕊️ Negociar]        │
-└─────────────────────────────────────┘
-```

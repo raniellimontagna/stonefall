@@ -1,30 +1,56 @@
 # Sprint Atual - MVP 6
 
-> **Última atualização:** 29/12/2024
+> **Última atualização:** 30/12/2024
 > **MVP 0:** ✅ Concluído
 > **MVP 1:** ✅ Concluído
 > **MVP 2:** ✅ Concluído
 > **MVP 3:** ✅ Concluído
 > **MVP 4:** ✅ Concluído
 > **MVP 5:** ✅ Concluído
+> **MVP 6:** ✅ Concluído
 
 ## Objetivo do MVP 6
 
 Narrativa e Polish.
 
-## Escopo do MVP 6
+## Concluído no MVP 6
 
-### Narrativas por IA 🔄
+### Sistema de Crônica ✅
 
-- [ ] Gerar narrativa de batalhas
-- [ ] Personalidade do rival
-- [ ] Eventos de história
+- [x] Chronicle store com civilizationName e entries
+- [x] Registro automático de eventos importantes
+- [x] ChronicleTimeline UI com agrupamento por era
+- [x] Estatísticas de jogo (duração, tempo real, batalhas, eventos)
+- [x] GameStats component para exibição
+- [x] Integração com telas de vitória/derrota
 
-### Polish 🔄
+### Sistema de Som e Música ✅
 
-- [ ] Balanceamento final
-- [ ] Feedback visual melhorado
-- [ ] Tutorial/Onboarding
+- [x] SoundManager com Howler.js
+- [x] 6 efeitos sonoros (click, build, success, error, collect, battle)
+- [x] 8 músicas ambiente (reprodução aleatória)
+- [x] Integração de sons em ações do jogo
+- [x] Controle de volume (SFX: 0.3, Music: 0.4)
+- [x] Botão de música no TickDisplay
+- [x] Skip para próxima música
+
+### Debug Menu (Dev Only) ✅
+
+- [x] Menu de debug acessível via F9 ou botão
+- [x] Ações para testar telas (Vitória, Derrota, Eventos, Crônica)
+- [x] Manipulação de recursos (+500, +100, zerar)
+- [x] Controle de estado (Avançar Era, Derrotar Rival)
+- [x] Skip de música
+- [x] Reset do jogo
+- [x] Ícones Solar Icons (UI clean)
+
+### Polish e Melhorias ✅
+
+- [x] Substituição de emojis por ícones Solar Icons
+- [x] Z-index corrigido (Crônica sobre Vitória/Derrota)
+- [x] Scroll corrigido na modal de Crônica
+- [x] Estatísticas calculadas automaticamente no game over
+- [x] Volumes balanceados (SFX menos intrusivo)
 
 ## Concluído no MVP 5
 

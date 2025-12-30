@@ -12,6 +12,7 @@ import {
   Fire,
   Gamepad,
   MonitorSmartphone,
+  MusicNote,
   Notebook,
   Restart,
   Settings,
@@ -25,6 +26,7 @@ import type { ReactNode } from 'react';
 import { useCallback, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { soundManager } from '@/game/SoundManager';
 import { cn } from '@/lib/utils';
 import { useGameStore } from '@/store';
 
@@ -167,6 +169,14 @@ export function DebugMenu() {
           rival: { ...state.rival, population: 0, isDefeated: true },
           gameOver: 'victory',
         }));
+      },
+      category: 'game',
+    },
+    {
+      label: 'Próxima Música',
+      icon: <MusicNote size={16} weight="Bold" className="text-purple-400" />,
+      action: () => {
+        soundManager.skipToNextTrack();
       },
       category: 'game',
     },

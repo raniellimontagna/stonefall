@@ -91,9 +91,11 @@ O jogo progride através de eras históricas. Cada era desbloqueia novas constru
                │
                ▼
 ┌────────────────────────────────┐
-│  Evento de transição (IA)      │
+│  Evento de transição           │
+│  - Registro na Crônica         │
+│  - Som de sucesso (`success`)  │
 │  - Narrativa da mudança        │
-│  - Possíveis bônus/eventos     │
+│  - Novas construções           │
 └────────────────────────────────┘
 ```
 

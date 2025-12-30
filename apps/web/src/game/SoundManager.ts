@@ -5,6 +5,7 @@ class SoundManager {
 
   private sounds: Record<string, Howl> = {};
   private music: Howl | null = null;
+  private currentTrackName: string | null = null;
   private muted: boolean = false;
   private sfxVolume: number = 0.3; // Reduced from 0.7 for less intrusive clicks
   private musicVolume: number = 0.4; // Slightly higher for ambient music
@@ -112,6 +113,12 @@ class SoundManager {
   private playRandomTrack() {
     const track = this.getRandomTrack();
 
+    // Extract track name for display
+    const trackName = track.split('/').pop()?.replace('.mp3', '').replace('ambient_', '') || null;
+    this.currentTrackName = trackName
+      ? trackName.charAt(0).toUpperCase() + trackName.slice(1)
+      : null;
+
     try {
       this.music = new Howl({
         src: [track],
@@ -120,6 +127,7 @@ class SoundManager {
         onend: () => {
           // Play another random track when current ends
           this.music = null;
+          this.currentTrackName = null;
           if (!this.muted) {
             this.playRandomTrack();
           }
@@ -143,7 +151,26 @@ class SoundManager {
   public stopMusic() {
     if (this.music) {
       this.music.stop();
+      this.music = null;
     }
+  }
+
+  /**
+   * Skip to next random track
+   */
+  public skipToNextTrack() {
+    if (this.music) {
+      this.music.stop();
+      this.music = null;
+    }
+    this.playRandomTrack();
+  }
+
+  /**
+   * Get current track name (for display)
+   */
+  public getCurrentTrackName(): string | null {
+    return this.currentTrackName;
   }
 
   /**
