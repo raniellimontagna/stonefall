@@ -53,6 +53,7 @@ import {
 } from '@stonefall/shared';
 import { create } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
+import { soundManager } from '@/game/SoundManager';
 
 // =============================================================================
 // STORE INTERFACE
@@ -476,6 +477,9 @@ export const useGameStore = create<GameStore>()(
         placementMode: null, // Exit placement mode after building
       });
 
+      // Play build sound
+      soundManager.play('build');
+
       // Chronicle: Register first building of each type
       const isFirstOfType = !state.buildings.some((b) => b.type === type);
       if (isFirstOfType && type !== 'town_center') {
@@ -610,6 +614,13 @@ export const useGameStore = create<GameStore>()(
         gameOver: reason,
         isPaused: true,
       });
+
+      // Play appropriate sound based on game over reason
+      if (reason === 'victory') {
+        soundManager.play('success');
+      } else {
+        soundManager.play('error');
+      }
     },
 
     // =========================================================================
@@ -681,6 +692,9 @@ export const useGameStore = create<GameStore>()(
         },
         eventHistory: [...state.eventHistory, resolvedEvent],
       });
+
+      // Play collect sound when event is resolved
+      soundManager.play('collect');
     },
 
     checkForEvent: async () => {
@@ -816,6 +830,9 @@ export const useGameStore = create<GameStore>()(
         icon: '⚡',
       });
 
+      // Play success sound for era advancement
+      soundManager.play('success');
+
       return true;
     },
 
@@ -922,6 +939,9 @@ export const useGameStore = create<GameStore>()(
         });
       }
 
+      // Play battle sound
+      soundManager.play('battle');
+
       return {
         action: 'attack' as const,
         success: populationKilled > 0,
@@ -956,6 +976,9 @@ export const useGameStore = create<GameStore>()(
           defenseEndTick: state.tick + DEFEND_DURATION,
         },
       });
+
+      // Play battle sound for defense
+      soundManager.play('battle');
 
       return true;
     },

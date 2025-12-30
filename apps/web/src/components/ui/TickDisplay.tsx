@@ -1,6 +1,8 @@
-import { Pause, Play } from '@solar-icons/react';
+import { MusicNote, MusicNotes, Pause, Play } from '@solar-icons/react';
 import { GAME_SPEEDS, type GameSpeed } from '@stonefall/shared';
+import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
+import { soundManager } from '@/game/SoundManager';
 import { cn } from '@/lib/utils';
 import { selectGameSpeed, selectIsPaused, selectTick, useGameStore } from '@/store';
 
@@ -11,6 +13,18 @@ export function TickDisplay() {
   const togglePause = useGameStore((s) => s.togglePause);
   const setGameSpeed = useGameStore((s) => s.setGameSpeed);
 
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+
+  const toggleMusic = () => {
+    if (isMusicPlaying) {
+      soundManager.stopMusic();
+      setIsMusicPlaying(false);
+    } else {
+      soundManager.playMusic();
+      setIsMusicPlaying(true);
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -18,6 +32,27 @@ export function TickDisplay() {
         'bg-stone-900/60 backdrop-blur-md border-stone-800/50'
       )}
     >
+      {/* Music Toggle */}
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={toggleMusic}
+        className={cn(
+          'w-10 h-10 rounded-xl transition-all duration-300',
+          isMusicPlaying
+            ? 'text-purple-400 bg-purple-400/10 hover:bg-purple-400/20 hover:text-purple-300'
+            : 'text-stone-500 hover:text-stone-300 hover:bg-stone-800/50'
+        )}
+        title={isMusicPlaying ? 'Parar Música' : 'Tocar Música'}
+      >
+        {isMusicPlaying ? (
+          <MusicNote size={20} weight="Bold" />
+        ) : (
+          <MusicNotes size={20} weight="Bold" />
+        )}
+      </Button>
+
+      {/* Play/Pause */}
       <Button
         variant="ghost"
         size="icon"

@@ -6,8 +6,8 @@ class SoundManager {
   private sounds: Record<string, Howl> = {};
   private music: Howl | null = null;
   private muted: boolean = false;
-  private sfxVolume: number = 0.7;
-  private musicVolume: number = 0.3;
+  private sfxVolume: number = 0.3; // Reduced from 0.7 for less intrusive clicks
+  private musicVolume: number = 0.4; // Slightly higher for ambient music
 
   private constructor() {
     // Don't preload sounds, load on demand
@@ -74,20 +74,56 @@ class SoundManager {
     }
   }
 
+  // Available music tracks
+  private musicTracks: string[] = [
+    '/assets/audio/music/ambient_village.mp3',
+    '/assets/audio/music/ambient_forest.mp3',
+    '/assets/audio/music/ambient_dawn.mp3',
+    '/assets/audio/music/ambient_peaceful.mp3',
+    '/assets/audio/music/ambient_journey.mp3',
+    '/assets/audio/music/ambient_kingdom.mp3',
+    '/assets/audio/music/ambient_ancient.mp3',
+    '/assets/audio/music/ambient_twilight.mp3',
+  ];
+
   /**
-   * Start background music loop
+   * Get a random music track
    */
-  public playMusic(loop: boolean = true) {
+  private getRandomTrack(): string {
+    const index = Math.floor(Math.random() * this.musicTracks.length);
+    return this.musicTracks[index]!;
+  }
+
+  /**
+   * Start background music with random track selection
+   */
+  public playMusic() {
     if (this.music) {
       this.music.play();
       return;
     }
 
+    this.playRandomTrack();
+  }
+
+  /**
+   * Play a random track and queue the next one when it ends
+   */
+  private playRandomTrack() {
+    const track = this.getRandomTrack();
+
     try {
       this.music = new Howl({
-        src: ['/assets/audio/music/ambient_loop.mp3'],
-        loop,
+        src: [track],
+        loop: false, // Don't loop single track, play next random instead
         volume: this.musicVolume,
+        onend: () => {
+          // Play another random track when current ends
+          this.music = null;
+          if (!this.muted) {
+            this.playRandomTrack();
+          }
+        },
         onloaderror: (_id, error) => {
           console.warn('Failed to load background music', error);
         },
