@@ -81,22 +81,22 @@ export function ChronicleTimeline() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
           onClick={closeChronicle}
         >
           <motion.div
             initial={{ scale: 0.9, y: 30 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.9, y: 30 }}
-            className="w-full max-w-xl max-h-[80vh] flex flex-col"
+            className="w-full max-w-xl max-h-[80vh] overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <Card
               variant="stone"
-              className="bg-stone-900/95 border-2 border-stone-600 flex flex-col h-full"
+              className="bg-stone-900/95 border-2 border-stone-600 flex flex-col h-full max-h-[80vh] overflow-hidden"
             >
               {/* Header */}
-              <div className="flex items-center justify-between mb-4 pb-3 border-b border-stone-700">
+              <div className="flex items-center justify-between mb-4 pb-3 border-b border-stone-700 shrink-0">
                 <h2
                   className="text-2xl font-bold text-stone-100 flex items-center gap-2"
                   style={{ fontFamily: 'var(--font-display)' }}
@@ -108,8 +108,8 @@ export function ChronicleTimeline() {
                 </Button>
               </div>
 
-              {/* Timeline */}
-              <div className="flex-1 overflow-y-auto pr-2">
+              {/* Timeline - Scrollable */}
+              <div className="flex-1 overflow-y-auto pr-2 min-h-0">
                 {chronicle.entries.length === 0 ? (
                   <div className="text-center py-8 text-stone-500">
                     <div className="text-4xl mb-2">📜</div>
@@ -126,7 +126,7 @@ export function ChronicleTimeline() {
               </div>
 
               {/* Footer */}
-              <div className="mt-4 pt-3 border-t border-stone-700 text-center text-sm text-stone-500">
+              <div className="mt-4 pt-3 border-t border-stone-700 text-center text-sm text-stone-500 shrink-0">
                 {chronicle.entries.length} eventos registrados
               </div>
             </Card>

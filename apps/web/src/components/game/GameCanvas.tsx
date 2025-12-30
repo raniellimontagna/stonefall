@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import {
   BuildPanel,
   ChronicleTimeline,
+  DebugMenu,
   DefeatScreen,
   EraProgress,
   EventCard,
@@ -146,6 +147,9 @@ export function GameCanvas() {
       <DefeatScreen />
       <GameOverScreen />
       <EventCard />
+
+      {/* Debug Menu - Dev Only */}
+      {import.meta.env.DEV && <DebugMenu />}
     </div>
   );
 }

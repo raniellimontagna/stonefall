@@ -1,4 +1,4 @@
-import { CloseCircle } from '@solar-icons/react';
+import { Chart, CloseCircle, Notebook, Restart } from '@solar-icons/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -72,7 +72,7 @@ export function DefeatScreen() {
                   className="text-2xl font-bold text-stone-200 mb-4 flex items-center gap-2"
                   style={{ fontFamily: 'var(--font-heading)' }}
                 >
-                  📊 Estatísticas Finais
+                  <Chart size={24} weight="Bold" className="text-stone-400" /> Estatísticas Finais
                 </h2>
                 <GameStats statistics={statistics} />
               </div>
@@ -87,10 +87,10 @@ export function DefeatScreen() {
                     window.location.reload();
                   }}
                 >
-                  🔄 Tentar Novamente
+                  <Restart size={20} weight="Bold" /> Tentar Novamente
                 </Button>
                 <Button variant="secondary" className="flex-1 text-lg py-3" onClick={openChronicle}>
-                  📜 Ver Crônica
+                  <Notebook size={20} weight="Bold" /> Ver Crônica
                 </Button>
               </div>
             </Card>

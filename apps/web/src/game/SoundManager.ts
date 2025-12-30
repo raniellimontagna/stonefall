@@ -29,12 +29,12 @@ class SoundManager {
     }
 
     const soundMap: Record<string, string> = {
-      click: '/assets/audio/sfx/click.m4a',
-      build: '/assets/audio/sfx/build.wav',
-      success: '/assets/audio/sfx/success.wav',
-      error: '/assets/audio/sfx/error.wav',
-      collect: '/assets/audio/sfx/collect.wav',
-      battle: '/assets/audio/sfx/battle.wav',
+      click: '/assets/audio/sfx/click.mp3',
+      build: '/assets/audio/sfx/build.mp3',
+      success: '/assets/audio/sfx/success.mp3',
+      error: '/assets/audio/sfx/error.mp3',
+      collect: '/assets/audio/sfx/collect.mp3',
+      battle: '/assets/audio/sfx/battle.mp3',
     };
 
     const src = soundMap[key];

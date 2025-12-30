@@ -593,7 +593,23 @@ export const useGameStore = create<GameStore>()(
     // =========================================================================
 
     setGameOver: (reason: GameOverReason) => {
-      set({ gameOver: reason, isPaused: true });
+      // Update statistics before ending the game
+      const state = get();
+      // Calculate real time played in seconds
+      const realTimePlayed = Math.floor((Date.now() - state.chronicle.startedAt.getTime()) / 1000);
+      set({
+        statistics: {
+          ...state.statistics,
+          duration: state.tick,
+          realTimePlayed,
+          finalEra: state.era,
+          maxPopulation: Math.max(state.statistics.maxPopulation, state.population.current),
+          totalBuildings: state.buildings.length,
+          eventsEncountered: state.eventHistory.length,
+        },
+        gameOver: reason,
+        isPaused: true,
+      });
     },
 
     // =========================================================================

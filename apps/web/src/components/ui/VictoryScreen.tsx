@@ -1,4 +1,4 @@
-import { Crown } from '@solar-icons/react';
+import { Chart, Crown, Notebook, Restart } from '@solar-icons/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -60,7 +60,7 @@ export function VictoryScreen() {
                   className="text-2xl font-bold text-stone-100 mb-4 flex items-center gap-2"
                   style={{ fontFamily: 'var(--font-heading)' }}
                 >
-                  📊 Estatísticas
+                  <Chart size={24} weight="Bold" className="text-gold-main" /> Estatísticas
                 </h2>
                 <GameStats statistics={statistics} />
               </div>
@@ -75,10 +75,10 @@ export function VictoryScreen() {
                     window.location.reload();
                   }}
                 >
-                  🔄 Jogar Novamente
+                  <Restart size={20} weight="Bold" /> Jogar Novamente
                 </Button>
                 <Button variant="secondary" className="flex-1 text-lg py-3" onClick={openChronicle}>
-                  📜 Ver Crônica
+                  <Notebook size={20} weight="Bold" /> Ver Crônica
                 </Button>
               </div>
             </Card>
