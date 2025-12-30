@@ -2,21 +2,11 @@ import { Crown, Fire, Sledgehammer } from '@solar-icons/react';
 import { BUILDINGS } from '@stonefall/shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import {
-  BuildPanel,
-  ChronicleTimeline,
-  DebugMenu,
-  DefeatScreen,
-  EraProgress,
-  EventCard,
-  ResourceBar,
-  RivalPanel,
-  StarvationAlert,
-  TickDisplay,
-  VictoryScreen,
-} from '@/components/ui';
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
+import { DebugMenu } from '@/components/debug';
+import { ResourceBar, StarvationAlert, TickDisplay } from '@/components/hud';
+import { ChronicleTimeline, DefeatModal, EventCard, VictoryModal } from '@/components/modals';
+import { BuildPanel, EraProgress, RivalPanel } from '@/components/panels';
+import { Button, Card } from '@/components/ui';
 import { Game } from '@/game/Game';
 import { cn } from '@/lib/utils';
 import { selectPlacementMode, useGameStore } from '@/store';
@@ -183,8 +173,8 @@ export function GameCanvas() {
 
       {/* Modals & Full Screen Overlays */}
       <ChronicleTimeline />
-      <VictoryScreen />
-      <DefeatScreen />
+      <VictoryModal />
+      <DefeatModal />
       <EventCard />
 
       {/* Debug Menu - Dev Only */}
