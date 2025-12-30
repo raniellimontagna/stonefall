@@ -52,6 +52,13 @@ Narrativa e Polish.
 - [x] Estatísticas calculadas automaticamente no game over
 - [x] Volumes balanceados (SFX menos intrusivo)
 
+### Evolução Visual por Era ✅
+
+- [x] Sistema de troca automática de texturas de construções ao avançar de era
+- [x] Gestão de assets organizada por pastas (`buildings/stone`, `bronze`, `iron`)
+- [x] Geração de novas artes via IA para `Town Center`, `House` e `Farm` nas eras Bronze e Ferro
+- [x] Documentação técnica do sistema de assets (`docs/technical/assets.md`)
+
 ## Concluído no MVP 5
 
 ### Sistema de Rival e Combate ✅

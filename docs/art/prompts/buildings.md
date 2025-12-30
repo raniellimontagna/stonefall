@@ -125,6 +125,18 @@ Colors: #795548 (wood), #D4A574 (hay), #ECEFF1 (sheep), #7CB342 (grass).
 Peaceful pastoral scene, productive farm, pixel art game asset.
 ```
 
+**Prompt - Idade do Ferro:**
+
+```text
+Pixel art game sprite, 64x64 pixels, isometric 3/4 view.
+Iron Age high-yield farm. A dense field of golden wheat covers 75% of the tile area in organized, tight rows.
+In the back corner, a small barn with stone foundations, dark timber walls, and a slate-grey roof.
+A tiny dark iron plow and pitchfork lean against the barn door.
+The entire field is enclosed by a rugged wooden fence reinforced with prominent dark iron bands.
+Colors: #FFC107 (golden wheat), #71797E (iron), #757575 (stone), #795548 (wood), #5D4037 (tilled soil).
+Transparent background, clean pixel edges, top-left lighting, no cast shadow.
+```
+
 ---
 
 ### ⛏️ Mina (Mine)

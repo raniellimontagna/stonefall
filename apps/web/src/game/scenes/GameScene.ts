@@ -46,8 +46,17 @@ export class GameScene extends Phaser.Scene {
     this.buildingManager = new BuildingManager(this);
     this.buildingManager.initialize();
 
+    // Render existing buildings from store (handling persistence/HMR)
+    const existingBuildings = useGameStore.getState().buildings;
+    for (const b of existingBuildings) {
+      this.buildingManager.renderBuilding(b);
+    }
+
     // Sync map data to store
     this.syncMapToStore();
+
+    // Subscribe to store for building updates
+    this.subscribeToStore();
 
     // Place initial Town Center
     this.placeInitialTownCenter();
@@ -71,9 +80,6 @@ export class GameScene extends Phaser.Scene {
 
     // Setup tick system
     this.setupTickSystem();
-
-    // Subscribe to store for building updates
-    this.subscribeToStore();
 
     // Debug: log map creation
     console.log(`Map created: ${GRID_WIDTH}x${GRID_HEIGHT} tiles`);
@@ -120,16 +126,9 @@ export class GameScene extends Phaser.Scene {
           const tile = this.gameMap.getTile(col, row);
           if (tile && BUILDINGS[BuildingType.TownCenter].validTiles.includes(tile.type)) {
             // Place Town Center here
-            const success = store.placeBuilding(BuildingType.TownCenter, col, row);
-            if (success) {
-              // Render the building
-              const building = store.getBuildingAt(col, row);
-              if (building) {
-                this.buildingManager.renderBuilding(building);
-              }
-              console.log(`Town Center placed at ${col}, ${row}`);
-              return;
-            }
+            store.placeBuilding(BuildingType.TownCenter, col, row);
+            console.log(`Town Center placed at ${col}, ${row}`);
+            return;
           }
         }
       }
@@ -239,10 +238,6 @@ export class GameScene extends Phaser.Scene {
       if (validation.valid) {
         const success = store.placeBuilding(placementMode, col, row);
         if (success) {
-          const building = store.getBuildingAt(col, row);
-          if (building) {
-            this.buildingManager.renderBuilding(building);
-          }
           this.buildingManager.hidePreview();
         }
       } else {

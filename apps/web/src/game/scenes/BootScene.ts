@@ -51,7 +51,26 @@ export class BootScene extends Phaser.Scene {
     this.load.image('tile_water', 'assets/tiles/water.png');
     this.load.image('tile_gold', 'assets/tiles/gold.png');
 
-    // Load Building Assets
+    // Load Building Assets (Era-specific)
+    const eras = ['stone', 'bronze', 'iron'];
+    const buildingTypes = [
+      'town_center',
+      'house',
+      'farm',
+      'sawmill',
+      'mine',
+      'gold_mine',
+      'barracks',
+      'defense_tower',
+    ];
+
+    for (const era of eras) {
+      for (const type of buildingTypes) {
+        this.load.image(`building_${type}_${era}`, `assets/buildings/${era}/${type}.png`);
+      }
+    }
+
+    // Keep original keys for fallback or until all code is updated
     this.load.image('building_town_center', 'assets/icons/buildings/town_center.png');
     this.load.image('building_house', 'assets/icons/buildings/house.png');
     this.load.image('building_farm', 'assets/icons/buildings/farm.png');

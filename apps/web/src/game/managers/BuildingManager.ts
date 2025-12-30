@@ -21,6 +21,7 @@ import {
   TileType,
 } from '@stonefall/shared';
 import type Phaser from 'phaser';
+import { useGameStore } from '../../store';
 
 export interface PlacementValidation {
   valid: boolean;
@@ -47,6 +48,14 @@ export class BuildingManager {
     this.buildingsContainer = this.scene.add.container(0, 0);
     this.previewGraphics = this.scene.add.graphics();
     this.previewGraphics.setDepth(100); // Above buildings
+
+    // Subscribe to era changes to update building textures
+    useGameStore.subscribe(
+      (state) => state.era,
+      (era) => {
+        this.updateAllBuildingsEra(era);
+      }
+    );
   }
 
   /**
@@ -55,10 +64,36 @@ export class BuildingManager {
   renderBuilding(building: Building): void {
     if (!this.buildingsContainer) return;
 
+    // Prevent duplicate rendering by ID
+    if (this.buildings.has(building.id)) {
+      return;
+    }
+
     const { col, row } = building.position;
     const x = col * TILE_SIZE + TILE_SIZE / 2;
     const y = row * TILE_SIZE + TILE_SIZE / 2;
-    const textureKey = `building_${building.type}`;
+
+    // Ghost busting: Remove any existing sprite at this exact position
+    // This handles cases where state might have desynced or HMR left artifacts
+    this.buildingsContainer.list.forEach((child) => {
+      const sprite = child as Phaser.GameObjects.Image;
+      if (Math.abs(sprite.x - x) < 1 && Math.abs(sprite.y - y) < 1) {
+        console.warn('Removing ghost sprite at', col, row);
+        sprite.destroy();
+      }
+    });
+
+    // Also check logical map for existing building at this position and remove it
+    for (const [id, sprite] of this.buildings.entries()) {
+      if (Math.abs(sprite.x - x) < 1 && Math.abs(sprite.y - y) < 1) {
+        this.buildings.delete(id);
+        sprite.destroy();
+      }
+    }
+
+    // Get current era from store
+    const era = useGameStore.getState().era;
+    const textureKey = `building_${building.type}_${era}`;
 
     // Create building sprite
     const sprite = this.scene.add.image(x, y, textureKey);
@@ -69,14 +104,31 @@ export class BuildingManager {
     // Enforce size to fit the tile (assets might be high-res)
     sprite.setDisplaySize(TILE_SIZE, TILE_SIZE);
 
-    // Store ID for reference
+    // Store ID and type for reference
     sprite.setData('buildingId', building.id);
-
-    // Adjust scale/depth if needed (Town Center is larger)
-    // Town Center (128px) will naturally overhang the 64px tile, which is desired for visual impact
+    sprite.setData('buildingType', building.type);
 
     this.buildingsContainer.add(sprite);
     this.buildings.set(building.id, sprite);
+  }
+
+  /**
+   * Update all building textures based on the new era
+   */
+  private updateAllBuildingsEra(era: string): void {
+    this.buildings.forEach((sprite) => {
+      const type = sprite.getData('buildingType');
+      if (type) {
+        const textureKey = `building_${type}_${era}`;
+        if (this.scene.textures.exists(textureKey)) {
+          sprite.setTexture(textureKey);
+          // Re-enforce size as new texture might have different dimensions
+          sprite.setDisplaySize(TILE_SIZE, TILE_SIZE);
+        }
+      }
+    });
+
+    console.log(`Updated all buildings to era: ${era}`);
   }
 
   /**

@@ -42,6 +42,7 @@ docs/
 │   ├── feature-flags.md         # 🚩 Feature flags e config
 │   ├── sound-system.md          # 🔊 Sistema de som e música
 │   ├── debug-menu.md            # ⚙️ Manual do Debug Menu
+│   ├── assets.md                # 🎨 Gestão de Assets e Evolução
 │   └── longevity.md             # 📈 Análise de longevidade
 ├── mvp/                         # Roadmap de MVPs
 │   ├── roadmap.md               # Visão geral dos MVPs
