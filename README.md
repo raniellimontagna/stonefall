@@ -65,4 +65,8 @@ stonefall/
 
 ## 📄 Licença
 
-Private - All rights reserved
+Este projeto está sob a licença [MIT](./LICENSE). Sinta-se à vontade para usar, modificar e distribuir.
+
+## 🤝 Contribuições
+
+Contribuições são muito bem-vindas! Veja o nosso [Guia de Contribuição](./CONTRIBUTING.md) para saber como começar.

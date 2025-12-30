@@ -13,7 +13,12 @@ app.use('*', logger());
 app.use(
   '*',
   cors({
-    origin: ['http://localhost:3000', 'http://localhost:3002', 'http://localhost:5173'],
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:3002',
+      'http://localhost:5173',
+      process.env.FRONTEND_URL || '',
+    ].filter(Boolean),
     credentials: true,
   })
 );
@@ -45,9 +50,17 @@ app.onError((err, c) => {
 // Start server
 const port = Number(process.env.PORT) || 3001;
 
-serve({
-  fetch: app.fetch,
-  port,
-});
+// Vercel handles the app via default export, so we only call serve manually for local development
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  try {
+    serve({
+      fetch: app.fetch,
+      port,
+    });
+    console.log(`🚀 Server running on http://localhost:${port}`);
+  } catch (err) {
+    console.error('Failed to start server:', err);
+  }
+}
 
-console.log(`🚀 Server running on http://localhost:${port}`);
+export default app;
