@@ -17,11 +17,13 @@
     "typecheck": "turbo typecheck",
     "test": "turbo test",
     "test:run": "turbo test:run",
+    "test:coverage": "turbo test:coverage",
     "clean": "turbo clean && rm -rf node_modules .turbo"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",
     "turbo": "^2.5.0",
-    "typescript": "^5.8.0"
+    "typescript": "^5.8.0",
+    "vitest": "^4.0.16"
   }
 }
