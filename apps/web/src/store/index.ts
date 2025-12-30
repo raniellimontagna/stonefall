@@ -1,6 +1,9 @@
 export {
   selectBuildings,
+  selectChronicle,
+  selectChronicleModal,
   selectEra,
+  selectEventHistory,
   selectGameOver,
   selectGameSpeed,
   selectIsPaused,
@@ -9,6 +12,7 @@ export {
   selectPopulation,
   selectProduction,
   selectResources,
+  selectStatistics,
   selectTick,
   useGameStore,
 } from './gameStore';

@@ -147,6 +147,11 @@ export interface GameState {
   military: import('./rival').MilitaryStatus;
   combat: import('./combat').CombatState;
   lastRivalAttack: { tick: number; killed: number } | null;
+
+  // Chronicle and Statistics (MVP 7)
+  chronicle: import('./chronicle').Chronicle;
+  statistics: import('./chronicle').GameStatistics;
+  chronicleModal: boolean;
 }
 
 // =============================================================================

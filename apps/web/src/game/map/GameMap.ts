@@ -39,11 +39,11 @@ export class GameMap {
     // 2. Generate Lakes (Clusters)
     this.generateClusters(TileType.Water, 3, 0.5, 4); // Medium lakes: 3 seeds, 50% spread, 4 iterations
 
-    // 3. Generate Forest Clusters (Seeded)
-    this.generateClusters(TileType.Forest, 8, 0.65, 4); // Balanced forests: 8 seeds, 65% spread, 4 iterations
+    // 3. Generate Forest Clusters (Seeded) - INCREASED
+    this.generateClusters(TileType.Forest, 12, 0.7, 5); // Rich forests: 12 seeds, 70% spread, 5 iterations
 
-    // 4. Generate Mountain Clusters (Seeded)
-    this.generateClusters(TileType.Mountain, 4, 0.5, 2); // 4 seeds, 50% spread chance, 2 iterations
+    // 4. Generate Mountain Clusters (Seeded) - INCREASED
+    this.generateClusters(TileType.Mountain, 8, 0.6, 3); // 8 seeds, 60% spread chance, 3 iterations
 
     // 5. Generate Sand (Shorelines)
     this.generateShorelines();
@@ -121,12 +121,13 @@ export class GameMap {
    */
   private generateResources(): void {
     // 1. Gold near Mountains
+    let goldCount = 0;
     for (let row = 0; row < this.height; row++) {
       for (let col = 0; col < this.width; col++) {
         const tile = this.tiles[row]?.[col];
         if (tile && tile.type === TileType.Mountain) {
-          // 15% chance to spawn gold nearby
-          if (Math.random() < 0.15) {
+          // 35% chance to spawn gold nearby (increased from 15%)
+          if (Math.random() < 0.35) {
             const neighbors = this.getNeighbors(col, row);
             const validNeighbors = neighbors.filter((n) => {
               const t = this.tiles[n.row]?.[n.col];
@@ -138,6 +139,7 @@ export class GameMap {
               const targetTile = target && this.tiles[target.row]?.[target.col];
               if (targetTile) {
                 targetTile.type = TileType.Gold;
+                goldCount++;
               }
             }
           }
@@ -145,7 +147,46 @@ export class GameMap {
       }
     }
 
-    // 2. Extra Stone (Boulders) in Plains
+    // 2. Guarantee minimum gold tiles (3-5) if we don't have enough
+    const minGoldTiles = 3;
+    const maxAttempts = 50; // Prevent infinite loop
+    let attempts = 0;
+
+    while (goldCount < minGoldTiles && attempts < maxAttempts) {
+      // Find a mountain tile
+      const mountains: GridPosition[] = [];
+      for (let row = 0; row < this.height; row++) {
+        for (let col = 0; col < this.width; col++) {
+          const tile = this.tiles[row]?.[col];
+          if (tile && tile.type === TileType.Mountain) {
+            mountains.push({ col, row });
+          }
+        }
+      }
+
+      if (mountains.length === 0) break;
+
+      const randomMountain = mountains[Math.floor(Math.random() * mountains.length)];
+      if (randomMountain) {
+        const neighbors = this.getNeighbors(randomMountain.col, randomMountain.row);
+        const validNeighbors = neighbors.filter((n) => {
+          const t = this.tiles[n.row]?.[n.col];
+          return t && t.type === TileType.Plains;
+        });
+
+        if (validNeighbors.length > 0) {
+          const target = validNeighbors[Math.floor(Math.random() * validNeighbors.length)];
+          const targetTile = target && this.tiles[target.row]?.[target.col];
+          if (targetTile) {
+            targetTile.type = TileType.Gold;
+            goldCount++;
+          }
+        }
+      }
+      attempts++;
+    }
+
+    // 3. Extra Stone (Boulders) in Plains
     const boulderCount = 5;
     for (let i = 0; i < boulderCount; i++) {
       const col = Math.floor(Math.random() * this.width);

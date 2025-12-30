@@ -57,7 +57,9 @@ export class BootScene extends Phaser.Scene {
     this.load.image('building_farm', 'assets/icons/buildings/farm.png');
     this.load.image('building_sawmill', 'assets/icons/buildings/sawmill.png');
     this.load.image('building_mine', 'assets/icons/buildings/mine.png');
+    this.load.image('building_gold_mine', 'assets/icons/buildings/gold_mine.png');
     this.load.image('building_barracks', 'assets/icons/buildings/barracks.png');
+    this.load.image('building_defense_tower', 'assets/icons/buildings/defense_tower.png');
 
     // Load Decorations
     this.load.image('deco_rock', 'assets/decorations/rock_small.png');

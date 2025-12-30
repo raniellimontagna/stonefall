@@ -48,7 +48,10 @@ export function BuildPanel({ mobile }: BuildPanelProps) {
   return (
     <div className={cn('flex flex-col gap-4', mobile ? 'w-full' : 'w-full')}>
       {!mobile && (
-        <h3 className="text-xl font-bold flex items-center gap-2 text-wood-light drop-shadow-md">
+        <h3
+          className="text-xl font-bold flex items-center gap-2 text-wood-light drop-shadow-md"
+          style={{ fontFamily: 'var(--font-heading)' }}
+        >
           <Sledgehammer size={24} weight="Bold" className="text-wood-main" />
           <span>Construction</span>
         </h3>

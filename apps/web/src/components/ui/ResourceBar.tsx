@@ -61,7 +61,10 @@ export function ResourceBar() {
       >
         <UsersGroupRounded size={20} weight="Bold" className="text-stone-300" />
         <div className="flex items-baseline gap-1">
-          <span className="font-bold text-lg text-stone-100 font-mono tracking-tight">
+          <span
+            className="font-bold text-lg text-stone-100 tracking-tight"
+            style={{ fontFamily: 'var(--font-mono)' }}
+          >
             {population.current}
           </span>
           <span className="text-xs text-stone-500 font-medium">/ {population.max}</span>
@@ -98,10 +101,11 @@ function ResourceItem({
       <div className="flex flex-col leading-none">
         <span
           className={cn(
-            'font-bold min-w-[30px] text-lg font-mono tracking-tight',
+            'font-bold min-w-[30px] text-lg tracking-tight',
             'drop-shadow-md transition-colors',
             color || 'text-stone-100'
           )}
+          style={{ fontFamily: 'var(--font-mono)' }}
         >
           {value}
         </span>

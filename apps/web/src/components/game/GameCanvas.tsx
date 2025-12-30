@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import {
   BuildPanel,
+  DefeatScreen,
   EraProgress,
   EventCard,
   GameOverScreen,
@@ -10,6 +11,7 @@ import {
   RivalPanel,
   StarvationAlert,
   TickDisplay,
+  VictoryScreen,
 } from '@/components/ui';
 import { Card } from '@/components/ui/Card';
 import { Game } from '@/game/Game';
@@ -51,7 +53,10 @@ export function GameCanvas() {
       {/* Loading Overlay */}
       {isLoading && (
         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-stone-900 text-gold-main">
-          <h1 className="text-5xl font-bold mb-4 animate-bounce-short flex items-center gap-4">
+          <h1
+            className="text-5xl font-bold mb-4 animate-bounce-short flex items-center gap-4"
+            style={{ fontFamily: 'var(--font-display)' }}
+          >
             <Sledgehammer size={48} weight="Bold" /> Stonefall
           </h1>
           <p className="text-stone-400">Loading Stone Age...</p>
@@ -110,7 +115,7 @@ export function GameCanvas() {
             </AnimatePresence>
 
             {/* Navigation Tabs */}
-            <div className="bg-wood-dark/95 backdrop-blur shadow-[0_-5px_20px_rgba(0,0,0,0.5)] flex justify-around items-center border-t border-wood-light/50 pb-6 pt-2 z-20 relative">
+            <div className="bg-wood-dark/95 backdrop-blur shadow-[0_-5px_20px_rgba(0,0,0,0.5)] flex justify-around items-center border-t border-wood-light/50 pb-2 pt-2 z-20 relative">
               <NavButton
                 icon={<Sledgehammer size={24} weight="Bold" />}
                 label="Build"
@@ -135,6 +140,8 @@ export function GameCanvas() {
       )}
 
       {/* Modals & Full Screen Overlays */}
+      <VictoryScreen />
+      <DefeatScreen />
       <GameOverScreen />
       <EventCard />
     </div>

@@ -26,7 +26,12 @@
   --color-gold-main: #ffc107;
   --color-gold-light: #ffecb3;
 
-  --font-game: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  /* Typography Hierarchy */
+  --font-display: "Cinzel", "Georgia", serif;
+  --font-heading: "Cinzel", "Georgia", serif;
+  --font-body: "Roboto Condensed", "Arial", sans-serif;
+  --font-mono: "Roboto Mono", "Courier New", monospace;
+  --font-game: "Roboto Condensed", "Arial", sans-serif;
   
   --animate-bounce-short: bounce-short 0.5s infinite;
 }
@@ -43,7 +48,7 @@ html, body, #root {
   overflow: hidden;
   background-color: var(--color-stone-900);
   color: var(--color-stone-100);
-  font-family: var(--font-game);
+  font-family: var(--font-body);
 }
 
 /* Custom Scrollbar */
