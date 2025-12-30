@@ -21,22 +21,25 @@ export function StarvationAlert() {
   return (
     <div
       className={cn(
-        'flex items-center gap-2 px-3 py-1.5 rounded-lg border shadow-lg animate-pulse',
+        'flex items-center gap-3 px-3 py-2 rounded-2xl border shadow-lg animate-pulse',
+        'bg-stone-900/60 backdrop-blur-md',
         severity === 'critical'
-          ? 'bg-red-900/90 text-red-100 border-red-500'
+          ? 'text-red-400 border-red-500/50 shadow-red-900/20'
           : severity === 'warning'
-            ? 'bg-orange-900/90 text-orange-100 border-orange-500'
-            : 'bg-yellow-900/80 text-yellow-100 border-yellow-600'
+            ? 'text-orange-400 border-orange-500/50 shadow-orange-900/20'
+            : 'text-yellow-400 border-yellow-500/50 shadow-yellow-900/20'
       )}
     >
       {severity === 'critical' ? (
-        <DangerTriangle size={18} weight="Bold" />
+        <DangerTriangle size={24} weight="Bold" className="drop-shadow-md" />
       ) : (
-        <DangerTriangle size={18} weight="Linear" />
+        <DangerTriangle size={24} weight="Linear" className="drop-shadow-md" />
       )}
       <div className="flex flex-col leading-none">
-        <span className="text-xs font-bold uppercase tracking-wider">{severity}</span>
-        <span className="font-mono font-bold">Food: {Math.floor(food)}</span>
+        <span className="text-[10px] font-bold uppercase tracking-widest opacity-80 mb-0.5">
+          {severity}
+        </span>
+        <span className="font-mono font-bold text-lg tracking-tight">Food: {Math.floor(food)}</span>
       </div>
     </div>
   );

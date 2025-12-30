@@ -73,7 +73,7 @@ export function GameCanvas() {
           {/* TOP BAR */}
           <div className="pointer-events-auto flex flex-col gap-2 p-2">
             <ResourceBar />
-            <div className="flex justify-between items-start px-2">
+            <div className="flex flex-wrap justify-start items-start gap-4 px-2">
               <TickDisplay />
               <StarvationAlert />
             </div>
