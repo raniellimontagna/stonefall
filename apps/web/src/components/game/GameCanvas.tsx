@@ -1,4 +1,5 @@
 import { Crown, Fire, Sledgehammer } from '@solar-icons/react';
+import { BUILDINGS } from '@stonefall/shared';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import {
@@ -8,16 +9,17 @@ import {
   DefeatScreen,
   EraProgress,
   EventCard,
-  GameOverScreen,
   ResourceBar,
   RivalPanel,
   StarvationAlert,
   TickDisplay,
   VictoryScreen,
 } from '@/components/ui';
+import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Game } from '@/game/Game';
 import { cn } from '@/lib/utils';
+import { selectPlacementMode, useGameStore } from '@/store';
 
 type ActivePanel = 'build' | 'rival' | 'era' | null;
 
@@ -26,6 +28,9 @@ export function GameCanvas() {
   const gameRef = useRef<Game | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [activePanel, setActivePanel] = useState<ActivePanel>(null);
+
+  const placementMode = useGameStore(selectPlacementMode);
+  const setPlacementMode = useGameStore((state) => state.setPlacementMode);
 
   useEffect(() => {
     if (!containerRef.current || gameRef.current) return;
@@ -109,7 +114,9 @@ export function GameCanvas() {
                   exit={{ y: '100%' }}
                   className="bg-stone-800/95 backdrop-blur-md border-t-4 border-wood-main max-h-[60vh] overflow-y-auto p-4 rounded-t-2xl shadow-2xl"
                 >
-                  {activePanel === 'build' && <BuildPanel mobile />}
+                  {activePanel === 'build' && (
+                    <BuildPanel mobile onBuildingSelect={() => setActivePanel(null)} />
+                  )}
                   {activePanel === 'rival' && <RivalPanel mobile />}
                   {activePanel === 'era' && <EraProgress mobile />}
                 </motion.div>
@@ -138,6 +145,39 @@ export function GameCanvas() {
               />
             </div>
           </div>
+
+          {/* PLACEMENT OVERLAY (Floating) */}
+          <AnimatePresence>
+            {placementMode && (
+              <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 50, opacity: 0 }}
+                className="absolute bottom-24 left-0 right-0 flex justify-center pointer-events-auto px-4 z-50 lg:bottom-8"
+              >
+                <Card
+                  variant="glass"
+                  className="p-4 bg-wood-dark/90 backdrop-blur-md border-gold-main/50 text-center shadow-2xl flex flex-col gap-2 max-w-sm w-full"
+                >
+                  <p className="text-sm text-gold-light font-bold">
+                    <span className="text-stone-400 font-normal block text-xs uppercase tracking-wider mb-1">
+                      Placing
+                    </span>
+                    {BUILDINGS[placementMode].name}
+                  </p>
+                  <p className="text-xs text-stone-300">Tap on the map to build</p>
+                  <Button
+                    variant="danger"
+                    size="sm"
+                    onClick={() => setPlacementMode(null)}
+                    className="w-full mt-1"
+                  >
+                    Cancel
+                  </Button>
+                </Card>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       )}
 
@@ -145,7 +185,6 @@ export function GameCanvas() {
       <ChronicleTimeline />
       <VictoryScreen />
       <DefeatScreen />
-      <GameOverScreen />
       <EventCard />
 
       {/* Debug Menu - Dev Only */}

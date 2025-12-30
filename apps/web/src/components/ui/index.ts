@@ -6,7 +6,6 @@ export { DebugMenu } from './DebugMenu';
 export { DefeatScreen } from './DefeatScreen';
 export { EraProgress } from './EraProgress';
 export { EventCard } from './EventCard';
-export { GameOverScreen } from './GameOverScreen';
 export { GameStats } from './GameStats';
 export { Icon } from './Icon';
 export { ResourceBar } from './ResourceBar';

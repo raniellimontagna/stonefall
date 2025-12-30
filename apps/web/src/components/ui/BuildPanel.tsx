@@ -3,7 +3,6 @@ import type { BuildingType, Resources } from '@stonefall/shared';
 import { BUILDINGS } from '@stonefall/shared';
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
 import { Icon } from '@/components/ui/Icon';
 import { formatResource } from '@/game/managers';
 import { cn } from '@/lib/utils';
@@ -11,9 +10,10 @@ import { selectPlacementMode, selectResources, useGameStore } from '@/store';
 
 interface BuildPanelProps {
   mobile?: boolean;
+  onBuildingSelect?: () => void;
 }
 
-export function BuildPanel({ mobile }: BuildPanelProps) {
+export function BuildPanel({ mobile, onBuildingSelect }: BuildPanelProps) {
   const resources = useGameStore(selectResources);
   const placementMode = useGameStore(selectPlacementMode);
   const setPlacementMode = useGameStore((s) => s.setPlacementMode);
@@ -27,11 +27,8 @@ export function BuildPanel({ mobile }: BuildPanelProps) {
       setPlacementMode(null);
     } else {
       setPlacementMode(type);
+      onBuildingSelect?.();
     }
-  };
-
-  const handleCancelClick = () => {
-    setPlacementMode(null);
   };
 
   // Keyboard shortcut for cancel
@@ -120,20 +117,6 @@ export function BuildPanel({ mobile }: BuildPanelProps) {
           );
         })}
       </div>
-
-      {placementMode && (
-        <Card
-          variant="glass"
-          className="animate-bounce-short p-4 bg-wood-dark/80 backdrop-blur-md border-gold-main/50 text-center shadow-2xl"
-        >
-          <p className="text-sm text-gold-light mb-3 font-bold">
-            Click map to place <span className="text-white">{BUILDINGS[placementMode].name}</span>
-          </p>
-          <Button variant="danger" size="sm" onClick={handleCancelClick} className="w-full">
-            Cancel
-          </Button>
-        </Card>
-      )}
     </div>
   );
 }

@@ -70,7 +70,12 @@ export class GameScene extends Phaser.Scene {
     );
 
     // Center camera on map
-    this.cameras.main.centerOn(MAP_WIDTH_PX / 2, MAP_HEIGHT_PX / 2);
+    this.centerCamera();
+
+    // Handle window resizing
+    this.scale.on('resize', () => {
+      this.centerCamera();
+    });
 
     // Setup camera controls
     this.setupCameraControls();
@@ -138,21 +143,69 @@ export class GameScene extends Phaser.Scene {
   }
 
   private setupCameraControls() {
-    // Mouse drag for panning with right button (button 2) or middle button (button 1)
+    // Enable multi-touch for pinch zoom
+    this.input.addPointer(1);
+
+    // Track previous pinch distance
+    let prevPinchDistance = 0;
+
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-      // Button 2 is right click, button 1 is middle click
-      if (pointer.button === 2 || pointer.button === 1) {
-        this.isDragging = true;
-        this.dragStartX = pointer.x;
-        this.dragStartY = pointer.y;
-        this.cameraStartX = this.cameras.main.scrollX;
-        this.cameraStartY = this.cameras.main.scrollY;
-        console.log('Camera drag started, button:', pointer.button);
-      }
+      // Start drag with ANY button if not already checking for something else?
+      // Actually, standard behavior: Left/Touch is drag if we move.
+      this.isDragging = false; // Reset initially
+
+      // Store start positions
+      this.dragStartX = pointer.x;
+      this.dragStartY = pointer.y;
+      this.cameraStartX = this.cameras.main.scrollX;
+      this.cameraStartY = this.cameras.main.scrollY;
+
+      // We are *potentially* dragging now.
     });
 
     this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
-      if (this.isDragging && pointer.isDown) {
+      // 1. PINCH ZOOM handling
+      if (this.input.pointer1.isDown && this.input.pointer2.isDown) {
+        // Calculate distance between two pointers
+        const distance = Phaser.Math.Distance.Between(
+          this.input.pointer1.x,
+          this.input.pointer1.y,
+          this.input.pointer2.x,
+          this.input.pointer2.y
+        );
+
+        if (prevPinchDistance > 0) {
+          const delta = distance - prevPinchDistance;
+          // Zoom based on delta
+          const currentZoom = this.cameras.main.zoom;
+          // Sensitivity factor
+          const zoomFactor = 0.005;
+          const newZoom = Phaser.Math.Clamp(
+            currentZoom + delta * zoomFactor,
+            CAMERA_MIN_ZOOM,
+            CAMERA_MAX_ZOOM
+          );
+          this.cameras.main.setZoom(newZoom);
+        }
+        prevPinchDistance = distance;
+        return; // Skip panning if zooming
+      } else {
+        prevPinchDistance = 0; // Reset pinch
+      }
+
+      // 2. PANNING handling
+      // Check for drag threshold to avoid accidental micro-drags being interpreted as pans
+      const dist = Phaser.Math.Distance.Between(
+        pointer.x,
+        pointer.y,
+        this.dragStartX,
+        this.dragStartY
+      );
+
+      // If we are holding down and moved enough, consider it a drag
+      if (pointer.isDown && (this.isDragging || dist > 10)) {
+        this.isDragging = true;
+
         const zoom = this.cameras.main.zoom;
         const deltaX = (this.dragStartX - pointer.x) / zoom;
         const deltaY = (this.dragStartY - pointer.y) / zoom;
@@ -165,17 +218,23 @@ export class GameScene extends Phaser.Scene {
       this.updatePlacementPreview(pointer);
     });
 
-    this.input.on('pointerup', (pointer: Phaser.Input.Pointer) => {
-      // Stop dragging when right or middle button is released
-      if (pointer.button === 2 || pointer.button === 1) {
-        this.isDragging = false;
-        console.log('Camera drag stopped');
-      }
+    this.input.on('pointerup', () => {
+      // Reset pinch distance
+      prevPinchDistance = 0;
+      // We don't reset isDragging here immediately because setupBuildingPlacement needs to check it.
+      // But we can reset it after a short delay or control flow.
+      // Actually, setupBuildingPlacement also listens to pointerup.
+      // Since Phaser events fire in order of registration, if we register setupBuildingPlacement AFTER setupCameraControls,
+      // we can check drag state there.
+
+      // We will reset isDragging in 'pointerout' or after a frame if needed,
+      // but let's just leave it for the building placement handler to check.
     });
 
     // Also stop dragging if pointer leaves the game
     this.input.on('pointerout', () => {
       this.isDragging = false;
+      prevPinchDistance = 0;
     });
 
     // Mouse wheel for zooming
@@ -211,8 +270,16 @@ export class GameScene extends Phaser.Scene {
   }
 
   private setupBuildingPlacement() {
-    this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-      if (!pointer.leftButtonDown()) return;
+    // Only trigger placement on pointer UP (release), and only if we weren't dragging
+    this.input.on('pointerup', (pointer: Phaser.Input.Pointer) => {
+      // If we were dragging (panning), do NOT place building
+      if (this.isDragging) {
+        // Reset dragging state for next interaction
+        this.isDragging = false;
+        return;
+      }
+
+      if (pointer.button !== 0) return; // Only Left Click / Touch
 
       const store = useGameStore.getState();
       const placementMode = store.placementMode;
@@ -239,6 +306,9 @@ export class GameScene extends Phaser.Scene {
         const success = store.placeBuilding(placementMode, col, row);
         if (success) {
           this.buildingManager.hidePreview();
+          // Optional: Clear placement mode after placing?
+          // store.setPlacementMode(null);
+          // Usually better UX to keep it for multiple placements unless explicit.
         }
       } else {
         console.log(`Cannot place building: ${validation.reason}`);
@@ -333,6 +403,10 @@ export class GameScene extends Phaser.Scene {
         }
       }
     );
+  }
+
+  private centerCamera() {
+    this.cameras.main.centerOn(MAP_WIDTH_PX / 2, MAP_HEIGHT_PX / 2);
   }
 
   shutdown() {
