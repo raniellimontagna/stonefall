@@ -1,14 +1,19 @@
 import { type HTMLMotionProps, motion } from 'framer-motion';
 import { forwardRef } from 'react';
+import { soundManager } from '@/game/SoundManager';
 import { cn } from '@/lib/utils';
 
 interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'ref'> {
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
   size?: 'sm' | 'md' | 'lg' | 'icon';
+  sound?: boolean; // Enable/disable click sound (default: true)
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = 'primary', size = 'md', children, ...props }, ref) => {
+  (
+    { className, variant = 'primary', size = 'md', sound = true, onClick, children, ...props },
+    ref
+  ) => {
     // Stone Age Style Variants
     const variants = {
       primary:
@@ -27,6 +32,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       icon: 'p-2 rounded-xl aspect-square flex items-center justify-center',
     };
 
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (sound) {
+        soundManager.play('click');
+      }
+      onClick?.(e);
+    };
+
     return (
       <motion.button
         ref={ref}
@@ -37,6 +49,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           sizes[size],
           className
         )}
+        onClick={handleClick}
         {...props}
       >
         {children}

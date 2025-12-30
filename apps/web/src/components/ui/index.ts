@@ -1,6 +1,7 @@
 export { BuildPanel } from './BuildPanel';
 export { Button } from './Button';
 export { Card } from './Card';
+export { ChronicleTimeline } from './ChronicleTimeline';
 export { DefeatScreen } from './DefeatScreen';
 export { EraProgress } from './EraProgress';
 export { EventCard } from './EventCard';

@@ -476,6 +476,17 @@ export const useGameStore = create<GameStore>()(
         placementMode: null, // Exit placement mode after building
       });
 
+      // Chronicle: Register first building of each type
+      const isFirstOfType = !state.buildings.some((b) => b.type === type);
+      if (isFirstOfType && type !== 'town_center') {
+        get().addChronicleEntry({
+          type: 'building',
+          title: `Primeira ${def.name}`,
+          description: `Construiu a primeira ${def.name} da civilização.`,
+          icon: '🏗️',
+        });
+      }
+
       return true;
     },
 
@@ -776,6 +787,19 @@ export const useGameStore = create<GameStore>()(
         production: newProduction,
       });
 
+      // Chronicle: Register era advancement
+      const eraNames = {
+        stone: 'Idade da Pedra',
+        bronze: 'Idade do Bronze',
+        iron: 'Idade do Ferro',
+      };
+      get().addChronicleEntry({
+        type: 'era',
+        title: `Avanço para ${eraNames[nextEra]}`,
+        description: `A civilização evoluiu para a ${eraNames[nextEra]}, desbloqueando novas tecnologias.`,
+        icon: '⚡',
+      });
+
       return true;
     },
 
@@ -862,7 +886,25 @@ export const useGameStore = create<GameStore>()(
           isDefeated,
         },
         gameOver: isDefeated ? 'victory' : null,
+        // Update statistics
+        statistics: {
+          ...state.statistics,
+          totalBattles: state.statistics.totalBattles + 1,
+          battlesWon: isDefeated ? state.statistics.battlesWon + 1 : state.statistics.battlesWon,
+        },
       });
+
+      // Chronicle: Register significant battles
+      if (populationKilled >= 3 || isDefeated) {
+        get().addChronicleEntry({
+          type: 'combat',
+          title: isDefeated ? `Vitória sobre ${state.rival.name}` : 'Batalha Sangrenta',
+          description: isDefeated
+            ? `Derrotou completamente ${state.rival.name}, conquistando a vitória final!`
+            : `Ataque devastador matou ${populationKilled} da população inimiga.`,
+          icon: '⚔️',
+        });
+      }
 
       return {
         action: 'attack' as const,

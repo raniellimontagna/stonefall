@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import {
   BuildPanel,
+  ChronicleTimeline,
   DefeatScreen,
   EraProgress,
   EventCard,
@@ -140,6 +141,7 @@ export function GameCanvas() {
       )}
 
       {/* Modals & Full Screen Overlays */}
+      <ChronicleTimeline />
       <VictoryScreen />
       <DefeatScreen />
       <GameOverScreen />

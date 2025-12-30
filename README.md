@@ -55,12 +55,13 @@ stonefall/
 ## 🏗️ Status
 
 - [x] MVP 0 - Fundação (monorepo + mapa)
-- [ ] MVP 1 - Recursos e Construções
-- [ ] MVP 2 - Sistema de Eras
-- [ ] MVP 3 - Eventos com IA
-- [ ] MVP 4 - Combate
-- [ ] MVP 5 - Vitória/Derrota
-- [ ] MVP 6 - Polish
+- [x] MVP 1 - Recursos e Construções
+- [x] MVP 2 - População e Tempo
+- [x] MVP 3 - Eventos com IA
+- [x] MVP 4 - Eras e Progressão
+- [x] MVP 5 - Rival e Combate
+- [ ] MVP 6/7 - Narrative & Polish (40% - em progresso)
+
 
 ## 📄 Licença
 
