@@ -10,6 +10,7 @@ import {
   POPULATION_CONSUMPTION_RATE,
 } from '@stonefall/shared';
 import { soundManager } from '@/game/SoundManager';
+import { ApiError, apiClient } from '@/lib/apiClient';
 import type { SliceCreator } from '../types';
 
 export interface EventsSlice {
@@ -124,33 +125,38 @@ export const createEventsSlice: SliceCreator<EventsSlice> = (set, get) => ({
     // Set lock
     set({ isGeneratingEvent: true });
 
-    // Try to fetch event from API
+    // Try to fetch event from API using centralized client
     try {
-      const response = await fetch('/api/events/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          era: state.era,
-          tick: state.tick,
-          population: state.population.current,
-          resources: {
-            food: state.resources.food,
-            wood: state.resources.wood,
-            stone: state.resources.stone,
-            gold: state.resources.gold,
-          },
-          recentEvents: state.eventHistory.slice(-3).map((e) => e.event.title),
-        }),
+      const response = await apiClient.generateEvent({
+        era: state.era,
+        tick: state.tick,
+        population: state.population.current,
+        resources: {
+          food: state.resources.food,
+          wood: state.resources.wood,
+          stone: state.resources.stone,
+          gold: state.resources.gold,
+        },
+        recentEvents: state.eventHistory.slice(-3).map((e) => e.event.title),
       });
 
-      if (response.ok) {
-        const eventData = await response.json();
-        if (eventData.event) {
-          get().triggerEvent(eventData.event);
-        }
+      if (response.event) {
+        // Enrich API event with frontend-specific fields
+        // Type assertion is safe here because Zod validated the response structure
+        const enrichedEvent = {
+          ...response.event,
+          triggeredAt: state.tick,
+          era: state.era,
+        } as GameEvent;
+        get().triggerEvent(enrichedEvent);
       }
     } catch (error) {
-      console.error('Failed to fetch event:', error);
+      // Log error with context for debugging
+      if (error instanceof ApiError) {
+        console.error(`[Events] API Error (${error.statusCode}): ${error.message}`);
+      } else {
+        console.error('[Events] Failed to fetch event:', error);
+      }
     } finally {
       // Release lock
       set({ isGeneratingEvent: false });
