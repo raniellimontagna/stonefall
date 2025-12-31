@@ -149,9 +149,9 @@ Adicionar uma civilização rival e sistema de combate.
 
 ---
 
-## MVP 6 - Narrativa e Polish
+## MVP 6 - Narrativa e Polish ✅
 
-**Tempo estimado:** 3-4 dias
+**Status:** Concluído (31/12/2024)
 
 ### Objetivo
 
@@ -171,26 +171,45 @@ Crônica da civilização e refinamentos.
 
 **Detalhes:** Ver `mvp-6.md`
 
-### Entregáveis
+---
 
-- Sistema de crônica (linha do tempo)
-- Tela de vitória/derrota
-- Resumo da partida gerado por IA
-- Ajustes de balanceamento
-- Melhorias visuais
+## 🎉 V1.0 - RELEASE
 
-### Resultado
+Com o MVP 6 concluído, a **V1.0 está completa**.
 
-> Versão 1.0 jogável e apresentável
+O jogo é funcional e jogável com:
+- Sistema de recursos e construções
+- 3 eras com progressão
+- Eventos gerados por IA
+- Combate contra rival
+- Narrativa e crônica
 
 ---
 
-## Visão de Futuro (pós-MVP)
+## V2.0 - Visão Futura
 
-- Mais eras (Medieval, Renascimento...)
-- Múltiplos rivais
-- Árvore tecnológica
-- Multiplayer assíncrono
+### Múltiplas Civilizações no Mapa
+
+A V2 mudará o sistema de rival para múltiplas civilizações visíveis:
+
+| Feature | Descrição |
+|---------|-----------|
+| N civilizações | Múltiplas IAs no mesmo mapa |
+| Territórios visuais | Cada civ ocupa tiles do grid |
+| Expansão | Civs crescem e disputam território |
+| Diplomacia expandida | Alianças, guerras, trocas |
+
+### Multiplayer
+
+- Multiplayer assíncrono (turn-based)
+- Cada jogador controla uma civilização
+- Interações em tempo real opcional
+
+### Outras Features
+
 - Salvamento em nuvem
+- Mais eras (Medieval, Renascimento, Industrial)
+- Árvore tecnológica
 - Customização de mapas
 - Mobile responsivo
+

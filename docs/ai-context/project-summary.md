@@ -1,16 +1,16 @@
 # Project Stonefall - Resumo do Projeto
 
 > **Use este arquivo como contexto inicial para a IA**
-> **Status:** MVP 6 ✅ Concluído
+> **Status:** ✅ V1.0 Concluída | V2.0 Planejada
 
 ## O que é
 
-Jogo de estratégia histórica para navegador, inspirado em Age of Empires, com foco em:
-
-- Gestão de recursos
-- Construção de civilização
-- Eventos gerados por IA
+Jogo de estratégia histórica para navegador inspirado em Age of Empires:
+- Gestão de recursos e construção de civilização
+- Eventos gerados por IA (Gemini)
 - Sessões curtas (10-20 min)
+
+> 📖 Detalhes: ver `docs/game/overview.md`
 
 ## Arquitetura
 
@@ -22,8 +22,10 @@ stonefall/
 │   ├── web/      # Frontend (React + Phaser + Vite)
 │   └── api/      # Backend (Hono + Node.js)
 └── packages/
-    └── shared/   # Types e constantes compartilhados
+    └── shared/   # Types e constantes
 ```
+
+> 📖 Detalhes: ver `docs/technical/architecture.md`
 
 ## Stack
 
@@ -32,53 +34,29 @@ stonefall/
 | **web**    | React, Phaser.js, Vite, TypeScript, Zustand |
 | **api**    | Hono, Node.js, TypeScript, Gemini API       |
 | **shared** | TypeScript, Zod                             |
-| **infra**  | pnpm, Turborepo, Biome, Knip                |
-| **futuro** | Drizzle ORM, PostgreSQL                     |
+| **infra**  | pnpm, Turborepo, Biome, Vitest              |
+
+> 📖 Versões: ver `docs/technical/stack.md`
 
 ## Mecânicas Core
 
-1. **Recursos:** Comida, Madeira, Pedra, Ouro
-2. **Mapa:** Grid 2D (20x20), tiles com biomas (plains, forest, mountain, water, gold)
-3. **Construções:** Centro da Vila, Casa, Fazenda, Serraria, Mina, Mina de Ouro, Quartel, Torre
-4. **Eras:** Pedra → Bronze → Ferro
-5. **Combate:** Estratégico (sem controle de unidades)
-6. **Eventos:** Gerados por IA dinamicamente (via API)
+- **Recursos:** Comida, Madeira, Pedra, Ouro
+- **Mapa:** Grid 20x20, 5 biomas (plains, forest, mountain, water, gold)
+- **Eras:** Pedra → Bronze → Ferro
+- **Combate:** Estratégico baseado em população
 
-## Fluxo de Dados
+> 📖 Valores numéricos: ver `docs/game/balance.md`
 
-```
-┌─────────────────────────────────────────────────────┐
-│                    React App                         │
-│  (UI Components, Modais, Menus)                     │
-│                       │                             │
-│                       ▼                             │
-│                    Zustand                          │
-│                (Estado Global)                      │
-│                       │                             │
-│                       ▼                             │
-│                    Phaser                           │
-│               (Game Canvas)                         │
-└───────────────────────┬─────────────────────────────┘
-                        │
-                        ▼
-              API (Hono) → Gemini AI
-                        │
-                        ▼
-                    Response
-```
-
-## Diferencial
-
-> Cada partida gera uma história única através de eventos e narrativas criadas por IA.
-
-## Comandos Principais
+## Comandos
 
 ```bash
 pnpm dev      # Roda web + api
 pnpm build    # Build de produção
 pnpm check    # Lint + format (Biome)
+pnpm test     # Rodar testes
 ```
 
-## MVP Atual
+## Próximos Passos
 
-Ver: `current-sprint.md`
+Ver `docs/ai-context/current-sprint.md` e `docs/technical/longevity.md`
+

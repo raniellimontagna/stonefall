@@ -26,8 +26,6 @@ docs/
 │   ├── overview.md              # Visão geral e conceito
 │   ├── glossary.md              # 📖 Glossário de termos (PT→EN)
 │   ├── balance.md               # ⚖️ BALANCEAMENTO (fonte de verdade)
-│   ├── resources.md             # Sistema de recursos
-│   ├── buildings.md             # Construções
 │   ├── eras.md                  # Sistema de eras
 │   ├── combat.md                # Sistema de combate
 │   ├── events.md                # Sistema de eventos (IA)
@@ -46,9 +44,7 @@ docs/
 │   └── longevity.md             # 📈 Análise de longevidade
 ├── mvp/                         # Roadmap de MVPs
 │   ├── roadmap.md               # Visão geral dos MVPs
-│   ├── mvp-0.md                 # MVP 0 - Fundação
-│   ├── mvp-1.md                 # MVP 1 - Recursos
-│   └── mvp-2.md                 # MVP 2 - População
+│   └── mvp-0.md ... mvp-7.md    # Detalhes de cada MVP
 ├── art/                         # Guia de arte e prompts
 │   ├── style-guide.md           # Guia de estilo visual
 │   ├── ai-generation-guide.md   # Como gerar arte com IA
@@ -59,7 +55,7 @@ docs/
 │       └── icons.md
 └── ai-context/                  # Contextos para IA
     ├── project-summary.md       # Resumo do projeto
-    ├── current-sprint.md        # Sprint atual
+    ├── v1-release.md            # Status V1 e visão V2
     └── code-conventions.md      # Convenções de código
 ```
 
