@@ -4,11 +4,9 @@
  */
 
 import type { EventGenerationContext, EventType, GeneratedEventResponse } from '@stonefall/shared';
+import { geminiLogger as log } from '../lib/logger';
 
 // Using gemini-2.5-flash (stable, released June 2025)
-// Supports: generateContent, countTokens, createCachedContent, batchGenerateContent
-// Token limits: 1M input, 65K output
-// Note: v1beta is needed for latest models
 const GEMINI_API_URL =
   'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 
@@ -19,13 +17,7 @@ function getApiKey(): string | null {
 
 /** Check if Gemini API is available */
 export function isGeminiAvailable(): boolean {
-  const available = !!getApiKey();
-  console.log(`🔑 [Gemini] API Key available: ${available}`);
-  if (available) {
-    const key = getApiKey();
-    console.log(`🔑 [Gemini] API Key length: ${key?.length} chars`);
-  }
-  return available;
+  return !!getApiKey();
 }
 
 /** Build the prompt for event generation */
@@ -86,7 +78,6 @@ Tipos de efeito válidos:
 /** Parse and validate AI response */
 function parseResponse(text: string): GeneratedEventResponse | null {
   try {
-    // Try to extract JSON from the response
     let jsonStr = text.trim();
 
     // Remove markdown code blocks if present
@@ -100,32 +91,30 @@ function parseResponse(text: string): GeneratedEventResponse | null {
     }
 
     jsonStr = jsonStr.trim();
-
     const parsed = JSON.parse(jsonStr);
 
     // Validate structure
     if (!parsed.title || !parsed.description || !Array.isArray(parsed.choices)) {
-      console.error('Invalid event structure:', parsed);
+      log.warn({ parsed }, 'Invalid event structure');
       return null;
     }
 
     if (parsed.choices.length < 2) {
-      console.error('Event must have at least 2 choices');
+      log.warn('Event must have at least 2 choices');
       return null;
     }
 
     // Validate each choice
     for (const choice of parsed.choices) {
       if (!choice.text || !Array.isArray(choice.effects)) {
-        console.error('Invalid choice structure:', choice);
+        log.warn({ choice }, 'Invalid choice structure');
         return null;
       }
     }
 
     return parsed as GeneratedEventResponse;
   } catch (error) {
-    console.error('Failed to parse AI response:', error);
-    console.error('Raw response:', text);
+    log.error({ error, rawResponse: text }, 'Failed to parse AI response');
     return null;
   }
 }
@@ -138,33 +127,21 @@ export async function generateEvent(
   const apiKey = getApiKey();
 
   if (!apiKey) {
-    console.warn('⚠️  [Gemini] GEMINI_API_KEY not set, using fallback events');
+    log.warn('GEMINI_API_KEY not set, using fallback events');
     return null;
   }
 
-  console.log(`🌐 [Gemini] Calling API for ${eventType} event...`);
+  log.debug({ eventType }, 'Calling Gemini API');
   const prompt = buildEventPrompt(context, eventType);
-  console.log(`📝 [Gemini] Prompt length: ${prompt.length} chars`);
 
   try {
     const url = `${GEMINI_API_URL}?key=${apiKey}`;
-    console.log(`🔗 [Gemini] Request URL: ${GEMINI_API_URL}?key=***`);
 
     const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              {
-                text: prompt,
-              },
-            ],
-          },
-        ],
+        contents: [{ parts: [{ text: prompt }] }],
         generationConfig: {
           temperature: 0.8,
           maxOutputTokens: 2000,
@@ -172,18 +149,13 @@ export async function generateEvent(
       }),
     });
 
-    console.log(`📡 [Gemini] Response status: ${response.status} ${response.statusText}`);
-
     if (!response.ok) {
       const errorText = await response.text();
 
-      // Special handling for quota errors
       if (response.status === 429) {
-        console.warn('⚠️  [Gemini] QUOTA EXCEEDED - Gemini API free tier limit reached');
-        console.warn('💡 [Gemini] Solution: Wait for daily reset or create new API key');
-        console.warn('📚 [Gemini] Falling back to static events (game will work normally)');
+        log.warn('Quota exceeded - falling back to static events');
       } else {
-        console.error('❌ [Gemini] API error:', response.status, errorText);
+        log.error({ status: response.status, error: errorText }, 'API error');
       }
 
       return null;
@@ -191,43 +163,31 @@ export async function generateEvent(
 
     const data = (await response.json()) as {
       candidates?: Array<{
-        content?: {
-          parts?: Array<{ text?: string }>;
-        };
+        content?: { parts?: Array<{ text?: string }> };
         finishReason?: string;
       }>;
     };
 
-    console.log('🔍 [Gemini] Full API response:', JSON.stringify(data, null, 2));
-
-    // Extract text from Gemini response
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
     const finishReason = data.candidates?.[0]?.finishReason;
 
-    console.log(`🏁 [Gemini] Finish reason: ${finishReason}`);
-
     if (finishReason === 'MAX_TOKENS') {
-      console.warn('⚠️  [Gemini] WARNING: Response was truncated due to token limit!');
+      log.warn('Response truncated due to token limit');
     }
 
     if (!text) {
-      console.error('❌ [Gemini] No text in response');
+      log.error('No text in response');
       return null;
     }
 
-    console.log(`📨 [Gemini] Received response (${text.length} chars)`);
-    console.log(`📄 [Gemini] Full response:\n${text}`);
-
     const parsed = parseResponse(text);
     if (parsed) {
-      console.log(`✅ [Gemini] Successfully parsed event: "${parsed.title}"`);
-    } else {
-      console.log(`❌ [Gemini] Failed to parse response`);
+      log.info({ title: parsed.title }, 'Generated event successfully');
     }
 
     return parsed;
   } catch (error) {
-    console.error('❌ [Gemini] Exception during API call:', error);
+    log.error({ error }, 'Exception during API call');
     return null;
   }
 }

@@ -10,6 +10,7 @@ import {
   getRandomFallbackEvent,
   selectEventType,
 } from '@stonefall/shared';
+import { eventLogger as log } from '../lib/logger';
 import { generateEvent, isGeminiAvailable } from './gemini';
 
 /** Generate a unique event ID */
@@ -19,34 +20,24 @@ function generateEventId(): string {
 
 /** Generate a game event (AI or fallback) */
 export async function generateGameEvent(context: EventGenerationContext): Promise<GameEvent> {
-  console.log('🎲 [EventGenerator] Starting event generation...');
-  console.log('📊 [EventGenerator] Context:', {
-    era: context.era,
-    tick: context.tick,
-    population: context.population,
-    food: context.resources.food,
-  });
+  log.debug(
+    { era: context.era, tick: context.tick, population: context.population },
+    'Starting event generation'
+  );
 
   // Determine event type based on game state
   const weights = getEventWeights(context.resources.food, context.population, context.era);
   const eventType = selectEventType(weights);
-  console.log('🎯 [EventGenerator] Selected event type:', eventType);
-  console.log('⚖️  [EventGenerator] Event weights:', weights);
+  log.debug({ eventType, weights }, 'Selected event type');
 
   // Try AI generation if available
-  const geminiAvailable = isGeminiAvailable();
-  console.log(`🤖 [EventGenerator] Gemini available: ${geminiAvailable}`);
-
-  if (geminiAvailable) {
-    console.log('🚀 [EventGenerator] Attempting AI generation...');
+  if (isGeminiAvailable()) {
     try {
       const aiResponse = await generateEvent(context, eventType);
 
       if (aiResponse) {
-        console.log('✅ [EventGenerator] AI generation successful!');
-        console.log('📝 [EventGenerator] AI event title:', aiResponse.title);
+        log.info({ title: aiResponse.title, type: eventType }, 'AI event generated');
 
-        // Convert AI response to GameEvent
         return {
           id: generateEventId(),
           type: eventType,
@@ -62,16 +53,15 @@ export async function generateGameEvent(context: EventGenerationContext): Promis
           })),
         };
       }
-      console.log('⚠️  [EventGenerator] AI returned null response');
+      log.debug('AI returned null, using fallback');
     } catch (error) {
-      console.error('❌ [EventGenerator] AI generation failed:', error);
+      log.error({ error }, 'AI generation failed');
     }
   }
 
   // Fallback to pre-defined events
-  console.log('📚 [EventGenerator] Using fallback event');
   const fallbackEvent = getRandomFallbackEvent(context.era);
-  console.log('📖 [EventGenerator] Fallback event:', fallbackEvent.title);
+  log.info({ title: fallbackEvent.title }, 'Using fallback event');
 
   return {
     ...fallbackEvent,
@@ -88,11 +78,8 @@ export function shouldTriggerEvent(
   minInterval: number,
   chancePerTick: number
 ): boolean {
-  // Ensure minimum interval between events
   if (currentTick - lastEventTick < minInterval) {
     return false;
   }
-
-  // Random chance
   return Math.random() < chancePerTick;
 }
