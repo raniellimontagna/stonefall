@@ -1,5 +1,7 @@
 # Sistema de Rivais (IA)
 
+> ⚠️ **V1 Simplificado:** Na V1, o rival é abstrato (não visível no mapa). Features como memória, personalidades funcionais, e diplomacia estão planejadas para V2.
+
 ## Visão Geral
 
 O rival é uma civilização controlada por IA que compete com o jogador. No MVP, há apenas 1 rival com personalidade única gerada no início da partida.

@@ -114,49 +114,13 @@ const medievalEraPlugin: GamePlugin = {
 
 ---
 
-## 📋 Documentos Faltantes
+## 📋 Documentos para V2
 
-### 1. `docs/technical/testing.md`
+Quando iniciar a V2, criar:
 
-- Estratégia de testes (unit, integration, e2e)
-- Coverage mínimo
-- Mocks para IA
-
-### 2. `docs/technical/cicd.md`
-
-- Pipeline de CI/CD
-- Deploy automático
-- Ambientes (dev, staging, prod)
-
-### 3. `docs/technical/error-handling.md`
-
-- Padrões de erro
-- Logging
-- Recovery strategies
-
-### 4. `docs/game/progression.md`
-
-- Sistema de meta-progressão
-- Achievements
-- Unlockables
-
-### 5. `docs/game/difficulty.md`
-
-- Níveis de dificuldade
-- Modificadores
-- Scaling do rival
-
-### 6. `docs/product/analytics.md`
-
-- Eventos a trackear
-- Métricas de sucesso
-- Funis
-
-### 7. `docs/product/accessibility.md`
-
-- Guidelines de a11y
-- Suporte a screen readers
-- Controles alternativos
+- `technical/multiplayer.md` - Sincronização de estado
+- `technical/database.md` - Persistência e cloud save
+- `game/progression.md` - Achievements e meta-progressão
 
 ---
 
@@ -224,50 +188,21 @@ const actions: GameAction[] = [];
 
 ---
 
-## 📅 Roadmap Estendido
+## 📅 Roadmap
 
-### Fase 1: MVP (Atual)
+### V1.0 ✅ Concluída
 
-- MVP 0-6 conforme documentado
-- Foco em gameplay core
+- MVPs 0-6 completos
+- Gameplay core funcional
 
-### Fase 2: Polish (Após MVP 6)
+### V2.0 - Planejada
 
-- Tutorial interativo
-- Achievements básicos
-- Salvamento local
-- Dificuldades
+- Múltiplas civilizações no mapa
+- Territórios visuais
+- Diplomacia expandida
+- Multiplayer (futuro)
 
-### Fase 3: Growth
-
-- Analytics
-- Sistema de feedback
-- Compartilhamento de crônicas
-- Leaderboard
-
-### Fase 4: Expansion
-
-- Novas eras
-- Múltiplos rivais
-- Modos de jogo
-- Mobile
-
-### Fase 5: Platform
-
-- Contas de usuário
-- Cloud save
-- Multiplayer assíncrono
-- Marketplace de mods
-
----
-
-## ✅ Ações Imediatas (Antes do MVP 0)
-
-1. [ ] Criar `docs/technical/testing.md`
-2. [ ] Criar `docs/technical/error-handling.md`
-3. [ ] Adicionar GitHub Actions básico
-4. [ ] Definir estrutura de feature flags
-5. [ ] Criar arquivo de configuração data-driven
+> 📖 Ver `docs/mvp/roadmap.md` para detalhes
 
 ---
 

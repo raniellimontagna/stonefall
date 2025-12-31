@@ -1,5 +1,7 @@
 # Sistema de Combate
 
+> ⚠️ **V1 Simplificado:** Na V1, apenas Atacar e Defender estão implementados. Cerco, diplomacia e moral estão planejados para V2.
+
 > ⚠️ **Valores numéricos:** Consulte [`balance.md`](./balance.md) para força, defesa e custos atualizados.
 
 ## Filosofia
