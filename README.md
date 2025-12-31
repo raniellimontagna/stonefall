@@ -9,7 +9,13 @@
 ```bash
 # Instalar dependências
 pnpm install
-{{ ... }}
+
+# Rodar em desenvolvimento
+pnpm dev
+```
+
+## 📋 Comandos
+
 | Comando | Descrição |
 |---------|-----------|
 | `pnpm dev` | Roda web + api em paralelo |
