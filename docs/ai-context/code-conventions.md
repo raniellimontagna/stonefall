@@ -321,3 +321,85 @@ pnpm add <pkg> --filter @stonefall/web
 pnpm add <pkg> --filter @stonefall/api
 pnpm add -Dw <pkg>    # DevDep no root
 ```
+
+## Testes
+
+### Filosofia
+
+- **Testar comportamento, não implementação**
+- **Evitar overmocking** - mock apenas dependências externas (API, DB)
+- **Um assert por conceito** - cada teste verifica uma coisa
+
+### O que Testar
+
+| Tipo | Testar? | Exemplo |
+|------|---------|---------|
+| Funções com lógica | ✅ Sim | `calculateProduction()` |
+| Constantes estruturadas | ✅ Validação | Verificar se tem todos os campos |
+| Types/Interfaces | ❌ Não | São apagados no build |
+| Re-exports (index.ts) | ❌ Não | Sem lógica |
+
+### Anti-Patterns
+
+```typescript
+// ❌ RUIM: Testar implementação
+expect(mockMath.random).toHaveBeenCalled();
+
+// ✅ BOM: Testar resultado
+expect(result).toBeGreaterThan(0);
+
+// ❌ RUIM: Copiar valor literal
+expect(GRID_SIZE).toBe(20); // copy-paste da constante
+
+// ✅ BOM: Testar propriedade
+expect(GRID_SIZE).toBeGreaterThan(0);
+```
+
+### Estrutura de Arquivo
+
+```typescript
+// arquivo.test.ts - co-located com o arquivo testado
+import { describe, it, expect } from 'vitest';
+import { myFunction } from './arquivo';
+
+describe('myFunction', () => {
+  it('should do X when Y', () => {
+    // Arrange
+    const input = 'test';
+    
+    // Act
+    const result = myFunction(input);
+    
+    // Assert
+    expect(result).toBe('expected');
+  });
+});
+```
+
+### Mocking
+
+```typescript
+// Mock apenas quando necessário
+import { vi } from 'vitest';
+
+// ✅ Mock de API externa
+vi.mock('../services/aiService');
+
+// ❌ Evitar mock de módulos internos
+vi.mock('./utils'); // Provavelmente desnecessário
+```
+
+### Coverage Thresholds
+
+```typescript
+// vitest.config.ts
+coverage: {
+  thresholds: {
+    branches: 80,
+    functions: 80,
+    lines: 80,
+    statements: 80,
+  },
+}
+```
+
