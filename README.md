@@ -1,5 +1,8 @@
 # ⛏️ Project Stonefall
 
+> [!WARNING]
+> **Descontinuado.** Este projeto não é mais mantido e o repositório está arquivado (somente leitura). A demo na Vercel saiu do ar e o workflow de release está desligado.
+
 > Jogo de estratégia histórica para navegador, inspirado em Age of Empires, com eventos gerados por IA.
 
 **Status:** ✅ V1.0 Concluída
